@@ -1,0 +1,16 @@
+Remaining work to do:
+* Clean up OO Javascript; current code has namespace and scope problems and is rather sloppy.
+* Provide how-to-use readme with a web page where the extension can be downloaded/installed.
+* Properly handle update of the panel when the user changes options
+* Backport the Options screen to support Firefox 5 & 6
+* Rename project if needed, or at least make the name more consistently used in variables.
+* Make Eclipse portion collapsible ala Computed tab
+* Ensure proper behavior in the condition where the user is hand-modifying the wicketsource attribute
+* Get project into git
+
+10/19/2011 - WicketSource Firebug extension basically works.
+ - Displays 'wicketsource' attribute value in a side panel of the HTML inspector
+ - Displays server, port, timeout configuration
+ - User can modify Options through Add-on options (Firefox 7 only) to change server, port, timeout
+
+ 

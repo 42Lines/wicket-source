@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/preferences/preferences.css" type="text/css"?> 
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<!-- Merge with the BrowserPreferences Window -->
+	<prefwindow id="BrowserPreferences" label="WicketSource Preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+		<!-- Create a new pane (tab) for WicketSource. -->
+		<prefpane id="wicketSourcePrefPane" label="WicketSource" 
+			image="chrome://wicket_source/content/icon.png">
+			<!-- Intermediary between GUI and preferences system -->
+			<preferences>
+				<preference id="wicketsourceServer" name="extensions.firebug.wicketsource.server"
+					type="string" />
+				<preference id="wicketsourcePort" name="extensions.firebug.wicketsource.port"
+					type="int" />
+				<preference id="wicketsourceTimeout" name="extensions.firebug.wicketsource.timeout"
+					type="int" />
+			</preferences>
+
+			<!-- GUI Elements... -->
+			<vbox>
+				<label control="wicketsourceServerField" value="Eclipse Plugin Server" />
+				<textbox preference="wicketsourceServer" label="Eclipse Plugin Server" id="wicketsourceServerField" />
+				<label control="wicketsourcePortField" value="Eclipse Plugin Port" />
+				<textbox preference="wicketsourcePort" type="number" label="Eclipse Plugin Port" id="wicketsourcePortField" />
+				<label control="wicketsourceTimeoutField" value="Connection Timeout (ms)" />
+				<textbox preference="wicketsourceTimeout"  type="number" label="Connection Timeout (ms)" id="wicketsourceTimeoutField" />
+			</vbox>
+		</prefpane>
+		<prefpane id="wicketSourceAboutPane" label="About">
+			<preferences>
+			</preferences>
+			<vbox>
+			<label value="About WicketSource" />
+			</vbox>
+		</prefpane>
+	</prefwindow>
+
+</overlay>
