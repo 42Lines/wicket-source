@@ -38,8 +38,8 @@ public class RecentFilesView extends ViewPart {
 	public static final String ID = "net.simsa.sourceopener.views.RecentFilesView";
 
 	private TableViewer viewer;
-	private Action action1;
-	private Action action2;
+	private Action startSocketServer;
+	private Action stopSocketServer;
 	private Action doubleClickAction;
 
 	/*
@@ -121,43 +121,44 @@ public class RecentFilesView extends ViewPart {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
+		manager.add(startSocketServer);
 		manager.add(new Separator());
-		manager.add(action2);
+		manager.add(stopSocketServer);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		// Other plug-ins can contribute there actions here
+		manager.add(startSocketServer);
+		manager.add(stopSocketServer);
+		// Other plug-ins can contribute their actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
+		manager.add(startSocketServer);
+		manager.add(stopSocketServer);
 	}
 
 	private void makeActions() {
-		action1 = new Action() {
+		startSocketServer = new Action() {
 			public void run() {
-				showMessage("Action 1 executed");
+				showMessage("Start Socket Server action run() executed");
 			}
 		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+		startSocketServer.setText("Start Listener");
+		startSocketServer.setToolTipText("Starts the listener to receive Firefox clicks");
+		startSocketServer.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+			getImageDescriptor(ISharedImages.IMG_TOOL_FORWARD));
 		
-		action2 = new Action() {
+		stopSocketServer = new Action() {
 			public void run() {
-				showMessage("Action 2 executed");
+				showMessage("Stop Socket Server action run() executed");
 			}
 		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+		stopSocketServer.setText("Stop Listener");
+		stopSocketServer.setToolTipText("Stops the listener to receive Firefox clicks");
+		stopSocketServer.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(ISharedImages.IMG_ELCL_STOP));
+		
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
@@ -177,7 +178,7 @@ public class RecentFilesView extends ViewPart {
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
-			"Recent Files",
+			"Source Opener Recent Files",
 			message);
 	}
 
