@@ -1,3 +1,5 @@
+package net.simsa.sourceopener;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -88,6 +90,7 @@ public class NanoHTTPD
 	{
 		System.out.println( method + " '" + uri + "' " );
 
+		@SuppressWarnings("rawtypes")
 		Enumeration e = header.propertyNames();
 		while ( e.hasMoreElements())
 		{
@@ -609,7 +612,7 @@ public class NanoHTTPD
 		{
 			int matchcount = 0;
 			int matchbyte = -1;
-			Vector matchbytes = new Vector();
+			Vector<Integer> matchbytes = new Vector<Integer>();
 			for (int i=0; i<b.length; i++)
 			{
 				if (b[i] == boundary[matchcount])
@@ -770,6 +773,7 @@ public class NanoHTTPD
 
 				if ( header != null )
 				{
+					@SuppressWarnings("rawtypes")
 					Enumeration e = header.keys();
 					while ( e.hasMoreElements())
 					{
@@ -1039,7 +1043,7 @@ public class NanoHTTPD
 	/**
 	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
-	private static Hashtable theMimeTypes = new Hashtable();
+	private static Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
 	static
 	{
 		StringTokenizer st = new StringTokenizer(
