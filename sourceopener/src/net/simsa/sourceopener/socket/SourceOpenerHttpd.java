@@ -2,11 +2,8 @@ package net.simsa.sourceopener.socket;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
-import net.simsa.sourceopener.IOpenEventListener;
 import net.simsa.sourceopener.OpenEvent;
 
 /**
@@ -20,40 +17,16 @@ import net.simsa.sourceopener.OpenEvent;
  */
 public class SourceOpenerHttpd extends NanoHTTPD {
 
-	private List<IOpenEventListener> listeners = new ArrayList<IOpenEventListener>();
+	HttpService httpService;
 
-	private SourceOpenerHttpd(int port, File wwwroot) throws IOException {
+	public SourceOpenerHttpd(int port, File wwwroot, HttpService httpService) throws IOException {
 		super(port, wwwroot);
+		this.httpService = httpService;
 	}
 
-	private SourceOpenerHttpd(int port) throws IOException {
+	public SourceOpenerHttpd(int port, HttpService httpService) throws IOException {
 		super(port);
-	}
-
-	public void registerListener(IOpenEventListener listener)
-	{
-		this.listeners.add(listener);
-	}
-
-	public void removeListener(IOpenEventListener listener)
-	{
-		this.listeners.remove(listener);
-	}
-
-	class OpenEventNotifier implements Runnable {
-		private OpenEvent event;
-
-		public OpenEventNotifier(OpenEvent event) {
-			this.event = event;
-		}
-
-		@Override
-		public void run()
-		{
-			for (IOpenEventListener listener : listeners) {
-				listener.onOpenEvent(event);
-			}
-		}
+		this.httpService = httpService;
 	}
 
 	@Override
@@ -61,20 +34,13 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 	{
 		try {
 			OpenEvent event = new OpenEvent(uri, params);
-			new Thread(new OpenEventNotifier(event)).start();
+			httpService.onOpenEvent(event);
 			System.out.println("Responding with 200 OK for file " + event.getFileName());
 			return new Response(HTTP_OK, MIME_HTML, "<html><body>OK</body></html>");
 		} catch (IllegalArgumentException ie) {
 			System.out.println("Responding with Bad Request.");
 			return new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "Bad Request: Invalid uri.");
 		}
-	}
-
-	@Override
-	public void stop()
-	{
-		super.stop();
-		listeners.clear();
 	}
 
 	@Override
@@ -91,20 +57,18 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 	 */
 	public static void main(String[] args)
 	{
-		int port = 9123;
-		File wwwroot = new File("/jail");
+		HttpService httpService = new HttpService();
 		try {
-			new SourceOpenerHttpd(port, wwwroot);
+			httpService.start();
+			System.out.println("Now serving requests. Hit Enter to stop, or terminate the JVM manually.\n");
 		} catch (IOException ioe) {
-			System.err.println("Couldn't start server:\n" + ioe);
+			System.err.println("Couldn't start server: " + ioe);
 			System.exit(-1);
 		}
 
-		System.out.println("Now serving files in port " + port + " from \"" + wwwroot + "\"");
-		System.out.println("Hit Enter to stop, or terminate the jvm manually.\n");
-
 		try {
 			System.in.read();
+			httpService.stop();
 		} catch (Throwable t) {
 		}
 
