@@ -40,7 +40,8 @@ public final class UIOpenFileMacro implements Runnable {
 
 	public void run()
 	{
-		if (fileToOpen != null) { 
+		if (fileToOpen != null) {
+			event.setResultOfOpen("?");
 			openEditor();
 		} else {
 			event.setResultOfOpen("Could not find file in workspace.");
@@ -73,7 +74,7 @@ public final class UIOpenFileMacro implements Runnable {
 					IRegion lineInfo = document.getLineInformation(lineNumber - 1);
 					if (lineInfo != null) {
 						editor.selectAndReveal(lineInfo.getOffset(), 0);
-						event.setResultOfOpen("");
+						event.setResultOfOpen("OK");
 					} else {
 						event.setResultOfOpen("Bad line number, ignoring. " + lineNumber);
 					}
@@ -86,9 +87,9 @@ public final class UIOpenFileMacro implements Runnable {
 			}
 			
 		} catch (PartInitException pie) {
-			pie.printStackTrace();
+			event.setResultOfOpen(pie.toString());
 		} catch (Throwable t) {
-			t.printStackTrace();
+			event.setResultOfOpen(t.toString());
 		}
 	}
 
