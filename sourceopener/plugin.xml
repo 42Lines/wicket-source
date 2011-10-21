@@ -9,7 +9,7 @@
             id="net.simsa.sourceopener">
       </category>
       <view
-            name="Recent Files"
+            name="Recent File Locations"
             icon="icons/sample.gif"
             category="net.simsa.sourceopener"
             class="net.simsa.sourceopener.views.RecentFilesView"
