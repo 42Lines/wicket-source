@@ -35,10 +35,8 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 		try {
 			OpenEvent event = new OpenEvent(uri, params);
 			httpService.onOpenEvent(event);
-			System.out.println("Responding with 200 OK for file " + event.getFileName());
 			return new Response(HTTP_OK, MIME_HTML, "<html><body>OK</body></html>");
 		} catch (IllegalArgumentException ie) {
-			System.out.println("Responding with Bad Request.");
 			return new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "Bad Request: Invalid uri.");
 		}
 	}

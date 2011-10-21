@@ -37,11 +37,6 @@ public class RecentEventsCache {
 
 	public Object[] toArray()
 	{
-		System.out.println("----");
-		for (OpenEvent oe : recentEvents) {
-			System.out.println(oe);
-		}
-		System.out.println("----");
 		return recentEvents.toArray();
 	}
 
