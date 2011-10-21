@@ -15,6 +15,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -23,7 +24,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -106,33 +109,6 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		}
 	}
 
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index)
-		{
-			String[] columns = new String[4];
-			columns[0] = ((OpenEvent) obj).getFileName();
-			columns[1] = ((OpenEvent) obj).getPackageName();
-			columns[2] = ((OpenEvent) obj).getLineNumber() + "";
-			columns[3] = ((OpenEvent) obj).getResultOfOpen();
-			return columns[index];
-		}
-
-		public Image getColumnImage(Object obj, int index)
-		{
-			switch (index) {
-			case 0:
-				return getImage(obj);
-			default:
-				return null;
-			}
-		}
-
-		public Image getImage(Object obj)
-		{
-			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
-		}
-	}
-
 	class NameSorter extends ViewerSorter {
 	}
 
@@ -155,25 +131,73 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		int[] columnWidth = new int[4];
 		String[] columnHeads = new String[4];
 		columnHeads[0] = "Class";
-		columnWidth[0] = 160;
+		columnWidth[0] = 190;
 		columnHeads[1] = "Package";
-		columnWidth[1] = 160;
+		columnWidth[1] = 190;
 		columnHeads[2] = "Line";
 		columnWidth[2] = 60;
 		columnHeads[3] = "Messages";
 		columnWidth[3] = 300;
 		
+		TableViewerColumn[] columns = new TableViewerColumn[4];
 		for (int i = 0; i < columnHeads.length; i++) {
-			TableColumn tableColumn = new TableColumn(table, SWT.NULL);
+			TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
+			TableColumn tableColumn = viewerColumn.getColumn();
 			tableColumn.setText(columnHeads[i]);
 			tableColumn.setResizable(true);
 			tableColumn.setMoveable(true);
 			tableColumn.pack();
 			tableColumn.setWidth(columnWidth[i]);
+			columns[i] = viewerColumn;
 		}
+
+		columns[0].setLabelProvider(new ColumnLabelProvider() {
+					@Override
+					public String getText(Object element) {
+						OpenEvent event = (OpenEvent) element;
+						return event.getFileName();
+					}
+					@Override
+					public Image getImage(Object element) {
+						return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
+					}
+					@Override
+					public void update(ViewerCell cell)
+					{
+						super.update(cell);
+					}
+					
+		});				
+		columns[1].setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				OpenEvent event = (OpenEvent) element;
+				return event.getPackageName();
+			}
+		});				
+		columns[2].setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				OpenEvent event = (OpenEvent) element;
+				return event.getLineNumber() + "";
+			}
+		});						
+		columns[3].setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				OpenEvent event = (OpenEvent) element;
+				return event.getResultOfOpen();
+			}
+			@Override
+			public void update(ViewerCell cell)
+			{
+				cell.setText(((OpenEvent)cell.getElement()).getResultOfOpen());
+			}
+		});						
+		
 		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setInput(getViewSite());
+		viewer.setInput(Activator.getDefault().getHttpService().getEventCache().toArray());
+//		viewer.setInput(getViewSite());
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "net.simsa.sourceopener.viewer");

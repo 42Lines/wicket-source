@@ -27,7 +27,7 @@ public class OpenEvent {
 		this.packageName = packageName;
 		this.fileName = fileName;
 		this.lineNumber = lineNumber;
-		this.resultOfOpen = "";
+		this.resultOfOpen = "Bar";
 	}
 
 	public OpenEvent(String src) {
@@ -40,7 +40,7 @@ public class OpenEvent {
 		packageName = pieces[0];
 		fileName = pieces[1];
 		lineNumber = Integer.parseInt(pieces[2]);
-		this.resultOfOpen = "";
+		this.resultOfOpen = "Foo";
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class OpenEvent {
 
 	public String getResultOfOpen()
 	{
-		if (resultOfOpen == null) { return " "; }
+		if (resultOfOpen == null) { return "Baz"; }
 		return resultOfOpen;
 	}
 
