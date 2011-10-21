@@ -17,7 +17,7 @@ public class RecentEventsCache {
 
 	public RecentEventsCache()
 	{
-		maxSize = 6;
+		maxSize = 5;
 	}
 
 	public int size()
