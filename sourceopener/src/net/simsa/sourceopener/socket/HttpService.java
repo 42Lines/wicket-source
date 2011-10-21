@@ -77,7 +77,9 @@ public class HttpService implements IOpenEventListener {
 	 */
 	public void stop()
 	{
-		currentHttpd.stop();
+		if (currentHttpd != null) { 
+			currentHttpd.stop();
+		}
 		currentHttpd = null;
 	}
 

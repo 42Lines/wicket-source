@@ -1,15 +1,37 @@
 package net.simsa.sourceopener.views;
 
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.action.*;
+import java.io.IOException;
+
+import net.simsa.sourceopener.Activator;
+
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
 
 /**
@@ -139,25 +161,41 @@ public class RecentFilesView extends ViewPart {
 	}
 
 	private void makeActions() {
+		final ImageDescriptor IMAGE_START_ENABLED = Activator.getImageDescriptor("icons/greenplay.gif");
+		final ImageDescriptor IMAGE_START_DISABLED = Activator.getImageDescriptor("icons/greenplay_disabled.gif");
+		final ImageDescriptor IMAGE_STOP_ENABLED = PlatformUI.getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP);
+		final ImageDescriptor IMAGE_STOP_DISABLED = PlatformUI.getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP_DISABLED);
+		
 		startSocketServer = new Action() {
 			public void run() {
-				showMessage("Start Socket Server action run() executed");
+				try {
+					Activator.getDefault().getHttpService().start();
+					this.setEnabled(false);
+					stopSocketServer.setEnabled(true);
+				} catch (IOException io) {
+					showMessage("Start Socket Server action, exception while starting: " + io.toString());
+				}
 			}
 		};
 		startSocketServer.setText("Start Listener");
 		startSocketServer.setToolTipText("Starts the listener to receive Firefox clicks");
-		startSocketServer.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_TOOL_FORWARD));
+		startSocketServer.setImageDescriptor(IMAGE_START_ENABLED);
+		startSocketServer.setDisabledImageDescriptor(IMAGE_START_DISABLED);
 		
 		stopSocketServer = new Action() {
 			public void run() {
-				showMessage("Stop Socket Server action run() executed");
+				Activator.getDefault().getHttpService().stop();
+				this.setEnabled(false);
+				startSocketServer.setEnabled(true);
 			}
 		};
 		stopSocketServer.setText("Stop Listener");
 		stopSocketServer.setToolTipText("Stops the listener to receive Firefox clicks");
-		stopSocketServer.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_ELCL_STOP));
+		stopSocketServer.setImageDescriptor(IMAGE_STOP_ENABLED);
+		stopSocketServer.setDisabledImageDescriptor(IMAGE_STOP_DISABLED);
+		stopSocketServer.setEnabled(false);
 		
 		doubleClickAction = new Action() {
 			public void run() {

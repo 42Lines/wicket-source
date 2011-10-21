@@ -1,5 +1,7 @@
 package net.simsa.sourceopener;
 
+import net.simsa.sourceopener.socket.HttpService;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -15,10 +17,14 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 	
+	
+	private HttpService httpService;
+	
 	/**
 	 * The constructor
 	 */
 	public Activator() {
+		httpService = new HttpService();
 	}
 
 	/*
@@ -37,6 +43,18 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
+		httpService.stop();
+	}
+	
+	
+	/**
+	 * Reference to the (only) http service for this plugin; it manages
+	 * starting and stopping the web server.
+	 * @return
+	 */
+	public HttpService getHttpService()
+	{
+		return httpService;
 	}
 
 	/**
