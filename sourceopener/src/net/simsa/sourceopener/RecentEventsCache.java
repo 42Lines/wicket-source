@@ -6,17 +6,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Limits the number of recent click events that are tracked. Provides limited access to the
- * underlying list. 
+ * Limits the number of recent click events that are tracked. Provides limited
+ * access to the underlying list.
+ * 
  * @author Jenny Brown
- *
+ * 
  */
 public class RecentEventsCache {
 	private List<OpenEvent> recentEvents = Collections.synchronizedList(new LinkedList<OpenEvent>());
 	private int maxSize;
 
-	public RecentEventsCache()
-	{
+	public RecentEventsCache() {
 		maxSize = 5;
 	}
 

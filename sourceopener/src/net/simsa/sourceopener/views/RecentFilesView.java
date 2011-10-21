@@ -1,6 +1,5 @@
 package net.simsa.sourceopener.views;
 
-
 import java.io.IOException;
 
 import net.simsa.sourceopener.Activator;
@@ -36,7 +35,6 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-
 /**
  * This sample class demonstrates how to plug-in a new
  * workbench view. The view shows data obtained from the
@@ -45,13 +43,11 @@ import org.eclipse.ui.part.ViewPart;
  * available either in this or another plug-in (e.g. the workspace).
  * The view is connected to the model using a content provider.
  * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
+ * The view uses a label provider to define how model objects should be
+ * presented in the view. Each view can present the same model objects using
+ * different labels and icons, if needed. Alternatively, a single label provider
+ * can be shared between views in order to ensure that objects of the same type
+ * are presented in the same way everywhere.
  * <p>
  */
 
@@ -67,53 +63,63 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	private Action stopSocketServer;
 	private Action doubleClickAction;
 
-	
 	/**
-	 * Notify the viewer that the data in the model has changed and it should update.
+	 * Notify the viewer that the data in the model has changed and it should
+	 * update.
 	 * This must occur in the UI thread hence the use of syncExec.
 	 */
 	@Override
 	public void onOpenEvent(OpenEvent event)
 	{
-		Display.getDefault().syncExec(
-		  new Runnable() {
-		    public void run(){
+		Display.getDefault().syncExec(new Runnable() {
+			public void run()
+			{
 				viewer.refresh(false);
-		    }
-		  });
+			}
+		});
 	}
-	
-	
+
 	/*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
 	 * existing objects in adapters or simply return
 	 * objects as-is. These objects may be sensitive
 	 * to the current input of the view, or ignore
-	 * it and always show the same content 
+	 * it and always show the same content
 	 * (like Task List, for example).
 	 */
 	class ViewContentProvider implements IStructuredContentProvider {
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+		public void inputChanged(Viewer v, Object oldInput, Object newInput)
+		{
 		}
-		public void dispose() {
+
+		public void dispose()
+		{
 		}
-		public Object[] getElements(Object parent) {
+
+		public Object[] getElements(Object parent)
+		{
 			return Activator.getDefault().getHttpService().getEventCache().toArray();
 		}
 	}
+
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
+		public String getColumnText(Object obj, int index)
+		{
 			return getText(obj);
 		}
-		public Image getColumnImage(Object obj, int index) {
+
+		public Image getColumnImage(Object obj, int index)
+		{
 			return getImage(obj);
 		}
-		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().
-					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+
+		public Image getImage(Object obj)
+		{
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
 		}
 	}
+
 	class NameSorter extends ViewerSorter {
 	}
 
@@ -127,7 +133,8 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	 * This is a callback that will allow us
 	 * to create the viewer and initialize it.
 	 */
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent)
+	{
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
@@ -141,16 +148,19 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		contributeToActionBars();
 		registerListener();
 	}
+
 	private void registerListener()
 	{
 		Activator.getDefault().getHttpService().registerListener(this);
 	}
 
-	private void hookContextMenu() {
+	private void hookContextMenu()
+	{
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
+			public void menuAboutToShow(IMenuManager manager)
+			{
 				RecentFilesView.this.fillContextMenu(manager);
 			}
 		});
@@ -159,40 +169,46 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		getSite().registerContextMenu(menuMgr, viewer);
 	}
 
-	private void contributeToActionBars() {
+	private void contributeToActionBars()
+	{
 		IActionBars bars = getViewSite().getActionBars();
 		fillLocalPullDown(bars.getMenuManager());
 		fillLocalToolBar(bars.getToolBarManager());
 	}
 
-	private void fillLocalPullDown(IMenuManager manager) {
+	private void fillLocalPullDown(IMenuManager manager)
+	{
 		manager.add(startSocketServer);
 		manager.add(new Separator());
 		manager.add(stopSocketServer);
 	}
 
-	private void fillContextMenu(IMenuManager manager) {
+	private void fillContextMenu(IMenuManager manager)
+	{
 		manager.add(startSocketServer);
 		manager.add(stopSocketServer);
 		// Other plug-ins can contribute their actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
-	private void fillLocalToolBar(IToolBarManager manager) {
+
+	private void fillLocalToolBar(IToolBarManager manager)
+	{
 		manager.add(startSocketServer);
 		manager.add(stopSocketServer);
 	}
 
-	private void makeActions() {
+	private void makeActions()
+	{
 		final ImageDescriptor IMAGE_START_ENABLED = Activator.getImageDescriptor("icons/greenplay.gif");
 		final ImageDescriptor IMAGE_START_DISABLED = Activator.getImageDescriptor("icons/greenplay_disabled.gif");
 		final ImageDescriptor IMAGE_STOP_ENABLED = PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP);
 		final ImageDescriptor IMAGE_STOP_DISABLED = PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP_DISABLED);
-		
+
 		startSocketServer = new Action() {
-			public void run() {
+			public void run()
+			{
 				try {
 					Activator.getDefault().getHttpService().start();
 					this.setEnabled(false);
@@ -206,9 +222,10 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		startSocketServer.setToolTipText("Starts the listener to receive browser file-open clicks");
 		startSocketServer.setImageDescriptor(IMAGE_START_ENABLED);
 		startSocketServer.setDisabledImageDescriptor(IMAGE_START_DISABLED);
-		
+
 		stopSocketServer = new Action() {
-			public void run() {
+			public void run()
+			{
 				Activator.getDefault().getHttpService().stop();
 				this.setEnabled(false);
 				startSocketServer.setEnabled(true);
@@ -219,34 +236,37 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		stopSocketServer.setImageDescriptor(IMAGE_STOP_ENABLED);
 		stopSocketServer.setDisabledImageDescriptor(IMAGE_STOP_DISABLED);
 		stopSocketServer.setEnabled(false);
-		
+
 		doubleClickAction = new Action() {
-			public void run() {
+			public void run()
+			{
 				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
+				Object obj = ((IStructuredSelection) selection).getFirstElement();
+				showMessage("Double-click detected on " + obj.toString());
 			}
 		};
 	}
 
-	private void hookDoubleClickAction() {
+	private void hookDoubleClickAction()
+	{
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
+			public void doubleClick(DoubleClickEvent event)
+			{
 				doubleClickAction.run();
 			}
 		});
 	}
-	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"Source Opener Recent Files",
-			message);
+
+	private void showMessage(String message)
+	{
+		MessageDialog.openInformation(viewer.getControl().getShell(), "Source Opener Recent Files", message);
 	}
 
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
-	public void setFocus() {
+	public void setFocus()
+	{
 		viewer.getControl().setFocus();
 	}
 }
