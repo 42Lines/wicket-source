@@ -4,6 +4,8 @@ package net.simsa.sourceopener.views;
 import java.io.IOException;
 
 import net.simsa.sourceopener.Activator;
+import net.simsa.sourceopener.IOpenEventListener;
+import net.simsa.sourceopener.OpenEvent;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -26,6 +28,7 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
@@ -52,7 +55,7 @@ import org.eclipse.ui.part.ViewPart;
  * <p>
  */
 
-public class RecentFilesView extends ViewPart {
+public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -64,6 +67,23 @@ public class RecentFilesView extends ViewPart {
 	private Action stopSocketServer;
 	private Action doubleClickAction;
 
+	
+	/**
+	 * Notify the viewer that the data in the model has changed and it should update.
+	 * This must occur in the UI thread hence the use of syncExec.
+	 */
+	@Override
+	public void onOpenEvent(OpenEvent event)
+	{
+		Display.getDefault().syncExec(
+		  new Runnable() {
+		    public void run(){
+				viewer.refresh(false);
+		    }
+		  });
+	}
+	
+	
 	/*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
@@ -73,14 +93,13 @@ public class RecentFilesView extends ViewPart {
 	 * it and always show the same content 
 	 * (like Task List, for example).
 	 */
-	 
 	class ViewContentProvider implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
 		public void dispose() {
 		}
 		public Object[] getElements(Object parent) {
-			return new String[] { "One", "Two", "Three" };
+			return Activator.getDefault().getHttpService().getEventCache().toArray();
 		}
 	}
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -112,7 +131,6 @@ public class RecentFilesView extends ViewPart {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
 		viewer.setInput(getViewSite());
 
 		// Create the help context id for the viewer's control
@@ -121,6 +139,11 @@ public class RecentFilesView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		registerListener();
+	}
+	private void registerListener()
+	{
+		Activator.getDefault().getHttpService().registerListener(this);
 	}
 
 	private void hookContextMenu() {
@@ -175,7 +198,7 @@ public class RecentFilesView extends ViewPart {
 					this.setEnabled(false);
 					stopSocketServer.setEnabled(true);
 				} catch (IOException io) {
-					showMessage("Start Socket Server action, exception while starting: " + io.toString());
+					showMessage("Start listener: Exception while starting: " + io.toString());
 				}
 			}
 		};

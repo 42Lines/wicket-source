@@ -14,6 +14,11 @@ public class OpenEvent {
 	String fileName;
 	int lineNumber;
 	
+	public String toString()
+	{
+		return "OpenEvent for " + packageName + ":" + fileName +  ":" + lineNumber;
+	}
+	
 	public OpenEvent(String packageName, String fileName, int lineNumber) {
 		super();
 		this.packageName = packageName;

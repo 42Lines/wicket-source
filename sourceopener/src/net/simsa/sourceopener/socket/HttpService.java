@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.simsa.sourceopener.IOpenEventListener;
 import net.simsa.sourceopener.OpenEvent;
+import net.simsa.sourceopener.RecentEventsCache;
 
 /**
  * Coordinates web server start/stop and event notifications from it serving
@@ -21,9 +22,11 @@ public class HttpService implements IOpenEventListener {
 
 	private List<IOpenEventListener> listeners;
 	SourceOpenerHttpd currentHttpd;
+	RecentEventsCache eventCache;
 
 	public HttpService() {
 		listeners = new ArrayList<IOpenEventListener>();
+		eventCache = new RecentEventsCache();
 	}
 
 	public void registerListener(IOpenEventListener listener)
@@ -52,12 +55,18 @@ public class HttpService implements IOpenEventListener {
 		}
 	}
 
+	public RecentEventsCache getEventCache()
+	{
+		return eventCache;
+	}
+
 	/**
 	 * Threaded listener notification.
 	 */
 	@Override
 	public void onOpenEvent(OpenEvent event)
 	{
+		eventCache.add(event);
 		new Thread(new OpenEventNotifier(event)).start();
 	}
 
