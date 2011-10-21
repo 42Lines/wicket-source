@@ -1,5 +1,7 @@
 Remaining work to do:
 * Fix handling for multiple tabs since that dorked up firefox when I launched a second tab accidentally.
+* Right-click menu on an element, "Inspect in Eclipse" that takes you directly there.
+
 * Clean up OO Javascript; current code has namespace and scope problems and is rather sloppy.
 * Provide how-to-use readme with a web page where the extension can be downloaded/installed.
 * Properly handle update of the panel when the user changes options
