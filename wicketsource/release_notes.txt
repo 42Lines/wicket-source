@@ -1,0 +1,18 @@
+Remaining:
+* Test whether the listening service remains on once the view is closed (it should).
+* Clean up formatting of Recent File Locations tab. Preferably use a table layout.
+* Show a message on each OpenEvent line that failed, showing the "Warning: Not found" message but clearing it if it works on reopen.
+* Create preferences pane. Provide user settings for: 
+  port number, # recent files to list, projects to search, start listener on startup.
+* Modify search to just look in the user-specified projects (should reduce multiple-hits).
+* Produce a UI dialog and ask for a user to choose in cases where multiple hits occur; modeled after Open Type dialog.
+* Test thoroughly with error handling for non-existent files.
+* Package the build properly for release on a Eclipse update site. Check into version management.
+
+
+10/21/2011 - Basic functionality works.
+ - Listener service starts and stops from green/red UI buttons (but port is hard-coded).
+ - Http requests result in a correctly opened file and go to line number.  
+ - Double clicking an open event line in the Recent File Locations view reopens that file.
+ - Plugin installs as a drop-in jar on Eclipse Indigo.
+
