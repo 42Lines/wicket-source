@@ -82,7 +82,6 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		// Then after we've located the file, respond to the request by
 		// updating the UI and then opening the file.
 		Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber(), event));
-
 	}
 
 	/*
@@ -97,6 +96,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	class ViewContentProvider implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput)
 		{
+			v.refresh();
 		}
 
 		public void dispose()
@@ -107,9 +107,6 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		{
 			return Activator.getDefault().getHttpService().getEventCache().toArray();
 		}
-	}
-
-	class NameSorter extends ViewerSorter {
 	}
 
 	/**
@@ -196,8 +193,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		});						
 		
 		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setInput(Activator.getDefault().getHttpService().getEventCache().toArray());
-//		viewer.setInput(getViewSite());
+		viewer.setInput(getViewSite());
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "net.simsa.sourceopener.viewer");

@@ -1,5 +1,6 @@
 package net.simsa.sourceopener.views;
 
+import net.simsa.sourceopener.Activator;
 import net.simsa.sourceopener.OpenEvent;
 import net.simsa.sourceopener.PackageFileSearchRequester;
 
@@ -39,7 +40,11 @@ public final class UIOpenFileMacro implements Runnable {
 
 	public void run()
 	{
-		if (fileToOpen != null) openEditor();
+		if (fileToOpen != null) { 
+			openEditor();
+		} else {
+			event.setResultOfOpen("Could not find file in workspace.");
+		}
 		recentFilesView.viewer.refresh(false);
 	}
 
@@ -48,7 +53,7 @@ public final class UIOpenFileMacro implements Runnable {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IFile ifile = workspace.getRoot().getFileForLocation(fileToOpen);
 		if (ifile == null) {
-			event.setResultOfOpen("Could not find file");
+			event.setResultOfOpen("Could not find file in workspace.");
 			return;
 		}
 		try {
