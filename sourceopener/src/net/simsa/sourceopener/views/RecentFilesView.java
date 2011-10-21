@@ -180,7 +180,7 @@ public class RecentFilesView extends ViewPart {
 			}
 		};
 		startSocketServer.setText("Start Listener");
-		startSocketServer.setToolTipText("Starts the listener to receive Firefox clicks");
+		startSocketServer.setToolTipText("Starts the listener to receive browser file-open clicks");
 		startSocketServer.setImageDescriptor(IMAGE_START_ENABLED);
 		startSocketServer.setDisabledImageDescriptor(IMAGE_START_DISABLED);
 		
@@ -192,7 +192,7 @@ public class RecentFilesView extends ViewPart {
 			}
 		};
 		stopSocketServer.setText("Stop Listener");
-		stopSocketServer.setToolTipText("Stops the listener to receive Firefox clicks");
+		stopSocketServer.setToolTipText("Stops the listener that receives browser file-open clicks");
 		stopSocketServer.setImageDescriptor(IMAGE_STOP_ENABLED);
 		stopSocketServer.setDisabledImageDescriptor(IMAGE_STOP_DISABLED);
 		stopSocketServer.setEnabled(false);
