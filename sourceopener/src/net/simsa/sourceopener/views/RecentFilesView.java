@@ -30,6 +30,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -72,11 +74,11 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	public void onOpenEvent(OpenEvent event)
 	{
 		// Do the long running process in the background, first.
-		IPath file = UIOpenFileMacro.searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""));
+		IPath file = UIOpenFileMacro.searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""), event);
 
 		// Then after we've located the file, respond to the request by
 		// updating the UI and then opening the file.
-		Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber()));
+		Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber(), event));
 
 	}
 
@@ -107,12 +109,22 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index)
 		{
-			return getText(obj);
+			String[] columns = new String[4];
+			columns[0] = ((OpenEvent) obj).getFileName();
+			columns[1] = ((OpenEvent) obj).getPackageName();
+			columns[2] = ((OpenEvent) obj).getLineNumber() + "";
+			columns[3] = ((OpenEvent) obj).getResultOfOpen();
+			return columns[index];
 		}
 
 		public Image getColumnImage(Object obj, int index)
 		{
-			return getImage(obj);
+			switch (index) {
+			case 0:
+				return getImage(obj);
+			default:
+				return null;
+			}
 		}
 
 		public Image getImage(Object obj)
@@ -136,7 +148,29 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	 */
 	public void createPartControl(Composite parent)
 	{
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+		final Table table = viewer.getTable();
+		table.setHeaderVisible(true);
+		
+		int[] columnWidth = new int[4];
+		String[] columnHeads = new String[4];
+		columnHeads[0] = "Class";
+		columnWidth[0] = 160;
+		columnHeads[1] = "Package";
+		columnWidth[1] = 160;
+		columnHeads[2] = "Line";
+		columnWidth[2] = 60;
+		columnHeads[3] = "Messages";
+		columnWidth[3] = 300;
+		
+		for (int i = 0; i < columnHeads.length; i++) {
+			TableColumn tableColumn = new TableColumn(table, SWT.NULL);
+			tableColumn.setText(columnHeads[i]);
+			tableColumn.setResizable(true);
+			tableColumn.setMoveable(true);
+			tableColumn.pack();
+			tableColumn.setWidth(columnWidth[i]);
+		}
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setInput(getViewSite());

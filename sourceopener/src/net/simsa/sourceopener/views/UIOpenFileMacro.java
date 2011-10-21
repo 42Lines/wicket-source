@@ -1,5 +1,6 @@
 package net.simsa.sourceopener.views;
 
+import net.simsa.sourceopener.OpenEvent;
 import net.simsa.sourceopener.PackageFileSearchRequester;
 
 import org.eclipse.core.resources.IFile;
@@ -27,17 +28,19 @@ public final class UIOpenFileMacro implements Runnable {
 	private final RecentFilesView recentFilesView;
 	private IPath fileToOpen;
 	private int lineNumber;
+	private OpenEvent event;
 
-	public UIOpenFileMacro(RecentFilesView recentFilesView, IPath fileToOpen, int lineNumber) {
+	public UIOpenFileMacro(RecentFilesView recentFilesView, IPath fileToOpen, int lineNumber, OpenEvent event) {
 		this.recentFilesView = recentFilesView;
 		this.fileToOpen = fileToOpen;
 		this.lineNumber = lineNumber;
+		this.event = event;
 	}
 
 	public void run()
 	{
-		recentFilesView.viewer.refresh(false);
 		if (fileToOpen != null) openEditor();
+		recentFilesView.viewer.refresh(false);
 	}
 
 	private void openEditor()
@@ -45,7 +48,7 @@ public final class UIOpenFileMacro implements Runnable {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IFile ifile = workspace.getRoot().getFileForLocation(fileToOpen);
 		if (ifile == null) {
-			recentFilesView.showMessage("Couldn't load file (inside eclipse workspace root), from path " + fileToOpen);
+			event.setResultOfOpen("Could not find file");
 			return;
 		}
 		try {
@@ -65,12 +68,17 @@ public final class UIOpenFileMacro implements Runnable {
 					IRegion lineInfo = document.getLineInformation(lineNumber - 1);
 					if (lineInfo != null) {
 						editor.selectAndReveal(lineInfo.getOffset(), 0);
+						event.setResultOfOpen("");
+					} else {
+						event.setResultOfOpen("Bad line number, ignoring. " + lineNumber);
 					}
 				} catch (BadLocationException e) {
 					// ignored because line number may not really exist in document
-					System.out.println("Bad line number, ignoring. " + lineNumber);
+					event.setResultOfOpen("Bad line number, ignoring. " + lineNumber);
 				}
-			}	
+			} else {
+				event.setResultOfOpen("Could not find file");
+			}
 			
 		} catch (PartInitException pie) {
 			pie.printStackTrace();
@@ -79,13 +87,13 @@ public final class UIOpenFileMacro implements Runnable {
 		}
 	}
 
-	static IPath searchForFile(String packageName, String fileName)
+	static IPath searchForFile(String packageName, String fileName, OpenEvent event)
 	{
 		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(packageName, fileName);
 		try {
 			searchFacade.searchAndWait();
 		} catch (CoreException core) {
-			System.out.println("Exception while searching: " + core.toString());
+			event.setResultOfOpen("Exception while searching: " + core.toString());
 			return null;
 		}
 		if (searchFacade.hasMultipleMatches()) {

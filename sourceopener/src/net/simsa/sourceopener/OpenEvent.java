@@ -11,6 +11,7 @@ import java.util.Properties;
  */
 public class OpenEvent {
 
+	String resultOfOpen;
 	String projectName;
 	String packageName;
 	String fileName;
@@ -18,7 +19,7 @@ public class OpenEvent {
 
 	public String toString()
 	{
-		return "OpenEvent for " + packageName + ":" + fileName + ":" + lineNumber;
+		return packageName + " " + fileName + ":" + lineNumber + " " + getResultOfOpen();
 	}
 
 	public OpenEvent(String packageName, String fileName, int lineNumber) {
@@ -26,6 +27,7 @@ public class OpenEvent {
 		this.packageName = packageName;
 		this.fileName = fileName;
 		this.lineNumber = lineNumber;
+		this.resultOfOpen = "";
 	}
 
 	public OpenEvent(String src) {
@@ -38,12 +40,12 @@ public class OpenEvent {
 		packageName = pieces[0];
 		fileName = pieces[1];
 		lineNumber = Integer.parseInt(pieces[2]);
+		this.resultOfOpen = "";
 	}
 
 	/**
 	 * Throws an exception if the url being requested isn't compatible with the
-	 * kinds of
-	 * requests we can serve.
+	 * kinds of requests we can serve.
 	 * 
 	 * @param uri
 	 * @param params
@@ -87,6 +89,17 @@ public class OpenEvent {
 	public int getLineNumber()
 	{
 		return lineNumber;
+	}
+
+	public String getResultOfOpen()
+	{
+		if (resultOfOpen == null) { return " "; }
+		return resultOfOpen;
+	}
+
+	public void setResultOfOpen(String resultOfOpen)
+	{
+		this.resultOfOpen = resultOfOpen;
 	}
 
 	/**
