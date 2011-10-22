@@ -3,6 +3,8 @@ package net.simsa.sourceopener;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.simsa.sourceopener.views.OpenFileException;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -63,30 +65,38 @@ public class PackageFileSearchRequester extends SearchRequestor {
 
 	public boolean hasMultipleMatches()
 	{
-		if (list.isEmpty()) { return false; }
-		// debug use
-		if (list.size() > 1) {
-			for (SearchMatch match : list) {
-				System.out.println("Matched " + match.getResource().getFullPath());
-			}
+		if (list.isEmpty()) {
+			return false;
 		}
-		
 		return list.size() > 1;
 	}
 
-	public IPath singleMatch()
+	public boolean hasSingleMatch()
 	{
-		if (list.isEmpty()) { return null; }
-		if (list.size() == 1) {
-			return firstMatch();
-		} else {
-			return null;
+		if (list.isEmpty()) {
+			return false;
 		}
+		return list.size() == 1;
+	}
+
+	public IPath singleMatch()
+	throws OpenFileException
+	{
+		if (list.isEmpty()) { 
+			throw new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND);
+		}
+		if (list.size() > 1) {
+			throw new OpenFileException(OpenFileException.Reason.TOO_MANY_MATCHES);
+		}
+		return firstMatch();
 	}
 
 	public IPath firstMatch()
+	throws OpenFileException
 	{
-		if (list.isEmpty()) { return null; }
+		if (list.isEmpty()) { 
+			throw new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND);
+		}
 		SearchMatch match = list.get(0);
 		IResource resource = match.getResource();
 		return resource.getLocation();

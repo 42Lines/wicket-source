@@ -21,13 +21,10 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -70,18 +67,23 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	private Action doubleClickAction;
 
 	/**
-	 * Notify the viewer that the data in the model has changed and it should
-	 * update. This must occur in the UI thread hence the use of syncExec.
+	 * Open the specified file in an editor and go to the line number.  Then
+	 * notify the viewer that the data in the model has changed and it should
+	 * update. Parts of this must occur in the UI thread hence the use of syncExec.
 	 */
 	@Override
 	public void onOpenEvent(OpenEvent event)
 	{
-		// Do the long running process in the background, first.
-		IPath file = UIOpenFileMacro.searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""), event);
-
-		// Then after we've located the file, respond to the request by
-		// updating the UI and then opening the file.
-		Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber(), event));
+		try {
+			// Do the long running process in the background, first. If it succeeds, open the file in an editor.
+			IPath file = UIOpenFileMacro.searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""));
+			Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber(), event));
+		} catch (OpenFileException ofe) {
+			event.setResultOfOpen(ofe);
+		}
+		// And whether success or failure, always update the user's view so they see the 
+		// error Messages on the open event.
+		Display.getDefault().syncExec(new UIRefreshViewMacro(this));
 	}
 
 	/*
@@ -299,11 +301,8 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		doubleClickAction = new Action() {
 			public void run()
 			{
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection) selection).getFirstElement();
 				// Reopen the file when the line is double clicked.
-				OpenEvent event = (OpenEvent) obj;
-				onOpenEvent(event);
+				onOpenEvent((OpenEvent) (((IStructuredSelection) viewer.getSelection()).getFirstElement()));
 			}
 		};
 	}
@@ -320,7 +319,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 	void showMessage(String message)
 	{
-		MessageDialog.openInformation(viewer.getControl().getShell(), "Recent File Locations", message);
+		MessageDialog.openInformation(viewer.getControl().getShell(), "Source Opener", message);
 	}
 
 	/**

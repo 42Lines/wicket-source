@@ -2,6 +2,8 @@ package net.simsa.sourceopener;
 
 import java.util.Properties;
 
+import net.simsa.sourceopener.views.OpenFileException;
+
 /**
  * Represents a request to open a file and jump to a specific location in the
  * source.
@@ -11,11 +13,11 @@ import java.util.Properties;
  */
 public class OpenEvent {
 
-	String resultOfOpen;
-	String projectName;
-	String packageName;
-	String fileName;
-	int lineNumber;
+	private String resultOfOpen;
+	private String projectName;
+	private String packageName;
+	private String fileName;
+	private int lineNumber;
 
 	public String toString()
 	{
@@ -23,11 +25,10 @@ public class OpenEvent {
 	}
 
 	public OpenEvent(String packageName, String fileName, int lineNumber) {
-		super();
 		this.packageName = packageName;
 		this.fileName = fileName;
 		this.lineNumber = lineNumber;
-		this.resultOfOpen = "Bar";
+		this.resultOfOpen = "";
 	}
 
 	public OpenEvent(String src) {
@@ -40,7 +41,7 @@ public class OpenEvent {
 		packageName = pieces[0];
 		fileName = pieces[1];
 		lineNumber = Integer.parseInt(pieces[2]);
-		this.resultOfOpen = "Foo";
+		this.resultOfOpen = "";
 	}
 
 	/**
@@ -93,13 +94,38 @@ public class OpenEvent {
 
 	public String getResultOfOpen()
 	{
-		if (resultOfOpen == null) { return "Baz"; }
+		if (resultOfOpen == null) { return ""; }
 		return resultOfOpen;
 	}
 
 	public void setResultOfOpen(String resultOfOpen)
 	{
 		this.resultOfOpen = resultOfOpen;
+	}
+	
+	public void setResultOfOpenOk() 
+	{
+		this.resultOfOpen = "OK";
+	}
+	
+	public void setResultOfOpen(OpenFileException ofe)
+	{
+		switch (ofe.getReason()) {
+			case FILE_NOT_FOUND :
+				this.resultOfOpen = "File could not be found in workspace.";
+				return;
+			case FILE_OK_BUT_LINE_NOT_FOUND :
+				this.resultOfOpen = "File located but line number invalid.";
+				return;
+			case TOO_MANY_MATCHES :
+				this.resultOfOpen = "Too many files matched; try limiting the Projects you're searching.";
+				return;
+			case EXCEPTION :
+				this.resultOfOpen = "File system exception: " + ofe.getCause().toString();
+				return;
+			case MESSAGE_ALREADY_SET :
+			default :
+		}
 	}
 
 	/**
