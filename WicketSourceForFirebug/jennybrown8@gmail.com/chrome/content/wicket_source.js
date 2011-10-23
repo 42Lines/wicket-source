@@ -209,8 +209,11 @@ TabData.prototype = {
 		onReady : function() {
 	 		if (this.readyState == 4) {
 	 			clearTimeout(this.tabDataRef.requestTimer);
+	 			if (FBTrace.DBG_PANELS) FBTrace.sysout("wicketsource, xml http response ", this);
 	 			if (this.status == 200) {
 	 				this.tabDataRef.eclipseResult = "OK";
+	 			} else if (this.status == 400) {
+	 				this.tabDataRef.eclipseResult = "Server response - " + this.responseText + "";
 	 			} else {
 	 				this.tabDataRef.eclipseResult = "Error connecting. Is your WicketSource Eclipse plugin configured and running?";
 	 			}

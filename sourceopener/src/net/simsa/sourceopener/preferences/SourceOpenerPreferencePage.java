@@ -28,7 +28,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implements IWorkbenchPreferencePage 
 {
 	Logger log = Logger.getLogger("SourceOpenerPreferencePage");
-	SecurePreferenceStore securePreferenceStore;
 	
 	public SourceOpenerPreferencePage() {
 		super(GRID);
@@ -44,9 +43,12 @@ public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implem
 	 */
 	public void createFieldEditors() {
 		addField(new IntegerFieldEditor(PreferenceConstants.P_PORT, "&Port", getFieldEditorParent()));
+		
 		StringFieldEditor passwordField = new StringFieldEditor(PreferenceConstants.P_PASSWORD, "Pass&word:", getFieldEditorParent());
 		passwordField.getTextControl(getFieldEditorParent()).setEchoChar('*');
+		passwordField.setPreferenceStore(Activator.getDefault().getSecurePreferenceStore());
 		addField(passwordField);
+		
 		addField(new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password for file-open requests", getFieldEditorParent()));
 		
 		

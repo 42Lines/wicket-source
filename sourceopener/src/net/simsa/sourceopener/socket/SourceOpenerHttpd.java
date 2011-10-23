@@ -18,14 +18,18 @@ import net.simsa.sourceopener.OpenEvent;
 public class SourceOpenerHttpd extends NanoHTTPD {
 
 	HttpService httpService;
+	boolean requirePassword;
+	String password;
 
 	public SourceOpenerHttpd(int port, File wwwroot, HttpService httpService) throws IOException {
 		super(port, wwwroot);
 		this.httpService = httpService;
 	}
 
-	public SourceOpenerHttpd(int port, HttpService httpService) throws IOException {
+	public SourceOpenerHttpd(int port, boolean requirePassword, String password, HttpService httpService) throws IOException {
 		super(port);
+		this.requirePassword = requirePassword;
+		this.password = password;
 		this.httpService = httpService;
 	}
 
@@ -33,6 +37,11 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 	public Response serve(String uri, String method, Properties header, Properties params, Properties files)
 	{
 		try {
+			if (this.requirePassword) {
+				if (! this.password.equals(params.getProperty("p"))) {
+					return new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "Bad Request: Not authenticated.");
+				}
+			}
 			OpenEvent event = new OpenEvent(uri, params);
 			httpService.onOpenEvent(event);
 			return new Response(HTTP_OK, MIME_HTML, "<html><body>OK</body></html>");

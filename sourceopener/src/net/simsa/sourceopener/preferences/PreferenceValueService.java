@@ -1,14 +1,16 @@
-package net.simsa.sourceopener.views;
+package net.simsa.sourceopener.preferences;
+
+import java.util.logging.Logger;
 
 import net.simsa.sourceopener.Activator;
-import net.simsa.sourceopener.preferences.PreferenceConstants;
 
 /**
  * Wraps the preferences settings for this plugin.
  * @author Jenny Brown
  *
  */
-public class ConfigurationService {
+public class PreferenceValueService {
+	static Logger log = Logger.getLogger("PreferenceValueService");
 
 	public static int getPort()
 	{
@@ -17,7 +19,7 @@ public class ConfigurationService {
 
 	public static String getPassword()
 	{
-		return Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_PASSWORD);
+		return Activator.getDefault().getSecurePreferenceStore().getString(PreferenceConstants.P_PASSWORD);
 	}
 
 	public static boolean isUsePassword()

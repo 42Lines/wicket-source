@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import net.simsa.sourceopener.IOpenEventListener;
 import net.simsa.sourceopener.OpenEvent;
 import net.simsa.sourceopener.RecentEventsCache;
-import net.simsa.sourceopener.views.ConfigurationService;
+import net.simsa.sourceopener.preferences.PreferenceValueService;
 
 /**
  * Coordinates web server start/stop and event notifications from it serving
@@ -80,12 +80,12 @@ public class HttpService implements IOpenEventListener {
 	 */
 	public void start() throws IOException
 	{
-		int port = ConfigurationService.getPort();
+		int port = PreferenceValueService.getPort();
 		if (port == 0) { 
 			throw new IOException("No port configured for service!");
 		}
-		log.info("Starting listener on port " + port);
-		currentHttpd = new SourceOpenerHttpd(port, this);
+		log.info("Starting listener on port " + port + " with requirePassword = " + PreferenceValueService.isUsePassword());
+		currentHttpd = new SourceOpenerHttpd(port, PreferenceValueService.isUsePassword(), PreferenceValueService.getPassword(), this);
 	}
 
 	/**
