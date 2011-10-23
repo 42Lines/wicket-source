@@ -76,10 +76,10 @@ WicketSourcePanel.prototype = extend(Firebug.Panel,
 
 /**
  * TabData stores the core data model information for this plugin, and
- * it is reproduces for each tab the user has open.  This handles display
+ * it is reproduced for each tab the user has open.  It handles display
  * of the "WicketSource" html contents (properties table, current dom node selection,
- * and result of eclipse http request).  All the interesting non-ui behaviors
- * are in here, as well as some ui behaviors. 
+ * and result of eclipse http request). Most of the interesting 
+ * extension-specific behaviors are in here.
  */
 function TabData() {
 }
