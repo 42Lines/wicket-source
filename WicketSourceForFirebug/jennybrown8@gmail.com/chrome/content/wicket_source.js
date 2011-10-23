@@ -10,7 +10,9 @@ FBL.ns(function() { with (FBL) {
 //const Ci = Components.interfaces;	
 
 /**
- * Observes changes in the preferences settings for this plugin.  No meaningful
+ * Gives access to the preferences settings for this plugin. 
+ * 
+ * Also observes changes in the preferences settings for this plugin; no meaningful
  * functionality at this time but it's a placeholder for later behavior.
  */
 var prefWatcher = {
