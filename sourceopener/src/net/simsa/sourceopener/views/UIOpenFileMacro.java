@@ -18,12 +18,15 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
- * Opens a file in the editor, and jumps to the right line of that file.
+ * Opens a file in the editor, and jumps to the right line of that file. This
+ * class is expected to be run by the Display thread.
  * 
  * @author Jenny Brown
  * 
  */
 public final class UIOpenFileMacro implements Runnable {
+	// Logger log = Logger.getLogger("UIOpenFileMacro"); 
+	// java.util.logging.Logger
 
 	private final RecentFilesView recentFilesView;
 	private IPath fileToOpen;
@@ -31,8 +34,8 @@ public final class UIOpenFileMacro implements Runnable {
 	private OpenEvent event;
 
 	/**
-	 * This is the constructor to use when the IPath is valid and we expect to
-	 * be able to open the file.
+	 * This is the class to use when the IPath is valid and we expect to be able
+	 * to open the file.
 	 * 
 	 * @param recentFilesView
 	 * @param fileToOpen
@@ -47,14 +50,12 @@ public final class UIOpenFileMacro implements Runnable {
 	}
 
 	/**
-	 * Does the UI work of opening the editor (if requested) and refreshing the
-	 * most-recent-files list.
+	 * Opens the file editor and jumps to the specified line.
 	 */
 	public void run()
 	{
 		try {
 			openEditor();
-			event.setResultOfOpenOk();
 		} catch (OpenFileException ofe) {
 			event.setResultOfOpen(ofe);
 		}
@@ -73,14 +74,16 @@ public final class UIOpenFileMacro implements Runnable {
 			// Now go to the line number we care about.
 			IDocument document = editor.getDocumentProvider().getDocument(fileEditorInput);
 			if (document == null) {
-				throw new OpenFileException(OpenFileException.Reason.EXCEPTION);
+				throw new OpenFileException(OpenFileException.Reason.EXCEPTION, new Exception(
+						"IDocument was null in editor. How strange."));
 			}
-			// line count internaly starts with 0, and not with 1 like in GUI
+			// line count internally starts with 0, and not with 1 like in GUI
 			IRegion lineInfo = document.getLineInformation(lineNumber - 1);
 			if (lineInfo == null) {
 				throw new OpenFileException(OpenFileException.Reason.FILE_OK_BUT_LINE_NOT_FOUND);
 			}
 			editor.selectAndReveal(lineInfo.getOffset(), 0);
+			event.setResultOfOpenOk();
 		} catch (BadLocationException e) {
 			throw new OpenFileException(OpenFileException.Reason.FILE_OK_BUT_LINE_NOT_FOUND);
 		} catch (PartInitException pie) {
@@ -90,15 +93,15 @@ public final class UIOpenFileMacro implements Runnable {
 		}
 	}
 
-	private AbstractTextEditor openTextEditor(IFile ifile, FileEditorInput fileEditorInput) 
-	throws PartInitException, OpenFileException
+	private AbstractTextEditor openTextEditor(IFile ifile, FileEditorInput fileEditorInput) throws PartInitException,
+			OpenFileException
 	{
 		// First, open the specified file in an appropriate kind of editor.
 		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(ifile.getName());
 		IEditorPart editorPart = recentFilesView.getSite().getPage().openEditor(fileEditorInput, desc.getId());
 
-		// This forced cast feels like a bit of a hack, but IEditorPart doesn't
-		// have the method I need for getDocument.
+		// This forced cast feels like a bit of a hack, but IEditorPart
+		// doesn't have the method I need for getDocument.
 		if (editorPart instanceof AbstractTextEditor) {
 			return (AbstractTextEditor) editorPart;
 		} else {
@@ -107,6 +110,11 @@ public final class UIOpenFileMacro implements Runnable {
 		}
 	}
 
+	static IPath searchForFile(OpenEvent event) throws OpenFileException
+	{
+		return searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""));
+	}
+	
 	static IPath searchForFile(String packageName, String fileName) throws OpenFileException
 	{
 		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(packageName, fileName);
@@ -117,6 +125,8 @@ public final class UIOpenFileMacro implements Runnable {
 		}
 		if (searchFacade.hasMultipleMatches()) {
 			return searchFacade.firstMatch();
+			// TODO: There are much nicer ways to handle this than guessing. How
+			// about we ask the user?
 		} else if (searchFacade.hasSingleMatch()) {
 			return searchFacade.singleMatch();
 		} else {

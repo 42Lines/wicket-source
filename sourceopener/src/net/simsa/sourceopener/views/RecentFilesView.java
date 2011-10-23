@@ -18,7 +18,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -39,22 +38,24 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
+ * This class provides a view tab showing files recently requested to be opened.
+ * Double-clicking a recent file should re-open it to the specified location.
+ * 
+ * From the Eclipse plug-in wizard: The view shows data obtained from the model.
+ * The sample creates a dummy model on the fly, but a real implementation would
+ * connect to the model available either in this or another plug-in (e.g. the
+ * workspace). The view is connected to the model using a content provider.
+ * 
  * The view uses a label provider to define how model objects should be
  * presented in the view. Each view can present the same model objects using
  * different labels and icons, if needed. Alternatively, a single label provider
  * can be shared between views in order to ensure that objects of the same type
  * are presented in the same way everywhere.
- * <p>
  */
 
 public class RecentFilesView extends ViewPart implements IOpenEventListener {
+	// Logger log = Logger.getLogger("RecentFilesView"); // import
+	// java.util.logging.Logger;
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -67,33 +68,38 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	private Action doubleClickAction;
 
 	/**
-	 * Open the specified file in an editor and go to the line number.  Then
+	 * Open the specified file in an editor and go to the line number. Then
 	 * notify the viewer that the data in the model has changed and it should
-	 * update. Parts of this must occur in the UI thread hence the use of syncExec.
+	 * update. Parts of this must occur in the UI thread hence the use of
+	 * syncExec.
 	 */
 	@Override
 	public void onOpenEvent(OpenEvent event)
 	{
 		try {
-			// Do the long running process in the background, first. If it succeeds, open the file in an editor.
-			IPath file = UIOpenFileMacro.searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""));
+			// Do the long running search process in the background, first. If
+			// it succeeds, open the file in an editor.
+			IPath file = UIOpenFileMacro.searchForFile(event);
 			Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber(), event));
 		} catch (OpenFileException ofe) {
 			event.setResultOfOpen(ofe);
 		}
-		// And whether success or failure, always update the user's view so they see the 
-		// error Messages on the open event.
-		Display.getDefault().syncExec(new UIRefreshViewMacro(this));
+		// And whether success or failure, always update the user's view so they
+		// see any changes in error messages on the open event.
+		Display.getDefault().syncExec(new Runnable() {
+			public void run()
+			{
+				refreshView();
+			}
+		});
 	}
 
 	/*
-	 * The content provider class is responsible for
-	 * providing objects to the view. It can wrap
-	 * existing objects in adapters or simply return
-	 * objects as-is. These objects may be sensitive
-	 * to the current input of the view, or ignore
-	 * it and always show the same content
-	 * (like Task List, for example).
+	 * The content provider class is responsible for providing objects to the
+	 * view. It can wrap existing objects in adapters or simply return objects
+	 * as-is. These objects may be sensitive to the current input of the view,
+	 * or ignore it and always show the same content (like Task List, for
+	 * example).
 	 */
 	class ViewContentProvider implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput)
@@ -118,15 +124,15 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	}
 
 	/**
-	 * This is a callback that will allow us
-	 * to create the viewer and initialize it.
+	 * This is a callback that will allow us to create the viewer and initialize
+	 * it.
 	 */
 	public void createPartControl(Composite parent)
 	{
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+		viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
-		
+
 		int[] columnWidth = new int[4];
 		String[] columnHeads = new String[4];
 		columnHeads[0] = "Class";
@@ -137,7 +143,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		columnWidth[2] = 60;
 		columnHeads[3] = "Messages";
 		columnWidth[3] = 300;
-		
+
 		TableViewerColumn[] columns = new TableViewerColumn[4];
 		for (int i = 0; i < columnHeads.length; i++) {
 			TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
@@ -151,49 +157,57 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		}
 
 		columns[0].setLabelProvider(new ColumnLabelProvider() {
-					@Override
-					public String getText(Object element) {
-						OpenEvent event = (OpenEvent) element;
-						return event.getFileName();
-					}
-					@Override
-					public Image getImage(Object element) {
-						return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
-					}
-					@Override
-					public void update(ViewerCell cell)
-					{
-						super.update(cell);
-					}
-					
-		});				
-		columns[1].setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public String getText(Object element) {
+			public String getText(Object element)
+			{
 				OpenEvent event = (OpenEvent) element;
-				return event.getPackageName();
+				return event.getFileName();
 			}
-		});				
-		columns[2].setLabelProvider(new ColumnLabelProvider() {
+
 			@Override
-			public String getText(Object element) {
-				OpenEvent event = (OpenEvent) element;
-				return event.getLineNumber() + "";
+			public Image getImage(Object element)
+			{
+				return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
 			}
-		});						
-		columns[3].setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				OpenEvent event = (OpenEvent) element;
-				return event.getResultOfOpen();
-			}
+
 			@Override
 			public void update(ViewerCell cell)
 			{
-				cell.setText(((OpenEvent)cell.getElement()).getResultOfOpen());
+				super.update(cell);
 			}
-		});						
-		
+
+		});
+		columns[1].setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element)
+			{
+				OpenEvent event = (OpenEvent) element;
+				return event.getPackageName();
+			}
+		});
+		columns[2].setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element)
+			{
+				OpenEvent event = (OpenEvent) element;
+				return event.getLineNumber() + "";
+			}
+		});
+		columns[3].setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element)
+			{
+				OpenEvent event = (OpenEvent) element;
+				return event.getResultOfOpen();
+			}
+
+			@Override
+			public void update(ViewerCell cell)
+			{
+				cell.setText(((OpenEvent) cell.getElement()).getResultOfOpen());
+			}
+		});
+
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setInput(getViewSite());
 
@@ -204,6 +218,14 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		hookDoubleClickAction();
 		contributeToActionBars();
 		registerListener();
+	}
+
+	private void refreshView()
+	{
+		// rebuild the ui contents from the model (TODO: is there a better way?)
+		viewer.setInput(getViewSite());
+		// redraw the ui display
+		viewer.refresh(false);
 	}
 
 	private void registerListener()
@@ -329,4 +351,5 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	{
 		viewer.getControl().setFocus();
 	}
+
 }
