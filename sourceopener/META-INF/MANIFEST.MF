@@ -12,6 +12,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6,
  J2SE-1.5
 Import-Package: org.eclipse.debug.core.sourcelookup.containers,
+ org.eclipse.equinox.security.storage,
  org.eclipse.jdt.core.search,
  org.eclipse.jdt.ui,
  org.eclipse.jface.text,
