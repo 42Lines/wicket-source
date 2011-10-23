@@ -25,7 +25,7 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
  * 
  */
 public final class UIOpenFileMacro implements Runnable {
-	// Logger log = Logger.getLogger("UIOpenFileMacro"); 
+	// Logger log = Logger.getLogger("UIOpenFileMacro");
 	// java.util.logging.Logger
 
 	private final RecentFilesView recentFilesView;
@@ -114,7 +114,7 @@ public final class UIOpenFileMacro implements Runnable {
 	{
 		return searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""));
 	}
-	
+
 	static IPath searchForFile(String packageName, String fileName) throws OpenFileException
 	{
 		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(packageName, fileName);

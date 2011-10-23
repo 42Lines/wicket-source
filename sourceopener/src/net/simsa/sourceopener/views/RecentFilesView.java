@@ -68,8 +68,8 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 	/**
 	 * Open the specified file in an editor and go to the line number. Then
-	 * notify the eventTableViewer that the data in the model has changed and it should
-	 * update. Parts of this must occur in the UI thread hence the use of
+	 * notify the eventTableViewer that the data in the model has changed and it
+	 * should update. Parts of this must occur in the UI thread hence the use of
 	 * syncExec.
 	 */
 	@Override
@@ -122,20 +122,22 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	}
 
 	/**
-	 * This is a callback that will allow us to create the eventTableViewer and initialize
-	 * it.
+	 * This is a callback that will allow us to create the eventTableViewer and
+	 * initialize it.
 	 */
 	public void createPartControl(Composite parent)
 	{
-		// Single-select rows (not multi), scroll horizontal and vertical as needed, and highlight full row not just first column.
-		eventTableViewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION); 
+		// Single-select rows (not multi), scroll horizontal and vertical as
+		// needed, and highlight full row not just first column.
+		eventTableViewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 		eventTableViewer.getTable().setHeaderVisible(true);
 		createEventTableColumns();
 		eventTableViewer.setContentProvider(new ViewContentProvider());
 		eventTableViewer.setInput(getViewSite());
 
 		// Create the help context id for the eventTableViewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(eventTableViewer.getControl(), "net.simsa.sourceopener.viewer");
+		PlatformUI.getWorkbench().getHelpSystem()
+				.setHelp(eventTableViewer.getControl(), "net.simsa.sourceopener.viewer");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -305,7 +307,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP);
 		final ImageDescriptor IMAGE_STOP_DISABLED = PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP_DISABLED);
-		
+
 		stopSocketServer = new Action() {
 			public void run()
 			{
@@ -325,7 +327,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	{
 		final ImageDescriptor IMAGE_START_ENABLED = Activator.getImageDescriptor("icons/greenplay.gif");
 		final ImageDescriptor IMAGE_START_DISABLED = Activator.getImageDescriptor("icons/greenplay_disabled.gif");
-		
+
 		startSocketServer = new Action() {
 			public void run()
 			{
