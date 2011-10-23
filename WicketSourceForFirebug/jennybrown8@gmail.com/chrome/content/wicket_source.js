@@ -1,8 +1,18 @@
 FBL.ns(function() { with (FBL) {
 
-const Cc = Components.classes;
-const Ci = Components.interfaces;	
+// documentation references: 
+// https://developer.mozilla.org/en/Firebug_internals
+// http://getfirebug.com/wiki/index.php/Domplate
+// https://developer.mozilla.org/en-US
 
+// These are suggested shortcuts but I'm not using the abbreviations anywhere.
+//const Cc = Components.classes;
+//const Ci = Components.interfaces;	
+
+/**
+ * Observes changes in the preferences settings for this plugin.  No meaningful
+ * functionality at this time but it's a placeholder for later behavior.
+ */
 var prefWatcher = {
 		prefManager : null,
 		
@@ -23,12 +33,19 @@ var prefWatcher = {
 prefWatcher.startup();
 
 /**
+ * Display panel overlay for Firebug.  This displays only when the left side panel is
+ * the HTML panel, and it is an extra tab on the right side panel from there.
+ * A new panel is created for every browser tab the user creates, and tab-specific
+ * data must be kept in "this.context.variable" to avoid polluting other tabs.
+ * 
  * WicketSource displays the wicketsource='foo.bar:HelloWorld.java:62' html attribute, and
  * produces a link that can be clicked to open the Java file in an Eclipse editor.  It does
  * so by sending an http request to a specified server, port, uri.  This port must be the
  * one that the matching Eclipse plugin is listening on, and if set, passwords must match.
  *
  * User preferences are available to configure the server, port, and timeout, but not the full uri.
+ * 
+ * @author Jenny Brown
  * 
  */
 function WicketSourcePanel() {
@@ -49,15 +66,19 @@ WicketSourcePanel.prototype = extend(Firebug.Panel,
 	},
     initialize: function() {
         Firebug.Panel.initialize.apply(this, arguments);
-//        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
-//        var window = wm.getMostRecentWindow("navigator:browser");
         this.context.tabData = new TabData();
         this.context.tabData.initialize(this);
         wicketPanel = this;
-        if (FBTrace.DBG_PANELS) FBTrace.sysout("wicketsource, -- Panel Initialize -- called ", this);
     }	
 });
 
+/**
+ * TabData stores the core data model information for this plugin, and
+ * it is reproduces for each tab the user has open.  This handles display
+ * of the "WicketSource" html contents (properties table, current dom node selection,
+ * and result of eclipse http request).  All the interesting non-ui behaviors
+ * are in here, as well as some ui behaviors. 
+ */
 function TabData() {
 }
 
@@ -69,6 +90,10 @@ TabData.prototype = {
 		requestTimer : null,
 		eclipseResult : "",
 		
+		/**
+		 * How to speak to the Eclipse server
+		 * @returns {String}
+		 */
 		makeUrl : function()
 		{
 			var url = "http://" + prefWatcher.prefManager.getCharPref("extensions.firebug.wicketsource.server") 
@@ -76,6 +101,10 @@ TabData.prototype = {
 			+ "/open?src=" + encodeURIComponent(this.selectedWicketSource);
 			return url;
 		},
+		/**
+		 * When inspecting an element with a wicketsource='' attribute, this function
+		 * displays the html table with all that data.
+		 */
 		displayWicket : function() 
 		{
 		    var pieces = this.selectedWicketSource.split(":");
@@ -96,14 +125,20 @@ TabData.prototype = {
 		    	timeout: prefWatcher.prefManager.getIntPref("extensions.firebug.wicketsource.timeout")
 		    }, this.wicketPanel.panelNode, this);
 		},	
+		/**
+		 * When inspecting an element with no wicketsource='' attribute or not 
+		 * inspecting any element at all, this function displays simple text message 
+		 * with instructions.
+		 */
 		displayWicketEmpty : function()
 		{
 	    	var root = this.getWicketSourceDomplateRoot();
 	    	root.chooseElement.replace({}, this.wicketPanel.panelNode, this);
 		},
 		
+		// Best resource for domplate documentation: http://getfirebug.com/wiki/index.php/Domplate
 		/**
-		 * Success/failure message from the most recent http connection
+		 * Produces HTML template for ui display, and adds a click handler reference for the Eclipse hyperlink.
 		 */
 		getWicketSourceDomplateRoot : function(tabData) {
 			return domplate ({
@@ -128,6 +163,11 @@ TabData.prototype = {
 						)
 				});	
 		},
+		/**
+		 * Handler for a click on the domplate href; prepares an http request to Eclipse and 
+		 * gets the request started.
+		 * @param event
+		 */
 		handleLinkClick : function(event) {
 			if (event.target.tagName != 'A') { return; }
 			this.eclipseResult = "...requesting...";
@@ -142,6 +182,12 @@ TabData.prototype = {
 			this.xmlHttp.open("GET",url,true);
 			this.xmlHttp.send();			
 		},
+		/**
+		 * When the user clicks between HTML dom nodes in the Firebug HTML panel, this 
+		 * chains off of that selection event and updates the WicketSource panel to match.
+		 * @param object
+		 * @param panel
+		 */
 		onObjectSelected : function(object, panel) { 
 	        this.eclipseResult = "";
 	        if (object.hasAttribute("wicketsource")) {
@@ -154,6 +200,10 @@ TabData.prototype = {
 	            this.displayWicketEmpty();
 	        };
 		},
+		/**
+		 * When the Eclipse http request completes (success or failure), this
+		 * updates the status display and cancels the timeout timer.
+		 */
 		onReady : function() {
 	 		if (this.readyState == 4) {
 	 			clearTimeout(this.tabDataRef.requestTimer);
@@ -165,10 +215,14 @@ TabData.prototype = {
 	 			this.tabDataRef.displayWicket();
 	 		}
 		},
+		/**
+		 * Sets up the TabData initial values; effectively this is a constructor.
+		 * Defaults to displaying the instructional message since the user hasn't
+		 * had time to select a DOM node yet.
+		 * @param wicketPane
+		 */
 		initialize : function(wicketPane) {
 			this.wicketPanel = wicketPane;
-			if (FBTrace.DBG_PANELS) FBTrace.sysout("wicketsource, tabData ----- INITIALIZE ----- called", this);
-			var myTabDataRef = this;
 			this.xmlHttp = new XMLHttpRequest();
 			this.xmlHttp.tabDataRef = this;
 			this.xmlHttp.onreadystatechange = this.onReady;
@@ -176,6 +230,22 @@ TabData.prototype = {
 		}
 };
 
+/**
+ * Event handler (UI Listener) to integrate with browser behaviors.
+ * 
+ * showPanel is called as the browser loads and as new
+ * tabs are requested or switched to.  Most of this
+ * code was auto-generated by the Eclipse PDE plug-in 
+ * template, and then slightly modified by me.
+ * 
+ * onObjectSelected is called when the user selects
+ * a DOM node in the HTML Panel of Firebug.
+ * 
+ * Events are forwarded to the panel, because it has access to 
+ * this.context for tab-specific data, which is necessary to 
+ * properly handle the events.
+ *  
+ */
 Firebug.WicketSourceModel = extend(Firebug.Module,
 {
 	isWicketSourcePanel : function(panel) {
@@ -202,6 +272,9 @@ Firebug.WicketSourceModel = extend(Firebug.Module,
     }
 });
 
+/*
+ * These lines were autogenerated by the PDE template, to register components.
+ */
 Firebug.registerUIListener(Firebug.WicketSourceModel);
 Firebug.registerPanel(WicketSourcePanel);
 Firebug.registerModule(Firebug.WicketSourceModel);
