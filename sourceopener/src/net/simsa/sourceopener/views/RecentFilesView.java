@@ -50,6 +50,8 @@ import org.eclipse.ui.part.ViewPart;
  * different labels and icons, if needed. Alternatively, a single label provider
  * can be shared between views in order to ensure that objects of the same type
  * are presented in the same way everywhere.
+ * 
+ * Tutorial on plugins here: http://www.vogella.de/articles/EclipsePlugIn/article.html
  */
 
 public class RecentFilesView extends ViewPart implements IOpenEventListener {
@@ -127,6 +129,10 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	 */
 	public void createPartControl(Composite parent)
 	{
+		// Tips on JFace and tables:
+		// http://www.vogella.de/articles/EclipseJFaceTable/article.html
+		// http://www.vogella.de/articles/EclipseJFaceTableAdvanced/article.html
+
 		// Single-select rows (not multi), scroll horizontal and vertical as
 		// needed, and highlight full row not just first column.
 		eventTableViewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
