@@ -137,10 +137,10 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		String[] columnHeads = new String[4];
 		columnHeads[0] = "Class";
 		columnWidth[0] = 190;
-		columnHeads[1] = "Package";
-		columnWidth[1] = 190;
-		columnHeads[2] = "Line";
-		columnWidth[2] = 60;
+		columnHeads[1] = "Line";
+		columnWidth[1] = 60;
+		columnHeads[2] = "Package";
+		columnWidth[2] = 190;
 		columnHeads[3] = "Messages";
 		columnWidth[3] = 300;
 
@@ -182,7 +182,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 			public String getText(Object element)
 			{
 				OpenEvent event = (OpenEvent) element;
-				return event.getPackageName();
+				return event.getLineNumber() + "";
 			}
 		});
 		columns[2].setLabelProvider(new ColumnLabelProvider() {
@@ -190,7 +190,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 			public String getText(Object element)
 			{
 				OpenEvent event = (OpenEvent) element;
-				return event.getLineNumber() + "";
+				return event.getPackageName();
 			}
 		});
 		columns[3].setLabelProvider(new ColumnLabelProvider() {
