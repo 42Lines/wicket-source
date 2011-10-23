@@ -44,7 +44,7 @@ public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implem
 	public void createFieldEditors() {
 		addField(new IntegerFieldEditor(PreferenceConstants.P_PORT, "&Port", getFieldEditorParent()));
 		addField(new StringFieldEditor(PreferenceConstants.P_PASSWORD, "Pass&word:", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password?", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password for file-open requests", getFieldEditorParent()));
 		
 		/*
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
