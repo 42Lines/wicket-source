@@ -104,7 +104,6 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	class ViewContentProvider implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput)
 		{
-			v.refresh();
 		}
 
 		public void dispose()
@@ -129,7 +128,8 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	 */
 	public void createPartControl(Composite parent)
 	{
-		viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+		// Single-select rows (not multi), scroll horizontal and vertical as needed, and highlight full row not just first column.
+		viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION); 
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
 
