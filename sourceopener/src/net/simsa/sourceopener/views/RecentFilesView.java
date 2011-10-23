@@ -55,8 +55,9 @@ import org.eclipse.ui.part.ViewPart;
  */
 
 public class RecentFilesView extends ViewPart implements IOpenEventListener {
-	// Logger log = Logger.getLogger("RecentFilesView"); // import
-	// java.util.logging.Logger;
+	// Logger log = Logger.getLogger("RecentFilesView"); 
+	
+	// import java.util.logging.Logger;
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -375,4 +376,34 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		eventTableViewer.getControl().setFocus();
 	}
 
+//	// FAQ: http://wiki.eclipse.org/FAQ_How_do_I_load_and_save_plug-in_preferences%3F
+//	private void loadConfig()
+//	{
+//		loadPluginSettings();
+//	}
+//	
+//	private void savePluginSettings()
+//	{
+//		// saves plugin preferences at the workspace level
+//		Preferences prefs = InstanceScope.INSTANCE.getNode(ID); 
+//		Activator.getDefault().getConfiguration().save(prefs);
+//
+//		try {
+//			// prefs are automatically flushed during a plugin's "super.stop()".
+//			prefs.flush();
+//		} catch (BackingStoreException e) {
+//			// TODO write a real exception handler.
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private void loadPluginSettings()
+//	{
+//		Preferences prefs = InstanceScope.INSTANCE.getNode(ID);
+//		// you might want to call prefs.sync() if you're worried about others
+//		// changing your settings
+//		
+//		Activator.getDefault().getConfiguration().load(prefs);
+//	}	
+	
 }

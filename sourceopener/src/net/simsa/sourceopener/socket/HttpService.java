@@ -3,10 +3,12 @@ package net.simsa.sourceopener.socket;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import net.simsa.sourceopener.IOpenEventListener;
 import net.simsa.sourceopener.OpenEvent;
 import net.simsa.sourceopener.RecentEventsCache;
+import net.simsa.sourceopener.views.ConfigurationService;
 
 /**
  * Coordinates web server start/stop and event notifications from it serving
@@ -18,8 +20,8 @@ import net.simsa.sourceopener.RecentEventsCache;
  * 
  */
 public class HttpService implements IOpenEventListener {
-	private static int PORT = 9123;
-
+	Logger log = Logger.getLogger("HttpService");
+	
 	private List<IOpenEventListener> listeners;
 	SourceOpenerHttpd currentHttpd;
 	RecentEventsCache eventCache;
@@ -78,7 +80,12 @@ public class HttpService implements IOpenEventListener {
 	 */
 	public void start() throws IOException
 	{
-		currentHttpd = new SourceOpenerHttpd(PORT, this);
+		int port = ConfigurationService.getPort();
+		if (port == 0) { 
+			throw new IOException("No port configured for service!");
+		}
+		log.info("Starting listener on port " + port);
+		currentHttpd = new SourceOpenerHttpd(port, this);
 	}
 
 	/**

@@ -34,5 +34,19 @@
             file="contexts.xml">
       </contexts>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.simsa.sourceopener.preferences.SourceOpenerPreferencePage"
+            id="net.simsa.sourceopener.preferences.SourceOpenerPreferencePage"
+            name="SourceOpener Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="net.simsa.sourceopener.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>
