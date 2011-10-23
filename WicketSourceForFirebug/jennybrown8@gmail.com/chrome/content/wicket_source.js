@@ -4,9 +4,9 @@ FBL.ns(function() { with (FBL) {
  * WicketSource displays the wicketsource='foo.bar:HelloWorld.java:62' html attribute, and
  * produces a link that can be clicked to open the Java file in an Eclipse editor.  It does
  * so by sending an http request to a specified server, port, uri.  This port must be the
- * one that the matching Eclipse plugin is listening on.
+ * one that the matching Eclipse plugin is listening on, and if set, passwords must match.
  *
- * User preferences available to configure the server, port, and timeout, but not the full uri.
+ * User preferences are available to configure the server, port, and timeout, but not the full uri.
  * 
  */
 
