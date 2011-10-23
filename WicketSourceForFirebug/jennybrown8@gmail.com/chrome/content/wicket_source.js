@@ -3,12 +3,6 @@ FBL.ns(function() { with (FBL) {
 const Cc = Components.classes;
 const Ci = Components.interfaces;	
 
-var uniqueId = 0;
-function getNextUniqueId() {
-	uniqueId++;
-	return uniqueId;
-}
-
 var prefWatcher = {
 		prefManager : null,
 		
@@ -42,7 +36,7 @@ function WicketSourcePanel() {
 
 WicketSourcePanel.prototype = extend(Firebug.Panel,
 {
-    name: "wicket_source" + getNextUniqueId(),
+    name: "wicket_source",
     title: "WicketSource",
     parentPanel: "html",
     order: 4,
@@ -64,20 +58,10 @@ WicketSourcePanel.prototype = extend(Firebug.Panel,
     }	
 });
 
-
-//function populatePrefPane() 
-//{
-//	if (FBTrace.DBG_PANELS) FBTrace.sysout("wicketsource populate pref pane");
-//}
-
-
-
 function TabData() {
 }
 
-
 TabData.prototype = {
-		myId : getNextUniqueId(),
 		wicketPanel : null,
 		xmlHttp : null,
 		selectedWicketSource : null,
@@ -195,7 +179,7 @@ TabData.prototype = {
 Firebug.WicketSourceModel = extend(Firebug.Module,
 {
 	isWicketSourcePanel : function(panel) {
-		return (panel && panel.name.substring(0,13) == "wicket_source");	
+		return (panel && panel.name == "wicket_source");	
 	},
     showPanel: function(browser, panel) {
         var isWicketSourcePanel = this.isWicketSourcePanel(panel);
