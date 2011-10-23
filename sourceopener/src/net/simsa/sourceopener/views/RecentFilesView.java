@@ -29,7 +29,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
@@ -62,14 +61,14 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	 */
 	public static final String ID = "net.simsa.sourceopener.views.RecentFilesView";
 
-	TableViewer viewer;
+	private TableViewer eventTableViewer;
 	private Action startSocketServer;
 	private Action stopSocketServer;
 	private Action doubleClickAction;
 
 	/**
 	 * Open the specified file in an editor and go to the line number. Then
-	 * notify the viewer that the data in the model has changed and it should
+	 * notify the eventTableViewer that the data in the model has changed and it should
 	 * update. Parts of this must occur in the UI thread hence the use of
 	 * syncExec.
 	 */
@@ -123,16 +122,29 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	}
 
 	/**
-	 * This is a callback that will allow us to create the viewer and initialize
+	 * This is a callback that will allow us to create the eventTableViewer and initialize
 	 * it.
 	 */
 	public void createPartControl(Composite parent)
 	{
 		// Single-select rows (not multi), scroll horizontal and vertical as needed, and highlight full row not just first column.
-		viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION); 
-		final Table table = viewer.getTable();
-		table.setHeaderVisible(true);
+		eventTableViewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION); 
+		eventTableViewer.getTable().setHeaderVisible(true);
+		createEventTableColumns();
+		eventTableViewer.setContentProvider(new ViewContentProvider());
+		eventTableViewer.setInput(getViewSite());
 
+		// Create the help context id for the eventTableViewer's control
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(eventTableViewer.getControl(), "net.simsa.sourceopener.viewer");
+		makeActions();
+		hookContextMenu();
+		hookDoubleClickAction();
+		contributeToActionBars();
+		registerListener();
+	}
+
+	private void createEventTableColumns()
+	{
 		int[] columnWidth = new int[4];
 		String[] columnHeads = new String[4];
 		columnHeads[0] = "Class";
@@ -146,7 +158,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 		TableViewerColumn[] columns = new TableViewerColumn[4];
 		for (int i = 0; i < columnHeads.length; i++) {
-			TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
+			TableViewerColumn viewerColumn = new TableViewerColumn(eventTableViewer, SWT.NONE);
 			TableColumn tableColumn = viewerColumn.getColumn();
 			tableColumn.setText(columnHeads[i]);
 			tableColumn.setResizable(true);
@@ -207,25 +219,14 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 				cell.setText(((OpenEvent) cell.getElement()).getResultOfOpen());
 			}
 		});
-
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setInput(getViewSite());
-
-		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "net.simsa.sourceopener.viewer");
-		makeActions();
-		hookContextMenu();
-		hookDoubleClickAction();
-		contributeToActionBars();
-		registerListener();
 	}
 
 	private void refreshView()
 	{
 		// rebuild the ui contents from the model (TODO: is there a better way?)
-		viewer.setInput(getViewSite());
+		eventTableViewer.setInput(getViewSite());
 		// redraw the ui display
-		viewer.refresh(false);
+		eventTableViewer.refresh(false);
 	}
 
 	private void registerListener()
@@ -243,9 +244,9 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 				RecentFilesView.this.fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
+		Menu menu = menuMgr.createContextMenu(eventTableViewer.getControl());
+		eventTableViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuMgr, eventTableViewer);
 	}
 
 	private void contributeToActionBars()
@@ -282,13 +283,49 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	 */
 	private void makeActions()
 	{
-		final ImageDescriptor IMAGE_START_ENABLED = Activator.getImageDescriptor("icons/greenplay.gif");
-		final ImageDescriptor IMAGE_START_DISABLED = Activator.getImageDescriptor("icons/greenplay_disabled.gif");
+		createActionStartSocketServer();
+		createActionStopSocketServer();
+		createActionDoubleClickReopens();
+	}
+
+	private void createActionDoubleClickReopens()
+	{
+		doubleClickAction = new Action() {
+			public void run()
+			{
+				// Reopen the file when the line is double clicked.
+				onOpenEvent((OpenEvent) (((IStructuredSelection) eventTableViewer.getSelection()).getFirstElement()));
+			}
+		};
+	}
+
+	private void createActionStopSocketServer()
+	{
 		final ImageDescriptor IMAGE_STOP_ENABLED = PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP);
 		final ImageDescriptor IMAGE_STOP_DISABLED = PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_ELCL_STOP_DISABLED);
+		
+		stopSocketServer = new Action() {
+			public void run()
+			{
+				Activator.getDefault().getHttpService().stop();
+				this.setEnabled(false);
+				startSocketServer.setEnabled(true);
+			}
+		};
+		stopSocketServer.setText("Stop Listener");
+		stopSocketServer.setToolTipText("Stops the listener that receives browser file-open clicks");
+		stopSocketServer.setImageDescriptor(IMAGE_STOP_ENABLED);
+		stopSocketServer.setDisabledImageDescriptor(IMAGE_STOP_DISABLED);
+		stopSocketServer.setEnabled(false);
+	}
 
+	private void createActionStartSocketServer()
+	{
+		final ImageDescriptor IMAGE_START_ENABLED = Activator.getImageDescriptor("icons/greenplay.gif");
+		final ImageDescriptor IMAGE_START_DISABLED = Activator.getImageDescriptor("icons/greenplay_disabled.gif");
+		
 		startSocketServer = new Action() {
 			public void run()
 			{
@@ -305,33 +342,11 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		startSocketServer.setToolTipText("Starts the listener to receive browser file-open clicks");
 		startSocketServer.setImageDescriptor(IMAGE_START_ENABLED);
 		startSocketServer.setDisabledImageDescriptor(IMAGE_START_DISABLED);
-
-		stopSocketServer = new Action() {
-			public void run()
-			{
-				Activator.getDefault().getHttpService().stop();
-				this.setEnabled(false);
-				startSocketServer.setEnabled(true);
-			}
-		};
-		stopSocketServer.setText("Stop Listener");
-		stopSocketServer.setToolTipText("Stops the listener that receives browser file-open clicks");
-		stopSocketServer.setImageDescriptor(IMAGE_STOP_ENABLED);
-		stopSocketServer.setDisabledImageDescriptor(IMAGE_STOP_DISABLED);
-		stopSocketServer.setEnabled(false);
-
-		doubleClickAction = new Action() {
-			public void run()
-			{
-				// Reopen the file when the line is double clicked.
-				onOpenEvent((OpenEvent) (((IStructuredSelection) viewer.getSelection()).getFirstElement()));
-			}
-		};
 	}
 
 	private void hookDoubleClickAction()
 	{
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
+		eventTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event)
 			{
 				doubleClickAction.run();
@@ -341,15 +356,15 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 	void showMessage(String message)
 	{
-		MessageDialog.openInformation(viewer.getControl().getShell(), "Source Opener", message);
+		MessageDialog.openInformation(eventTableViewer.getControl().getShell(), "Source Opener", message);
 	}
 
 	/**
-	 * Passing the focus request to the viewer's control.
+	 * Passing the focus request to the eventTableViewer's control.
 	 */
 	public void setFocus()
 	{
-		viewer.getControl().setFocus();
+		eventTableViewer.getControl().setFocus();
 	}
 
 }
