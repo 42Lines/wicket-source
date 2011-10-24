@@ -100,7 +100,9 @@ TabData.prototype = {
 		{
 			var url = "http://" + prefWatcher.prefManager.getCharPref("extensions.firebug.wicketsource.server") 
 			+ ":" + prefWatcher.prefManager.getIntPref("extensions.firebug.wicketsource.port") 
-			+ "/open?src=" + encodeURIComponent(this.selectedWicketSource);
+			+ "/open?src=" + encodeURIComponent(this.selectedWicketSource)
+			+ "&p=" + encodeURIComponent(prefWatcher.prefManager.getCharPref("extensions.firebug.wicketsource.password"));
+			if (FBTrace.DBG_PANELS) FBTrace.sysout("wicketsource made url ", url);
 			return url;
 		},
 		/**
