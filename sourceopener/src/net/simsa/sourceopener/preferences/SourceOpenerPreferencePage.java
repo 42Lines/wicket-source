@@ -31,7 +31,7 @@ public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implem
 	
 	public SourceOpenerPreferencePage() {
 		super(GRID);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setPreferenceStore(Activator.getDefault().getSecurePreferenceStore());
 		setDescription("SourceOpener Preferences");
 	}
 	
@@ -46,7 +46,6 @@ public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implem
 		
 		StringFieldEditor passwordField = new StringFieldEditor(PreferenceConstants.P_PASSWORD, "Pass&word:", getFieldEditorParent());
 		passwordField.getTextControl(getFieldEditorParent()).setEchoChar('*');
-		passwordField.setPreferenceStore(Activator.getDefault().getSecurePreferenceStore());
 		addField(passwordField);
 		
 		addField(new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password for file-open requests", getFieldEditorParent()));
@@ -82,15 +81,18 @@ public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implem
 	@Override
 	public boolean performOk()
 	{
-		log.info("Event: performOk");
-		return super.performOk();
+		log.info("Event: performOk is reloading listener configuration.");
+		boolean val = super.performOk();
+		Activator.getDefault().getHttpService().reloadConfiguration();
+		return val;
 	}
 
 	@Override
 	protected void performApply()
 	{
-		log.info("Event: performApply");
+		log.info("Event: performApply is reloading listener configuration.");
 		super.performApply();
+		Activator.getDefault().getHttpService().reloadConfiguration();
 	}
 	
 }

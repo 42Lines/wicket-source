@@ -14,7 +14,7 @@ public class PreferenceValueService {
 
 	public static int getPort()
 	{
-		return Activator.getDefault().getPreferenceStore().getInt(PreferenceConstants.P_PORT);
+		return Activator.getDefault().getSecurePreferenceStore().getInt(PreferenceConstants.P_PORT);
 	}
 
 	public static String getPassword()
@@ -24,7 +24,7 @@ public class PreferenceValueService {
 
 	public static boolean isUsePassword()
 	{
-		return Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_USEPASSWORD);
+		return Activator.getDefault().getSecurePreferenceStore().getBoolean(PreferenceConstants.P_USEPASSWORD);
 	}
 
 	
