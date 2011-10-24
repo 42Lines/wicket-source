@@ -155,14 +155,16 @@ TabData.prototype = {
 									TR(TD({style: "color: gray;"},"wicket:id "),TD(" "),TD("$wicketId")),
 									TR(TD({style: "color: gray;"},"package "),TD(" "),TD("$packageName")),
 									TR(TD({style: "color: gray;"},"source "),TD(" "),TD(A("$sourceFile:$lineNumber")))
-							),
-							P(),
-							TABLE({style: "margin-right: 10px;"},
-									TR(TD("Eclipse")),
-									TR(TD({style: "color: gray;"},"Request"),TD(" "),TD("$eclipseResult")),
-									TR(TD({style: "color: gray;"},"PluginServer"),TD(" "),TD("$server")),
-									TR(TD({style: "color: gray;"},"PluginPort"),TD(" "),TD("$port")),
-									TR(TD({style: "color: gray;"},"Timeout ms"),TD(" "),TD({style: "color: gray;"},"$timeout"))
+									,
+//							),
+//							P(),
+//							TABLE({style: "margin-right: 10px;"},
+//									TR(TD("Eclipse")),
+									TR(TD({style: "color: gray;"},"Request"),TD(" "),TD("$eclipseResult"))
+//									,
+//									TR(TD({style: "color: gray;"},"PluginServer"),TD(" "),TD("$server")),
+//									TR(TD({style: "color: gray;"},"PluginPort"),TD(" "),TD("$port")),
+//									TR(TD({style: "color: gray;"},"Timeout ms"),TD(" "),TD({style: "color: gray;"},"$timeout"))
 							)
 						)
 				});	

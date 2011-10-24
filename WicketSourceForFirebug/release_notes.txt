@@ -1,16 +1,17 @@
 Remaining work to do:
-* Right-click menu on an element, "Inspect in Eclipse" that takes you directly there.
-* Properly handle update of the panel when the user changes options
-* Make Eclipse portion collapsible ala Computed tab
+* For release: Provide how-to-use readme with a web page where the extension can be downloaded/installed.
+
+Later enhancements:
+* Usability improvement; right-click menu on an element, "Inspect in Eclipse" that takes you directly there.
 * Backport the Options screen to support Firefox 5 & 6
-* Ensure proper behavior in the condition where the user is hand-modifying the wicketsource attribute
-* Provide how-to-use readme with a web page where the extension can be downloaded/installed.
 
 10/23/2011 - Code overhaul, fixed bugs with multiple tabs, added comments.
  - Fixed handling for multiple tabs since that dorked up firefox when I launched a second tab accidentally.
  - Cleaned up OO Javascript; prior code had namespace and scope problems and was rather sloppy.
  - Made the project name more consistently used in variables.
  - Commented all major methods and variables.
+ - Display simplification, since I no longer need the port information onscreen at all times.
+ - Validated handling of manually modified wicketsource attribute.
 
 10/19/2011 - WicketSource Firebug extension basically works.
  - Displays 'wicketsource' attribute value in a side panel of the HTML inspector
