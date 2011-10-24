@@ -68,6 +68,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	private Action startSocketServer;
 	private Action stopSocketServer;
 	private Action doubleClickAction;
+	private Action clearEventsAction;
 
 	/**
 	 * Open the specified file in an editor and go to the line number. Then
@@ -267,13 +268,15 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 	private void fillLocalPullDown(IMenuManager manager)
 	{
+		manager.add(clearEventsAction);
 		manager.add(startSocketServer);
-		manager.add(new Separator());
 		manager.add(stopSocketServer);
+		manager.add(new Separator());
 	}
 
 	private void fillContextMenu(IMenuManager manager)
 	{
+		manager.add(clearEventsAction);
 		manager.add(startSocketServer);
 		manager.add(stopSocketServer);
 		// Other plug-ins can contribute their actions here
@@ -282,6 +285,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 	private void fillLocalToolBar(IToolBarManager manager)
 	{
+		manager.add(clearEventsAction);
 		manager.add(startSocketServer);
 		manager.add(stopSocketServer);
 	}
@@ -295,6 +299,23 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		createActionStartSocketServer();
 		createActionStopSocketServer();
 		createActionDoubleClickReopens();
+		createActionClearEvents();
+	}
+	
+	private void createActionClearEvents()
+	{
+		final ImageDescriptor IMAGE_CLEAR = Activator.getImageDescriptor("icons/clear.gif");
+
+		clearEventsAction = new Action() {
+			public void run() {
+				Activator.getDefault().getHttpService().getEventCache().clear();
+				refreshView();
+			}
+		};
+		clearEventsAction.setText("Clear History");
+		clearEventsAction.setToolTipText("Clears the list of recently opened files");
+		clearEventsAction.setImageDescriptor(IMAGE_CLEAR);
+
 	}
 
 	private void createActionDoubleClickReopens()
@@ -376,34 +397,5 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		eventTableViewer.getControl().setFocus();
 	}
 
-//	// FAQ: http://wiki.eclipse.org/FAQ_How_do_I_load_and_save_plug-in_preferences%3F
-//	private void loadConfig()
-//	{
-//		loadPluginSettings();
-//	}
-//	
-//	private void savePluginSettings()
-//	{
-//		// saves plugin preferences at the workspace level
-//		Preferences prefs = InstanceScope.INSTANCE.getNode(ID); 
-//		Activator.getDefault().getConfiguration().save(prefs);
-//
-//		try {
-//			// prefs are automatically flushed during a plugin's "super.stop()".
-//			prefs.flush();
-//		} catch (BackingStoreException e) {
-//			// TODO write a real exception handler.
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	private void loadPluginSettings()
-//	{
-//		Preferences prefs = InstanceScope.INSTANCE.getNode(ID);
-//		// you might want to call prefs.sync() if you're worried about others
-//		// changing your settings
-//		
-//		Activator.getDefault().getConfiguration().load(prefs);
-//	}	
 	
 }
