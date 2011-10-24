@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script src="chrome://wicket_source/content/wicket_source.js" type="application/x-javascript"/>
+
+    <commandset id="mainCommandSet">
+    	<!-- 
+        <command id="cmd_wicket_sourceAboutButton" oncommand="Firebug.wicket_sourceModel.onAboutButton(FirebugContext)"/>
+         -->
+    </commandset>
+
+	<!--  Produce the HTML side panel for WicketSource where the fun stuff happens  -->
+    <toolbar id="fbToolbar" align="center">
+        <hbox id="fbToolbarInner" insertafter="domSide" flex="1" align="center">
+            <hbox id="fbwicket_sourceButtons" insertafter="domSide">
+            	<!-- 
+                <toolbarseparator/>
+                <toolbarbutton id="wicket_sourceAboutButton"
+                    label="About" class="toolbar-text-button"
+                    tooltiptext="About Wicket Source" command="cmd_JSONAboutButton"/>
+                     -->
+           </hbox>
+       </hbox>
+    </toolbar>
+
+</overlay>

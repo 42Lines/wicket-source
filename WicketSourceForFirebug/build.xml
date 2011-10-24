@@ -2,9 +2,9 @@
 <project name="WicketSource" default="dist" basedir=".">
   <description>Simple ant build for a zip->xpi file</description>
   
-  <property name="src" location="jennybrown8@gmail.com"/>
+  <property name="src" location="wicketsource@gmail.com"/>
   <property name="dist" location="dist"/>
-  <property name="archiveFilename" value="jennybrown8@gmail.com" />
+  <property name="archiveFilename" value="wicketsource@gmail.com" />
 
   <target name="dist" description="generate the xpi file" >
     <mkdir dir="${dist}"/>

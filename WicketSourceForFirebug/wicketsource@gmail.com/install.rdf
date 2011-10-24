@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="rdf:#$41y0G2"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="7"
+                   em:maxVersion="7.*" />
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="wicketsource@gmail.com"
+                   em:name="Wicket Source"
+                   em:version="1.0"
+                   em:creator="Jenny Brown; http://www.example.org"
+                   em:description="Click-through to wicket source in Eclipse"
+                   em:homepageURL="http://www.example.com"
+                   em:iconURL="chrome://wicket_source/content/icon.png">
+    <em:targetApplication RDF:resource="rdf:#$41y0G2"/>
+    <em:optionsURL>chrome://wicket_source/content/options.xul</em:optionsURL>
+    <em:optionsType>2</em:optionsType> 
+  </RDF:Description>
+</RDF:RDF>
