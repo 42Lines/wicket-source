@@ -1,5 +1,6 @@
 package net.simsa.sourceopener.preferences;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import net.simsa.sourceopener.Activator;
@@ -8,6 +9,7 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -28,10 +30,11 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implements IWorkbenchPreferencePage 
 {
 	Logger log = Logger.getLogger("SourceOpenerPreferencePage");
+
 	
 	public SourceOpenerPreferencePage() {
 		super(GRID);
-		setPreferenceStore(Activator.getDefault().getSecurePreferenceStore());
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("SourceOpener Preferences");
 	}
 	
@@ -42,57 +45,40 @@ public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implem
 	 * restore itself.
 	 */
 	public void createFieldEditors() {
-		addField(new IntegerFieldEditor(PreferenceConstants.P_PORT, "&Port", getFieldEditorParent()));
+		IntegerFieldEditor portField;
+		StringFieldEditor passwordField;
+		BooleanFieldEditor requirePasswordField;
+		IntegerFieldEditor keepCountField;
 		
-		StringFieldEditor passwordField = new StringFieldEditor(PreferenceConstants.P_PASSWORD, "Pass&word:", getFieldEditorParent());
+		portField = new IntegerFieldEditor(PreferenceConstants.P_PORT, "&Port", getFieldEditorParent());
+		addField(portField);
+		
+		passwordField = new StringFieldEditor(PreferenceConstants.P_PASSWORD, "Pass&word:", getFieldEditorParent());
 		passwordField.getTextControl(getFieldEditorParent()).setEchoChar('*');
 		addField(passwordField);
 		
-		addField(new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password for file-open requests", getFieldEditorParent()));
+		requirePasswordField = new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password for file-open requests", BooleanFieldEditor.SEPARATE_LABEL, getFieldEditorParent());
+		addField(requirePasswordField);
 		
+		keepCountField = new IntegerFieldEditor(PreferenceConstants.P_KEEP_COUNT, "&Keep how many files in recent history?", getFieldEditorParent());
+		addField(keepCountField);
 		
 		/*
 		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
 				"&Directory preference:", getFieldEditorParent()));
-		addField(
-			new BooleanFieldEditor(
-				PreferenceConstants.P_BOOLEAN,
-				"&An example of a boolean preference",
-				getFieldEditorParent()));
-
 		addField(new RadioGroupFieldEditor(
 				PreferenceConstants.P_CHOICE,
-			"An example of a multiple-choice preference",
-			1,
+			"An example of a multiple-choice preference", 1,
 			new String[][] { { "&Choice 1", "choice1" }, {
 				"C&hoice 2", "choice2" }
 		}, getFieldEditorParent()));
-		addField(
-			new StringFieldEditor(PreferenceConstants.P_STRING, "A &text preference:", getFieldEditorParent()));
 		*/
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	public void init(IWorkbench workbench) {
-	}
-
-	@Override
-	public boolean performOk()
-	{
-		log.info("Event: performOk is reloading listener configuration.");
-		boolean val = super.performOk();
-		Activator.getDefault().getHttpService().reloadConfiguration();
-		return val;
-	}
-
-	@Override
-	protected void performApply()
-	{
-		log.info("Event: performApply is reloading listener configuration.");
-		super.performApply();
-		Activator.getDefault().getHttpService().reloadConfiguration();
 	}
 	
 }

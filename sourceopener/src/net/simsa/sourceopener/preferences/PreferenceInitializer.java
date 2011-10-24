@@ -1,14 +1,17 @@
 package net.simsa.sourceopener.preferences;
 
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.preference.IPreferenceStore;
+import java.util.logging.Logger;
 
 import net.simsa.sourceopener.Activator;
+
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * Class used to initialize default preference values.
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
+	Logger log = Logger.getLogger("PreferenceInitializer");
 
 	/*
 	 * (non-Javadoc)
@@ -20,6 +23,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.P_PORT, 9123);
 		store.setDefault(PreferenceConstants.P_PASSWORD, "");
 		store.setDefault(PreferenceConstants.P_USEPASSWORD, false);
+		store.setDefault(PreferenceConstants.P_KEEP_COUNT, 6);
 	}
 
 }

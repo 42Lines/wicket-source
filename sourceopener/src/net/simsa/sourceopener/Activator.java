@@ -1,11 +1,7 @@
 package net.simsa.sourceopener;
 
-import net.simsa.sourceopener.preferences.PreferenceConstants;
-import net.simsa.sourceopener.preferences.SecurePreferenceStore;
 import net.simsa.sourceopener.socket.HttpService;
 
-import org.eclipse.equinox.security.storage.ISecurePreferences;
-import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -23,7 +19,7 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 
 	private HttpService httpService;
-	private SecurePreferenceStore securePreferenceStore;
+//	private SecurePreferenceStore securePreferenceStore;
 
 	/**
 	 * The constructor
@@ -43,6 +39,8 @@ public class Activator extends AbstractUIPlugin {
 	{
 		super.start(context);
 		plugin = this;
+		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(httpService);
+		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(httpService.getEventCache());
 	}
 
 	/*
@@ -80,19 +78,20 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
-	/**
-	 * For storing passwords and such. 
-	 * @return
-	 */
-    public SecurePreferenceStore getSecurePreferenceStore() {
-        if (securePreferenceStore == null) {
-                ISecurePreferences root = SecurePreferencesFactory.getDefault();
-                ISecurePreferences node = root.node(PLUGIN_ID);
-                securePreferenceStore = new SecurePreferenceStore(node);
-                securePreferenceStore.setDoEncryptPreference(PreferenceConstants.P_PASSWORD);
-        }
-        return securePreferenceStore; 
-    }
+// FAIL.  Access to this doesn't consistently work from multiple locations.
+//	/**
+//	 * For storing passwords and such. 
+//	 * @return
+//	 */
+//    public SecurePreferenceStore getSecurePreferenceStore() {
+//        if (securePreferenceStore == null) {
+//                ISecurePreferences root = SecurePreferencesFactory.getDefault();
+//                ISecurePreferences node = root.node(PLUGIN_ID);
+//                securePreferenceStore = new SecurePreferenceStore(node);
+//                securePreferenceStore.setDoEncryptPreference(PreferenceConstants.P_PASSWORD);
+//        }
+//        return securePreferenceStore; 
+//    }
 	
 	/**
 	 * Returns an image descriptor for the image file at the given

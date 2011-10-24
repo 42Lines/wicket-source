@@ -14,18 +14,22 @@ public class PreferenceValueService {
 
 	public static int getPort()
 	{
-		return Activator.getDefault().getSecurePreferenceStore().getInt(PreferenceConstants.P_PORT);
+		return Activator.getDefault().getPreferenceStore().getInt(PreferenceConstants.P_PORT);
 	}
 
 	public static String getPassword()
 	{
-		return Activator.getDefault().getSecurePreferenceStore().getString(PreferenceConstants.P_PASSWORD);
+		return Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_PASSWORD);
 	}
 
 	public static boolean isUsePassword()
 	{
-		return Activator.getDefault().getSecurePreferenceStore().getBoolean(PreferenceConstants.P_USEPASSWORD);
+		return Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_USEPASSWORD);
 	}
 
+	public static int getKeepCount()
+	{
+		return Activator.getDefault().getPreferenceStore().getInt(PreferenceConstants.P_KEEP_COUNT);
+	}
 	
 }

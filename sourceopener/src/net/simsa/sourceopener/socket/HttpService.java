@@ -8,7 +8,11 @@ import java.util.logging.Logger;
 import net.simsa.sourceopener.IOpenEventListener;
 import net.simsa.sourceopener.OpenEvent;
 import net.simsa.sourceopener.RecentEventsCache;
+import net.simsa.sourceopener.preferences.PreferenceConstants;
 import net.simsa.sourceopener.preferences.PreferenceValueService;
+
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 
 /**
  * Coordinates web server start/stop and event notifications from it serving
@@ -19,7 +23,7 @@ import net.simsa.sourceopener.preferences.PreferenceValueService;
  * @author Jenny Brown
  * 
  */
-public class HttpService implements IOpenEventListener {
+public class HttpService implements IOpenEventListener, IPropertyChangeListener {
 	Logger log = Logger.getLogger("HttpService");
 	
 	private List<IOpenEventListener> listeners;
@@ -31,6 +35,16 @@ public class HttpService implements IOpenEventListener {
 		eventCache = new RecentEventsCache();
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent pcEvent)
+	{
+		if (PreferenceConstants.P_PASSWORD.equals(pcEvent.getProperty()) ||
+			PreferenceConstants.P_USEPASSWORD.equals(pcEvent.getProperty()) ||
+			PreferenceConstants.P_PORT.equals(pcEvent.getProperty())		) {
+			reloadConfiguration();
+		}
+	}
+	
 	public void registerListener(IOpenEventListener listener)
 	{
 		this.listeners.add(listener);
@@ -85,6 +99,7 @@ public class HttpService implements IOpenEventListener {
 			throw new IOException("No port configured for service!");
 		}
 		log.info("Starting listener on port " + port + " with requirePassword = " + PreferenceValueService.isUsePassword());
+//		log.info("Expecting p=" + PreferenceValueService.getPassword());
 		currentHttpd = new SourceOpenerHttpd(port, PreferenceValueService.isUsePassword(), PreferenceValueService.getPassword(), this);
 	}
 

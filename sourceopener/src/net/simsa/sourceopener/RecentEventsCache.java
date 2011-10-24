@@ -5,6 +5,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.simsa.sourceopener.preferences.PreferenceConstants;
+
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
+
 /**
  * Limits the number of recent click events that are tracked. Provides limited
  * access to the underlying list.
@@ -12,7 +17,7 @@ import java.util.List;
  * @author Jenny Brown
  * 
  */
-public class RecentEventsCache {
+public class RecentEventsCache implements IPropertyChangeListener {
 	private List<OpenEvent> recentEvents = Collections.synchronizedList(new LinkedList<OpenEvent>());
 	private int maxSize;
 
@@ -63,4 +68,15 @@ public class RecentEventsCache {
 		this.maxSize = maxSize;
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent pcEvent)
+	{
+		if (PreferenceConstants.P_KEEP_COUNT.equals(pcEvent.getProperty())) {
+			int newMax = (Integer) pcEvent.getNewValue();
+			setMaxSize(newMax);
+		}
+	}
+
+	
+	
 }
