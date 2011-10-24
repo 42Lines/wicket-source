@@ -5,13 +5,15 @@ Remaining:
 * Test thoroughly with error handling for non-existent files.
 * Package the build properly for release on a Eclipse update site. Check into version management.
 
+10/23/2011 - Added preferences and automatic server restart on change.  Added password. 
+ - Added preferences panel and secure storage. Currently sets port number, password required, password text.
+ - Added "Clear" button to blank out the recent open events tab.
+
 10/22/2011 - Fixed event table display problems.
  - Cleaned up formatting of Recent File Locations tab using a table layout.
  - Showed a message on each OpenEvent line that failed, showing the "Warning: Not found" message but clearing it if it works on reopen.
  - Messages field updates properly.
  - Tested that the listening service remains on once the view is closed (it does).
- - Added preferences panel and secure storage. Currently sets port number, password required, password text.
- - Added "Clear" button to blank out the recent open events tab.
 
 10/21/2011 - Basic functionality works.
  - Listener service starts and stops from green/red UI buttons (but port is hard-coded).
