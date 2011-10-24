@@ -1,6 +1,5 @@
 Remaining:
-* Create preferences pane. Provide user settings for: 
-  port number, # recent files to list, projects to search, start listener on startup.
+* Provide user settings for: # recent files to list, projects to search, start listener on startup.
 * Modify search to just look in the user-specified projects (should reduce multiple-hits).
 * Produce a UI dialog and ask for a user to choose in cases where multiple hits occur; modeled after Open Type dialog.
 * Test thoroughly with error handling for non-existent files.
@@ -11,6 +10,8 @@ Remaining:
  - Showed a message on each OpenEvent line that failed, showing the "Warning: Not found" message but clearing it if it works on reopen.
  - Messages field updates properly.
  - Tested that the listening service remains on once the view is closed (it does).
+ - Added preferences panel and secure storage. Currently sets port number, password required, password text.
+ - Added "Clear" button to blank out the recent open events tab.
 
 10/21/2011 - Basic functionality works.
  - Listener service starts and stops from green/red UI buttons (but port is hard-coded).
