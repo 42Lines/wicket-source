@@ -1,13 +1,15 @@
 Remaining:
-* Provide user settings for: # recent files to list, projects to search, start listener on startup.
+* Provide user settings for: projects to search
 * Modify search to just look in the user-specified projects (should reduce multiple-hits).
 * Produce a UI dialog and ask for a user to choose in cases where multiple hits occur; modeled after Open Type dialog.
 * Test thoroughly with error handling for non-existent files.
 * Package the build properly for release on a Eclipse update site. Check into version management.
 
 10/23/2011 - Added preferences and automatic server restart on change.  Added password. 
- - Added preferences panel and secure storage. Currently sets port number, password required, password text.
+ - Added preferences panel as plain text. Currently sets port number, password required, password text, # recent files to list.
  - Added "Clear" button to blank out the recent open events tab.
+ - Discovered secure storage approach was failing, need to fix that later; using plain text for now because it's reliable.
+ - Added preference setting for Start listener on startup.
 
 10/22/2011 - Fixed event table display problems.
  - Cleaned up formatting of Recent File Locations tab using a table layout.

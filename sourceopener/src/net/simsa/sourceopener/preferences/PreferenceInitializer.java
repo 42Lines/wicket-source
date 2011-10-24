@@ -24,6 +24,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(PreferenceConstants.P_PASSWORD, "");
 		store.setDefault(PreferenceConstants.P_USEPASSWORD, false);
 		store.setDefault(PreferenceConstants.P_KEEP_COUNT, 6);
+		store.setDefault(PreferenceConstants.P_START_ON_STARTUP, false);
 	}
 
 }

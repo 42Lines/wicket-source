@@ -86,6 +86,11 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 		new Thread(new OpenEventNotifier(event)).start();
 	}
 
+	public boolean isRunning()
+	{
+		return currentHttpd != null;
+	}
+	
 	/**
 	 * Starts the web server
 	 * 
@@ -99,7 +104,6 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 			throw new IOException("No port configured for service!");
 		}
 		log.info("Starting listener on port " + port + " with requirePassword = " + PreferenceValueService.isUsePassword());
-//		log.info("Expecting p=" + PreferenceValueService.getPassword());
 		currentHttpd = new SourceOpenerHttpd(port, PreferenceValueService.isUsePassword(), PreferenceValueService.getPassword(), this);
 	}
 

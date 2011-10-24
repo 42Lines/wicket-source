@@ -31,5 +31,10 @@ public class PreferenceValueService {
 	{
 		return Activator.getDefault().getPreferenceStore().getInt(PreferenceConstants.P_KEEP_COUNT);
 	}
+
+	public static boolean isStartListenerOnStartup()
+	{
+		return Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_START_ON_STARTUP);
+	}
 	
 }

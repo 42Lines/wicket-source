@@ -348,7 +348,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		stopSocketServer.setToolTipText("Stops the listener that receives browser file-open clicks");
 		stopSocketServer.setImageDescriptor(IMAGE_STOP_ENABLED);
 		stopSocketServer.setDisabledImageDescriptor(IMAGE_STOP_DISABLED);
-		stopSocketServer.setEnabled(false);
+		stopSocketServer.setEnabled(Activator.getDefault().getHttpService().isRunning());
 	}
 
 	private void createActionStartSocketServer()
@@ -372,6 +372,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		startSocketServer.setToolTipText("Starts the listener to receive browser file-open clicks");
 		startSocketServer.setImageDescriptor(IMAGE_START_ENABLED);
 		startSocketServer.setDisabledImageDescriptor(IMAGE_START_DISABLED);
+		startSocketServer.setEnabled(! Activator.getDefault().getHttpService().isRunning());
 	}
 
 	private void hookDoubleClickAction()

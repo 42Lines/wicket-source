@@ -1,6 +1,5 @@
 package net.simsa.sourceopener.preferences;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 
 import net.simsa.sourceopener.Activator;
@@ -9,7 +8,6 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -45,27 +43,18 @@ public class SourceOpenerPreferencePage	extends FieldEditorPreferencePage implem
 	 * restore itself.
 	 */
 	public void createFieldEditors() {
-		IntegerFieldEditor portField;
-		StringFieldEditor passwordField;
-		BooleanFieldEditor requirePasswordField;
-		IntegerFieldEditor keepCountField;
+		addField(new IntegerFieldEditor(PreferenceConstants.P_PORT, "&Port", getFieldEditorParent()));
 		
-		portField = new IntegerFieldEditor(PreferenceConstants.P_PORT, "&Port", getFieldEditorParent());
-		addField(portField);
-		
-		passwordField = new StringFieldEditor(PreferenceConstants.P_PASSWORD, "Pass&word:", getFieldEditorParent());
+		StringFieldEditor passwordField = new StringFieldEditor(PreferenceConstants.P_PASSWORD, "Pass&word (warning, insecure storage!):", getFieldEditorParent());
 		passwordField.getTextControl(getFieldEditorParent()).setEchoChar('*');
 		addField(passwordField);
 		
-		requirePasswordField = new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password for file-open requests", BooleanFieldEditor.SEPARATE_LABEL, getFieldEditorParent());
-		addField(requirePasswordField);
+		addField(new BooleanFieldEditor(PreferenceConstants.P_USEPASSWORD, "&Require password for file-open requests", BooleanFieldEditor.SEPARATE_LABEL, getFieldEditorParent()));
 		
-		keepCountField = new IntegerFieldEditor(PreferenceConstants.P_KEEP_COUNT, "&Keep how many files in recent history?", getFieldEditorParent());
-		addField(keepCountField);
+		addField(new IntegerFieldEditor(PreferenceConstants.P_KEEP_COUNT, "&Keep how many files in recent history? ", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_START_ON_STARTUP, "&Start file-open listener automatically on startup? ", BooleanFieldEditor.SEPARATE_LABEL, getFieldEditorParent()));
 		
 		/*
-		addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH, 
-				"&Directory preference:", getFieldEditorParent()));
 		addField(new RadioGroupFieldEditor(
 				PreferenceConstants.P_CHOICE,
 			"An example of a multiple-choice preference", 1,

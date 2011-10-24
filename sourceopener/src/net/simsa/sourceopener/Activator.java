@@ -1,5 +1,6 @@
 package net.simsa.sourceopener;
 
+import net.simsa.sourceopener.preferences.PreferenceValueService;
 import net.simsa.sourceopener.socket.HttpService;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -14,12 +15,10 @@ public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.simsa.sourceopener"; //$NON-NLS-1$
-
 	// The shared instance
 	private static Activator plugin;
-
+	// Data model entry point for this plugin.
 	private HttpService httpService;
-//	private SecurePreferenceStore securePreferenceStore;
 
 	/**
 	 * The constructor
@@ -41,6 +40,9 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(httpService);
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(httpService.getEventCache());
+		if (PreferenceValueService.isStartListenerOnStartup()) {
+			httpService.start();
+		}
 	}
 
 	/*
@@ -52,9 +54,11 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception
 	{
+		httpService.stop();
+		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(httpService);
+		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(httpService.getEventCache());
 		plugin = null;
 		super.stop(context);
-		httpService.stop();
 	}
 
 	/**
@@ -77,21 +81,6 @@ public class Activator extends AbstractUIPlugin {
 	{
 		return plugin;
 	}
-
-// FAIL.  Access to this doesn't consistently work from multiple locations.
-//	/**
-//	 * For storing passwords and such. 
-//	 * @return
-//	 */
-//    public SecurePreferenceStore getSecurePreferenceStore() {
-//        if (securePreferenceStore == null) {
-//                ISecurePreferences root = SecurePreferencesFactory.getDefault();
-//                ISecurePreferences node = root.node(PLUGIN_ID);
-//                securePreferenceStore = new SecurePreferenceStore(node);
-//                securePreferenceStore.setDoEncryptPreference(PreferenceConstants.P_PASSWORD);
-//        }
-//        return securePreferenceStore; 
-//    }
 	
 	/**
 	 * Returns an image descriptor for the image file at the given
