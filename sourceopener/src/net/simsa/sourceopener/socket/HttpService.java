@@ -84,7 +84,7 @@ public class HttpService implements IOpenEventListener {
 		if (port == 0) { 
 			throw new IOException("No port configured for service!");
 		}
-		log.info("Starting listener on port " + port + " with requirePassword = " + PreferenceValueService.isUsePassword() + " and password = " + PreferenceValueService.getPassword() );
+		log.info("Starting listener on port " + port + " with requirePassword = " + PreferenceValueService.isUsePassword());
 		currentHttpd = new SourceOpenerHttpd(port, PreferenceValueService.isUsePassword(), PreferenceValueService.getPassword(), this);
 	}
 
