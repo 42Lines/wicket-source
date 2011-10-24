@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE mydialog SYSTEM "chrome://myaddon/locale/mydialog.dtd">
-<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <setting type="string" pref="extensions.firebug.wicketsource.server" title="Eclipse Plugin Server" desc="Usually localhost; server where Eclipse is running." />
-  <setting type="integer" pref="extensions.firebug.wicketsource.port" title="Eclipse Plugin Port" desc="Port where Eclipse plugin is listening" />
-  <setting type="integer" pref="extensions.firebug.wicketsource.timeout" title="Connection Timeout (ms)" />
-  <setting type="string"  pref="extensions.firebug.wicketsource.password" title="Eclipse Plugin Password" inputtype="password" desc="Must match the password set in Eclipse plugin, if it requires one."/> 
-</vbox>
