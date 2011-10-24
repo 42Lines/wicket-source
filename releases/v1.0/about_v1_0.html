@@ -1,0 +1,99 @@
+<html>
+	<head>
+		<title>WicketSource and SourceOpener</title>
+	</head>
+	<body>
+	<h1>WicketSource and SourceOpener - v1.0</h1>
+
+<div style="width: 830px;">
+	<P>This set of tools provides full-circle visibility into the HTML and Java components
+	used by a Wicket application, so you can jump directly to a component to make changes.
+	It is meant primarily as a web developer tool.
+	</P>
+
+	<p>There are three parts.
+<ol>
+	<li>Wicket Module "wicketsource" - records where in the code each component is constructed. Adds an HTML attribute.</li>
+	<li>Firebug Extension "WicketSource" - displays html attribute and lets you click to open.</li>
+	<li>Eclipse plugin "Source Opener" - listens for clicks from Firefox and opens the file to that line.</li>
+</ol>
+</p>
+
+	<h2>Wicket Module</h2>
+	<P><a href="wicketsource-1.0.jar">wicketsource-1.0.jar</a> plugs in to your Wicket
+	application to record the class and line number where each component is created.
+	It produces an html attribute on each dom node, like so: 
+	<code>wicketsource="net.simsa.photo.web.MainMenuPanel:35"</code>
+	</P>
+
+<div style="background-color: #EEEEEE; padding: 10px;">
+	<P>Usage, in your <b>WicketApplication</b> class (choose any debug condition you wish, but
+	the instantiation listener most closely matches the behavior specified here).
+<pre>
+if (getDebugSettings().isLinePreciseReportingOnNewComponentEnabled()) {
+     addComponentInstantiationListener(new AttributeModifyingInstantiationListener());
+}
+</pre>
+</P>
+<P>
+Usage, in the base <b>Page</b> class for the application: 
+<pre>
+private AttributeModifyingComponentVisitor locationTagger = new AttributeModifyingComponentVisitor(); 
+// member variable
+ 
+@Override
+protected void onBeforeRender()
+{
+  super.onBeforeRender(); // goes first so repeating views/grids/datatables have rendered children.
+  if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
+	locationTagger.addClassNameVisitor(this);
+  }
+}
+</pre>
+</P>
+</div>
+
+
+
+<h2>Firebug Extension for Firefox</h2>
+
+<P>This is a Firebug extension, so yes, you need <a href="http://getfirebug.com/">Firebug</a> as well.</P>
+
+<P>The <a href="jennybrown8@gmail.com.xpi">WicketSource</a> (click to install) firebug extension lets
+you inspect an element and request that the file be opened in Eclipse.</P>
+ 
+<P>Inspect an element with Firebug, and then flip over to the WicketSource tab to see where in the 
+Java code its Wicket component was created.  Click the hyperlink to send a request to Eclipse to 
+open the file (you'll need the Eclipse plug-in below for that to work).</P>
+
+<P><img src="firebug_extension_screenshot.png"></P>
+	
+
+
+<h2>Eclipse Plug-in</h2>
+
+<P>The <a href="net.simsa.sourceopener_1.0.jar">SourceOpener</a> plugin for Eclipse is the final
+step.  To install, copy the jar into your \eclipse\dropins folder and restart Eclipse.  Then go to the menu "Window", 
+"Show View", "Source Opener", "Recent File Locations", and put the resulting tab wherever you like.</P>
+
+<P>The listener starts up by default, so it should
+be usable immediately.  The first open-file click from Firefox will be briefly slow while the
+search engine initializes; the rest should be quite fast.</P>
+
+<P>Double-click any item in the "Recent File Locations" tab, to reopen to that same line.</P>
+
+<P><img src="eclipse_plugin_screenshot.png"></P>
+
+<P>WicketSource for Firebug and SourceOpener for Eclipse communicate across a port.  You
+can set a different port through the preferences (make sure they both match!) and optionally
+require a password as well.</P>
+
+<P>You can also stop and start the listener in Eclipse (red square to stop, green play button 
+to start). It will pick up preference changes automatically, so you may never need to manually
+stop or start it.</P>
+
+<P>Enjoy!</P>
+
+</div>
+	</body>
+</html>
