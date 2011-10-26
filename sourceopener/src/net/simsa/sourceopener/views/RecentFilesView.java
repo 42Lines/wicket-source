@@ -86,7 +86,18 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 			Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber(), event));
 		} catch (OpenFileException ofe) {
 			event.setResultOfOpen(ofe);
+			// If there were too many matches, let the user pick one and then display it.
+			if (ofe.getReason() == OpenFileException.Reason.TOO_MANY_MATCHES) {
+				// now display a dialog and get the user selection.
+				IPath file = getUserChoice(event);
+				// FIXME : Flow for OK vs Cancel.
+
+				// If they hit okay, then display that; if they hit cancel, just refresh the view (farther below).
+				event.setResultOfOpenOk();
+				Display.getDefault().syncExec(new UIOpenFileMacro(this, file, event.getLineNumber(), event));
+			}
 		}
+		
 		// And whether success or failure, always update the user's view so they
 		// see any changes in error messages on the open event.
 		Display.getDefault().syncExec(new Runnable() {
@@ -96,6 +107,18 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 			}
 		});
 	}
+	
+	
+	/**
+	 * Pops up an interactive dialog to get the user to choose between multiple matching files.
+	 * @param event
+	 * @return The file that the user chose
+	 */
+	private IPath getUserChoice(OpenEvent event)
+	{
+		return null; // FIXME
+	}
+	
 
 	/*
 	 * The content provider class is responsible for providing objects to the

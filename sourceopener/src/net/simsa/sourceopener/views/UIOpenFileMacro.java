@@ -124,7 +124,7 @@ public final class UIOpenFileMacro implements Runnable {
 			throw new OpenFileException(OpenFileException.Reason.EXCEPTION, core);
 		}
 		if (searchFacade.hasMultipleMatches()) {
-			return searchFacade.firstMatch();
+			throw new OpenFileException(OpenFileException.Reason.TOO_MANY_MATCHES);
 			// TODO: There are much nicer ways to handle this than guessing. How
 			// about we ask the user?
 		} else if (searchFacade.hasSingleMatch()) {
