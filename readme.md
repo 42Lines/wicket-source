@@ -1,4 +1,4 @@
-Wicket-Source provides click-through from browser HTML back to the original Wicket components.
+Wicket-Source speeds up wicket development by providing click-through from browser HTML back to the original Wicket components in your source.
 
 ## Features
 
