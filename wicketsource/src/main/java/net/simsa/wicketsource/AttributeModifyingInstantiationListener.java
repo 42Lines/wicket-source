@@ -16,7 +16,10 @@ import org.apache.wicket.application.IComponentInstantiationListener;
  * Usage, in your WicketApplication:
  * <pre>
  * if (getDebugSettings().isLinePreciseReportingOnNewComponentEnabled()) {
- *      addComponentInstantiationListener(new AttributeModifyingInstantiationListener());
+ *      // wicket 1.4
+ *      addComponentInstantiationListener(new AttributeModifyingInstantiationListener()); 
+ * 		// or wicket 1.5
+ * 		getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener()); 
  * }
  * </pre>
  *  
