@@ -1,5 +1,8 @@
 Remaining work to do:
 * For release: Provide how-to-use readme with a web page where the extension can be downloaded/installed.
+* Handling of "" as wicketsource, displaying undefinedundefined is rather ugly
+* Make sure default ports match between this and the eclipse plugin
+ 
 
 Later enhancements:
 * Usability improvement; right-click menu on an element, "Inspect in Eclipse" that takes you directly there.
