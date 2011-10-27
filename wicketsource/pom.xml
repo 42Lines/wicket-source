@@ -4,7 +4,7 @@
 
   <groupId>net.simsa</groupId>
   <artifactId>wicketsource</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.5.1.01</version>
   <packaging>jar</packaging>
 
   <name>wicketsource</name>
