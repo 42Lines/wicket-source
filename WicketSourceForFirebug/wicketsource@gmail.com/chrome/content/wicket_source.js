@@ -111,10 +111,15 @@ TabData.prototype = {
 		 */
 		displayWicket : function() 
 		{
-		    var pieces = this.selectedWicketSource.split(":");
-		    var packageName = pieces[0];
-		    var sourceFile = pieces[1];
-		    var lineNumber = pieces[2];
+			var packageName = "";
+			var sourceFile = "";
+			var lineNumber = "";
+			if (this.selectedWicketSource!="" && this.selectedWicketSource!=":") {
+			    var pieces = this.selectedWicketSource.split(":");
+			    packageName = pieces[0];
+			    sourceFile = pieces[1];
+			    lineNumber = pieces[2];
+			}
 		    var root = this.getWicketSourceDomplateRoot();
 		    root.wicketElement.replace({
 				packageName: packageName, 
