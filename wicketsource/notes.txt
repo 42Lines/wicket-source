@@ -1,0 +1,7 @@
+
+To-Do:
+* Compatibility with Wicket 1.5
+* Improved usage docs for 1.4 versus 1.5
+* Figure out how to properly package this for release, for both version.
+* Check out wicketstuff contribution requirements and discuss.
+
