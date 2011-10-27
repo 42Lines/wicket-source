@@ -114,17 +114,24 @@ TabData.prototype = {
 			var packageName = "";
 			var sourceFile = "";
 			var lineNumber = "";
+			var sourceLine = "";
 			if (this.selectedWicketSource!="" && this.selectedWicketSource!=":") {
 			    var pieces = this.selectedWicketSource.split(":");
-			    packageName = pieces[0];
-			    sourceFile = pieces[1];
-			    lineNumber = pieces[2];
+			    if (pieces.length == 3) { 
+				    packageName = pieces[0];
+				    sourceFile = pieces[1];
+				    lineNumber = pieces[2];
+			    } else if (pieces.length == 2) {
+				    sourceFile = pieces[0];
+				    lineNumber = pieces[1];
+			    }
+			    sourceLine = sourceFile + ":" + lineNumber;
 			}
+			
 		    var root = this.getWicketSourceDomplateRoot();
 		    root.wicketElement.replace({
 				packageName: packageName, 
-		    	sourceFile: sourceFile, 
-		    	lineNumber: lineNumber, 
+				sourceLine: sourceLine,
 		    	wicketId:this.selectedWicketId, 
 		    	wicketsource:this.selectedWicketSource,
 		    	eclipseResult:this.eclipseResult,
@@ -159,7 +166,7 @@ TabData.prototype = {
 									TR(TD("Wicket")),
 									TR(TD({style: "color: gray;"},"wicket:id "),TD(" "),TD("$wicketId")),
 									TR(TD({style: "color: gray;"},"package "),TD(" "),TD("$packageName")),
-									TR(TD({style: "color: gray;"},"source "),TD(" "),TD(A("$sourceFile:$lineNumber")))
+									TR(TD({style: "color: gray;"},"source "),TD(" "),TD(A("$sourceLine")))
 									,
 //							),
 //							P(),

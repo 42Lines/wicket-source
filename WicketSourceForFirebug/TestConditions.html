@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>Test Conditions for WicketSource Firebug Extension</h1>
+
+<P>A p tag with no wicketsource attribute</P>
+
+<P>&nbsp;</P>
+
+<P wicket:id="foo" wicketsource="">A p tag with a present but empty wicketsource</P>
+
+<P>&nbsp;</P>
+
+<span wicketsource=":">A span tag with a : as the wicketsource but no wicket:id (how strange)</span>
+
+<P>&nbsp;</P>
+
+<div wicket:id="foo"  wicketsource="Gallery.java:35" >A div tag with a default-package source file and line number</div>
+
+<P>&nbsp;</P>
+
+<div wicket:id="foo"  wicketsource="net.simsa.foo:Gallery.java:36">A div tag with a package and source and line number</div>
+
+<P>&nbsp;</P>
+
+</body>
+</html>

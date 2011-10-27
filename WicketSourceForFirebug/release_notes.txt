@@ -1,7 +1,5 @@
 Remaining work to do:
 * For release: Provide how-to-use readme with a web page where the extension can be downloaded/installed.
-* Handling of "" as wicketsource, displaying undefinedundefined is rather ugly
- 
 
 Later enhancements:
 * Usability improvement; right-click menu on an element, "Inspect in Eclipse" that takes you directly there.
@@ -9,7 +7,7 @@ Later enhancements:
 
 10/27/2011 - Minor fixes.
  - Made default port match the Eclipse plugin.
- - 
+ - Handling of "" and ":" as wicketsource, and also source file when package is blank, since parsing was incorrect
 
 10/23/2011 - Code overhaul, fixed bugs with multiple tabs, added comments.
  - Fixed handling for multiple tabs since that dorked up firefox when I launched a second tab accidentally.
