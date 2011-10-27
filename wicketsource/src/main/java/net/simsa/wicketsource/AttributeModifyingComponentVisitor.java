@@ -6,7 +6,6 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.Component.IVisitor;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.ComponentModel;
 
 /**
  * Sticks the wicket component name into an html attribute on the tag, which 
@@ -34,15 +33,16 @@ import org.apache.wicket.model.ComponentModel;
  * @author Jenny Brown
  *
  */
-public class AttributeModifyingComponentVisitor implements Serializable {
+public class AttributeModifyingComponentVisitor implements Serializable, IAttributeModifyingComponentVisitor {
 	private final AttributeModifier wicketSourceAttribute;
-	
-
 
 	public AttributeModifyingComponentVisitor() {
 		wicketSourceAttribute = new AttributeModifier("wicketSource", true, new SourceModel());
 	}
 
+	/* (non-Javadoc)
+	 * @see net.simsa.wicketsource.IAttributeModifyingComponentVisitor#addClassNameVisitor(org.apache.wicket.Page)
+	 */
 	public void addClassNameVisitor(Page page)
 	{
 		page.visitChildren(new IVisitor<Component>()
@@ -53,15 +53,5 @@ public class AttributeModifyingComponentVisitor implements Serializable {
 				return IVisitor.CONTINUE_TRAVERSAL;
 			}
 		});
-	}
-	
-	public class SourceModel extends ComponentModel<String> 
-	{
-		@Override
-		protected String getObject(Component component)
-		{
-			InstantiationLocation loc = component.getMetaData(AttributeModifyingInstantiationListener.CONSTRUCTED_AT_KEY);
-			return loc == null ? "" : loc.generateSourceLocationAttribute(component);
-		}
 	}	
 }
