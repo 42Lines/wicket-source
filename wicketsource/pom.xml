@@ -11,7 +11,7 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-	<wicket.version>1.4.18</wicket.version>
+	<wicket.version>1.5.1</wicket.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -26,7 +26,8 @@
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket</artifactId>
-			<version>${wicket.version}</version>
+			<version>1.5.1</version>
+			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wicket</groupId>

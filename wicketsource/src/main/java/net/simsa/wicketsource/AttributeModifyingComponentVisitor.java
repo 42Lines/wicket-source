@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
-import org.apache.wicket.Component.IVisitor;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;	
 import org.apache.wicket.Page;
 
 /**
@@ -37,7 +38,7 @@ public class AttributeModifyingComponentVisitor implements Serializable, IAttrib
 	private final AttributeModifier wicketSourceAttribute;
 
 	public AttributeModifyingComponentVisitor() {
-		wicketSourceAttribute = new AttributeModifier("wicketSource", true, new SourceModel());
+		wicketSourceAttribute = new AttributeModifier("wicketSource", new SourceModel());
 	}
 
 	/* (non-Javadoc)
@@ -45,13 +46,12 @@ public class AttributeModifyingComponentVisitor implements Serializable, IAttrib
 	 */
 	public void addClassNameVisitor(Page page)
 	{
-		page.visitChildren(new IVisitor<Component>()
+		page.visitChildren(new IVisitor<Component, Void>()
 		{
-			public Object component(final Component component)
+			public void component(Component component, IVisit<Void> visit)
 			{
 				component.add(wicketSourceAttribute);
-				return IVisitor.CONTINUE_TRAVERSAL;
 			}
 		});
-	}	
+	}
 }
