@@ -23,9 +23,6 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
  * 
  */
 public final class UIOpenFileMacro implements Runnable {
-	// Logger log = Logger.getLogger("UIOpenFileMacro");
-	// java.util.logging.Logger
-
 	private final RecentFilesView recentFilesView;
 	private IPath fileToOpen;
 	private int lineNumber;
@@ -36,14 +33,12 @@ public final class UIOpenFileMacro implements Runnable {
 	 * to open the file.
 	 * 
 	 * @param recentFilesView
-	 * @param fileToOpen
-	 * @param lineNumber
 	 * @param event
 	 */
-	public UIOpenFileMacro(RecentFilesView recentFilesView, IPath fileToOpen, int lineNumber, OpenEvent event) {
+	public UIOpenFileMacro(RecentFilesView recentFilesView, OpenEvent event) {
 		this.recentFilesView = recentFilesView;
-		this.fileToOpen = fileToOpen;
-		this.lineNumber = lineNumber;
+		this.fileToOpen = event.getFile();
+		this.lineNumber =  event.getLineNumber();
 		this.event = event;
 	}
 

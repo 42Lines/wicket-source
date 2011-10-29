@@ -161,7 +161,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 			}
 			if (matches.length == 1) {
 				event.setFile(matches[0]);
-				new UIOpenFileMacro(this, event.getFile(), event.getLineNumber(), event).run();
+				new UIOpenFileMacro(this, event).run();
 				return;
 			}
 
@@ -182,7 +182,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 			}
 			event.setFile((IPath) choices[0]);
 			event.setResultOfOpenOk();
-			new UIOpenFileMacro(this, event.getFile(), event.getLineNumber(), event).run();
+			new UIOpenFileMacro(this, event).run();
 			
 		} catch (OpenFileException ofe) {
 			event.setResultOfOpen(ofe);
