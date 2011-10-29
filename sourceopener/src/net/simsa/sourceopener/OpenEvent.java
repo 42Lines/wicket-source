@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import net.simsa.sourceopener.views.OpenFileException;
 
+import org.eclipse.core.runtime.IPath;
+
 /**
  * Represents a request to open a file and jump to a specific location in the
  * source.
@@ -13,11 +15,13 @@ import net.simsa.sourceopener.views.OpenFileException;
  */
 public class OpenEvent {
 
+	private OpenFileException exception;
 	private String resultOfOpen;
 	private String projectName;
 	private String packageName;
 	private String fileName;
 	private int lineNumber;
+	private IPath file;
 
 	public String toString()
 	{
@@ -98,6 +102,27 @@ public class OpenEvent {
 		return resultOfOpen;
 	}
 
+	public IPath getFile()
+	{
+		return file;
+	}
+
+	public void setFile(IPath file)
+	{
+		this.file = file;
+	}
+
+	public OpenFileException getException()
+	{
+		return exception;
+	}
+
+	public void setException(OpenFileException exception)
+	{
+		this.exception = exception;
+		if (exception != null) exception.printStackTrace();
+	}
+
 	public void setResultOfOpen(String resultOfOpen)
 	{
 		this.resultOfOpen = resultOfOpen;
@@ -108,8 +133,15 @@ public class OpenEvent {
 		this.resultOfOpen = "OK";
 	}
 	
+	public void reset()
+	{
+		setResultOfOpenOk();
+		exception = null;
+	}
+	
 	public void setResultOfOpen(OpenFileException ofe)
 	{
+		setException(ofe);
 		switch (ofe.getReason()) {
 			case FILE_NOT_FOUND :
 				this.resultOfOpen = "File could not be found in workspace.";

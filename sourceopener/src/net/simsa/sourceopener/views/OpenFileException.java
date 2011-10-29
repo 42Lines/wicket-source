@@ -23,6 +23,7 @@ public class OpenFileException extends Exception {
 
 	public Reason getReason()
 	{
+		if (reason == null) { return Reason.EXCEPTION; }
 		return reason;
 	}
 

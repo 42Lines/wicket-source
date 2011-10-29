@@ -1,11 +1,9 @@
 package net.simsa.sourceopener.views;
 
 import net.simsa.sourceopener.OpenEvent;
-import net.simsa.sourceopener.PackageFileSearchRequester;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -63,6 +61,9 @@ public final class UIOpenFileMacro implements Runnable {
 
 	private void openEditor() throws OpenFileException
 	{
+		if (fileToOpen == null) {
+			throw new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND);
+		}
 		try {
 			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(fileToOpen);
 			if (ifile == null) {
@@ -110,28 +111,5 @@ public final class UIOpenFileMacro implements Runnable {
 		}
 	}
 
-	static IPath searchForFile(OpenEvent event) throws OpenFileException
-	{
-		return searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""));
-	}
-
-	static IPath searchForFile(String packageName, String fileName) throws OpenFileException
-	{
-		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(packageName, fileName);
-		try {
-			searchFacade.searchAndWait();
-		} catch (CoreException core) {
-			throw new OpenFileException(OpenFileException.Reason.EXCEPTION, core);
-		}
-		if (searchFacade.hasMultipleMatches()) {
-			throw new OpenFileException(OpenFileException.Reason.TOO_MANY_MATCHES);
-			// TODO: There are much nicer ways to handle this than guessing. How
-			// about we ask the user?
-		} else if (searchFacade.hasSingleMatch()) {
-			return searchFacade.singleMatch();
-		} else {
-			throw new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND);
-		}
-	}
 
 }
