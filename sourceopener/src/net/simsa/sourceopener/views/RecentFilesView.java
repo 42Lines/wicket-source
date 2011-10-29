@@ -43,12 +43,21 @@ import org.eclipse.ui.part.ViewPart;
 
 /**
  * This class provides a view tab showing files recently requested to be opened.
- * Double-clicking a recent file should re-open it to the specified location.
+ * Double-clicking a recent file should re-open it to the specified location and
+ * refresh any error messages based on success/fail.
  * 
- * From the Eclipse plug-in wizard: The view shows data obtained from the model.
- * The sample creates a dummy model on the fly, but a real implementation would
- * connect to the model available either in this or another plug-in (e.g. the
- * workspace). The view is connected to the model using a content provider.
+ * In case multiple files match the package+class, it will prompt the user with
+ * a forced-choice dialog to choose just one match (or if they cancel, it will
+ * mark the event with an error message accordingly).
+ * 
+ * Start/Stop buttons are provided for the http socket listener, and a clear all
+ * events button for cleaning up the display.
+ * 
+ * General information from the Eclipse plug-in wizard: The view shows data
+ * obtained from the model. The sample creates a dummy model on the fly, but a
+ * real implementation would connect to the model available either in this or
+ * another plug-in (e.g. the workspace). The view is connected to the model
+ * using a content provider.
  * 
  * The view uses a label provider to define how model objects should be
  * presented in the view. Each view can present the same model objects using
@@ -193,16 +202,9 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 	private IPath[] searchForFile(OpenEvent event) throws OpenFileException
 	{
-		return searchForFile(event.getPackageName(), event.getFileName().replace(".java", ""));
-	}
-
-	private IPath[] searchForFile(String packageName, String fileName) throws OpenFileException
-	{
-		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(packageName, fileName);
+		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(event.getPackageName(), event.getFileName().replace(".java", ""));
 		searchFacade.searchAndWait(this);
-		IPath[] matches = searchFacade.allMatches();
-
-		return matches;
+		return searchFacade.allMatches();
 	}
 
 	/*
