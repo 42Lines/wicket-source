@@ -120,7 +120,6 @@ public class OpenEvent {
 	public void setException(OpenFileException exception)
 	{
 		this.exception = exception;
-		if (exception != null) exception.printStackTrace();
 	}
 
 	public void setResultOfOpen(String resultOfOpen)
