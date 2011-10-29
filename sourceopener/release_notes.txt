@@ -1,9 +1,11 @@
 Remaining:
-* Provide user settings for: projects to search
-* Modify search to just look in the user-specified projects (should reduce multiple-hits).
-* Produce a UI dialog and ask for a user to choose in cases where multiple hits occur; modeled after Open Type dialog.
-* Test thoroughly with error handling for non-existent files.
-* Package the build properly for release on a Eclipse update site. Check into version management.
+* Package the build properly for release on a Eclipse update site. Check into version management / auto-updates.
+
+10/29/2011 - Added dialog to ask user which file to open in case of multiple hits.
+ - New multiple hits choice dialog
+ - Drastically simplifed search match logic and error handling
+ - General code cleanup
+ - Added dispose() coverage for button images
 
 10/23/2011 - Added preferences and automatic server restart on change.  Added password. 
  - Added preferences panel as plain text. Currently sets port number, password required, password text, # recent files to list.
