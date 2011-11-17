@@ -9,6 +9,6 @@ public class SourceModel extends ComponentModel<String>
 	protected String getObject(Component component)
 	{
 		InstantiationLocation loc = component.getMetaData(AttributeModifyingInstantiationListener.CONSTRUCTED_AT_KEY);
-		return loc == null ? "" : loc.generateSourceLocationAttribute(component);
+		return loc == null ? null : loc.generateSourceLocationAttribute(component);
 	}
 }

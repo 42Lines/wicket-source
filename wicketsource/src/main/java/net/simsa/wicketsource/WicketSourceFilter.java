@@ -16,9 +16,11 @@ import org.apache.wicket.util.string.Strings;
 public class WicketSourceFilter {
 
 	/** The notification method where instantiation listeners are called. */
-	private static final String NOTIFY_COMPONENT_INSTANTIATION_LISTENERS = "org.apache.wicket.Application.notifyComponentInstantiationListeners";
+	private static final String NOTIFY_COMPONENT_INSTANTIATION_LISTENERS = "org.apache.wicket.application.ComponentInstantiationListenerCollection.onInstantiation";
 	/** When we hit this as the component origin, we know we won't get anything useful out of it.  */
 	private static final String WICKET_PAGE_ON_RENDER = "org.apache.wicket.Page.onRender";
+	/** When we hit this as the component origin, we know we won't get anything useful out of it.  */
+	private static final String WICKET_PAGE_ON_BEFORE_RENDER = "org.apache.wicket.Page.onBeforeRender";
 
 	/**
 	 * Human readable class name for the type of component this is (Label, BookmarkablePageLink, whatever).
@@ -75,7 +77,9 @@ public class WicketSourceFilter {
 				// For internal wicket classes, we'll typically see the line immediately after the notify call.
 				if (i + 1 < elements.size()) {
 					wicketInternalOrigin = elements.get(i + 1);
-					if (wicketInternalOrigin.toString().indexOf(WicketSourceFilter.WICKET_PAGE_ON_RENDER) != -1) {
+					if ((wicketInternalOrigin.toString().indexOf(WicketSourceFilter.WICKET_PAGE_ON_RENDER) != -1) ||
+						(wicketInternalOrigin.toString().indexOf(WicketSourceFilter.WICKET_PAGE_ON_BEFORE_RENDER) != -1))
+					{
 						wicketInternalOrigin = null; // useless result.
 					}
 				}
