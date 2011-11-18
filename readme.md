@@ -10,14 +10,15 @@ Wicket-Source speeds up wicket development by providing click-through from brows
 
 See the [Wiki page](https://github.com/42Lines/wicket-source/wiki) for deeper details.
 
-1. Install the wicket-source jar into your project using maven or your preferred build tool.  Add an `AttributeModifyingInstantiationListener` in your `WicketApplication` class with `addComponentInstantionListener`.  Add an `AttributeModifyingComponentVisitor` to your base `Page` class for your application, and make it a visitor to the page during `onBeforeRender()`. `locationTagger.addClassNameVisitor(this);`
+1. Install the wicket-source jar into your project using maven or your preferred build tool.  Add an `AttributeModifyingInstantiationListener` in your `WicketApplication` class as a component instantiation listener.  Add an `AttributeModifyingComponentVisitor` in your `WicketApplication` class as a post-onBeforeRender listener.
 
 Note that the syntax is slightly different depending on your wicket version.
 
      addComponentInstantiationListener(new AttributeModifyingInstantiationListener()); // wicket 1.4
+     addPostComponentOnBeforeRenderListener(new AttributeModifyingComponentVisitor()); // wicket 1.4
      // or
      getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener()); // wicket 1.5
-
+     getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor()); // wicket 1.5
 
 2. Get Firebug first if you don't have it; then install the Firefox extension by clicking on the .xpi file.
 
@@ -26,5 +27,5 @@ Note that the syntax is slightly different depending on your wicket version.
 
 ## Notes
 
-This is very young software and still heavily in testing/development.  Feedback welcome, reliability uncertain - for a while yet, anyway. 
+This is very young software and still heavily in testing/development.  Feedback welcome. 
 

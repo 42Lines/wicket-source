@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
+import org.apache.wicket.application.IComponentOnBeforeRenderListener;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;	
 import org.apache.wicket.Page;
@@ -17,33 +18,23 @@ import org.apache.wicket.Page;
  * tags images, labels, and links. Some of that is noise but some may be useful
  * in locating a component in the source.
  * 
- * Usage, in the base Page class for the application: 
+ * Usage, in the application class: 
  * <pre>
- * private AttributeModifyingComponentVisitor locationTagger = new AttributeModifyingComponentVisitor(); // member variable
- * 
- * 	@Override
- *	protected void onBeforeRender()
- *	{
- *		super.onBeforeRender(); // goes first so repeating views/grids/datatables have rendered children.
- *		if (getApplication().getDebugSettings().isOutputMarkupContainerClassName()) {
- *			locationTagger.addClassNameVisitor(this);
- *		}
- *	}
+ * if (yourDebugCondition) {
+ * 	 getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor());
+ * }
  * </pre>
  * 
  * @author Jenny Brown
  *
  */
-public class AttributeModifyingComponentVisitor implements Serializable, IAttributeModifyingComponentVisitor {
+public class AttributeModifyingComponentVisitor implements Serializable, IAttributeModifyingComponentVisitor, IComponentOnBeforeRenderListener {
 	private final AttributeModifier wicketSourceAttribute;
 
 	public AttributeModifyingComponentVisitor() {
 		wicketSourceAttribute = new AttributeModifier("wicketSource", new SourceModel());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.simsa.wicketsource.IAttributeModifyingComponentVisitor#addClassNameVisitor(org.apache.wicket.Page)
-	 */
 	public void addClassNameVisitor(Page page)
 	{
 		page.visitChildren(new IVisitor<Component, Void>()
@@ -54,4 +45,16 @@ public class AttributeModifyingComponentVisitor implements Serializable, IAttrib
 			}
 		});
 	}
+
+	public void onBeforeRender(Component component)
+	{
+		if (!(component instanceof Page)) {
+			return;
+		}
+
+		addClassNameVisitor((Page)component);
+	}
+	
+	
+	
 }
