@@ -16,17 +16,10 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket</artifactId>
-			<version>1.5.1</version>
+			<version>${wicket.version}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
@@ -34,7 +27,5 @@
 			<artifactId>wicket-extensions</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-    
-    
   </dependencies>
 </project>
