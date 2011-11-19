@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.ftlines</groupId>
+  <groupId>net.ftlines.wicketsource</groupId>
   <artifactId>wicketsource</artifactId>
-  <version>1.5.1.02-SNAPSHOT</version>
+  <version>1.5.1.04-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>wicketsource</name>
