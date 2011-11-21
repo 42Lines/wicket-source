@@ -1,0 +1,14 @@
+{
+  "name": "WicketSource",
+  "version": "1.0",
+  "description": "Adds a Developer Tools sidebar with wicket attributes for the selected DOM element.",
+  "devtools_page": "devtools.html",
+   "icons": { 
+   	"48": "icon48.png", 
+   	"48": "icon64.png", 
+   	"128": "icon128.png"  
+  },
+  "permissions":  [
+    "experimental"
+  ]
+}
