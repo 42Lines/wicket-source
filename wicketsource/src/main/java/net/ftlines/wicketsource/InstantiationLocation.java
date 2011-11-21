@@ -1,8 +1,8 @@
-package net.simsa.wicketsource;
+package net.ftlines.wicketsource;
 
 import java.io.Serializable;
 
-import net.simsa.wicketsource.AttributeModifyingInstantiationListener.UnsupportedComponentException;
+import net.ftlines.wicketsource.AttributeModifyingInstantiationListener.UnsupportedComponentException;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.MarkupException;

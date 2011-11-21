@@ -1,4 +1,4 @@
-package net.simsa.wicketsource;
+package net.ftlines.wicketsource;
 
 import org.apache.wicket.Application;
 
