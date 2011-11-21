@@ -4,7 +4,8 @@
 
 	<groupId>net.ftlines.wicketsource</groupId>
 	<artifactId>wicketsource</artifactId>
-	<version>1.5.1_03</version>
+	<version>1.5.1.04-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
 	<name>wicketsource</name>
 	<url>http://maven.apache.org</url>
