@@ -1,7 +1,9 @@
 
 To-Do:
-* Compatibility with Wicket 1.5
-* Improved usage docs for 1.4 versus 1.5
-* Figure out how to properly package this for release, for both version.
+* Chrome plugin.
 * Check out wicketstuff contribution requirements and discuss.
 
+
+Deploying:
+mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03.jar -DpomFile=pom.xml -Dpackaging=jar
+mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03-sources.jar -DpomFile=pom.xml -Dpackaging=jar
