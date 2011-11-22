@@ -1,7 +1,4 @@
-
-
 Milestones:
-1* Basic stub app works, displays correct titles.
 2* wicketsource attribute picked up from inspected element, and displayed in sidebar as package and class.
 3* wicket:id attribute picked up and displayed.
 4* handling of elements which have no wicketsource attribute
@@ -12,3 +9,7 @@ Milestones:
 9* icon and UI branding artifacts
 10* packaging script / automation
 11* cleanup, testing, and documentation
+
+Done
+1* Basic stub app works, displays correct titles. (11/21)
+
