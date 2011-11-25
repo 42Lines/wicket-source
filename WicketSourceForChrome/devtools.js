@@ -36,6 +36,9 @@
 // The function below is executed in the context of the inspected
 // page because it is called from sidebar.setExpression.
 var page_getProperties = function() {
+	function Message()  {
+		this.message = "Select a node with a wicketsource attribute to see details.";
+	}
 
 	// Data container.
 	function WicketProperties() {
@@ -50,6 +53,9 @@ var page_getProperties = function() {
 		var wp = new WicketProperties();
 		var sourceFile = "";
 		var lineNumber = "";
+		if (($0 == null) || ($0.attributes.wicketsource == undefined)) {
+			return wp;
+		}
 		var pieces = $0.attributes.wicketsource.value.split(":");
 		if (pieces.length == 3) {
 			wp.packageName = pieces[0];
@@ -85,8 +91,10 @@ var page_getProperties = function() {
 			copy[props[i]] = data[props[i]];
 		return copy;
 	}
-	;
 
+	if (($0 == null) || ($0.attributes.wicketsource == null)) {
+		return shallowCopy(new Message());
+	}
 	var wp = parseNode();
 	return shallowCopy(wp);
 };
@@ -105,6 +113,7 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource",
 				sidebar.setExpression("(" + page_getProperties.toString()
 						+ ")()", "Component Properties");
 			}
+			updateElementProperties();
 			chrome.experimental.devtools.panels.elements.onSelectionChanged
 					.addListener(updateElementProperties);
 			
