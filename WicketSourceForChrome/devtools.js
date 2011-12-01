@@ -1,16 +1,7 @@
-//(function() {
-
-
-	
 chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", function(sidebar) {
-	
-	var currentWP = null;
 	
 	function update() {
 		sidebar.setExpression("(" + page_getProperties.toString() + ")()", "Component Properties");
-//		for (var key in chrome.experimental.devtools.panels.elements) { 
-//			alert("key " + key + " valu " + chrome.experimental.devtools.panels.elements[key] );
-//		}
 	}
 
 	// The function below is executed in the context of the inspected
@@ -26,9 +17,6 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 			this.wicketId = null;
 			this.packageName = null;
 			this.sourceLine = null;
-			this.debug = null;
-			this.eclipseResult = null;
-
 		}
 		function shallowCopy(data) {
 			// Make a shallow copy with a null prototype, so that sidebar does not
@@ -41,6 +29,8 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 				copy[props[i]] = data[props[i]];
 			return copy;
 		}
+		
+		// Parses the wicketsource attribute into a json object.
 		function parseNode() {
 			var wp = new WicketProperties();
 			var sourceFile = "";
@@ -66,6 +56,7 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 			return wp;
 		}
 
+		// Creates an http url for the Eclipse call. Not yet used due to no UI hooks.
 		function makeUrl() {
 			var url = "http://" + "localhost" + ":" + 9123 + "/open?src="
 					+ encodeURIComponent(this.selectedWicketSource) + "&p="
@@ -73,26 +64,16 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 			return url;
 		}
 
-
+		// Gets the currently selected node, and if it's not a wicketsource node, shows a default message.
 		if (($0 == null) || ($0.attributes.wicketsource == null)) {
 			return shallowCopy(new Message());
 		}
-		
+
+		// If it is a wicketsource node, parse it and return the json for display.
 		return shallowCopy(parseNode());
 	}
 
-	function _goEclipse(event) {
-		event.stopPropagation();
-		this.expanded = true;
-	}
-	
 	update();
 	chrome.experimental.devtools.panels.elements.onSelectionChanged.addListener(update);
-	
-//	chrome.extension.sendRequest({greeting: "hello"}, function(response) {
-//		  alert(response.farewell);
-//	});
-//	var button = new ExtensionButton('goeclipse', 'go_icon.png', "Go Eclipse", false);
 });
 
-//})();

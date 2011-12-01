@@ -3,7 +3,6 @@
   <head>
     <title>Background Page</title>
     <script type="text/javascript">
-    // All untested, basically ignorable / unused.
     
 	// A generic onclick callback function for context menus.
 	function genericOnClick(info, tab) {
@@ -12,67 +11,8 @@
 	  alert("tab: " + JSON.stringify(tab));
 		
 	}	
-	
-	chrome.extension.onRequest.addListener(
-			  function(request, sender, sendResponse) {
-			    alert(sender.tab ?
-			                "from a content script:" + sender.tab.url :
-			                "from the extension");
-			    if (request.greeting == "hello")
-			      sendResponse({farewell: "goodbye"});
-			    else
-			      sendResponse({}); // snub them.
-			  });
-	
 	var menuid = chrome.contextMenus.create({"title": "Go to Eclipse", "onclick": genericOnClick, "contexts":["all"]});
     
-    
-    function bgTest() {
-    	alert("BG Test 1");
-    	alert("BG Test 2");
-    	alert("BG Test 3");
-    	
-    }
-
-    function printStuff() {
-    	// var section = document.querySelector('body>section');
-    	var jennyDiv = document.querySelector('body');
-
-    	this.element = document.createElement("div");
-    	this.element.className = "pane";
-    	jennyDiv.appendChild(this.element);
-
-    	this.titleElement = document.createElement("div");
-    	this.titleElement.className = "title";
-    	this.titleElement.tabIndex = 0;
-
-    	this.bodyElement = document.createElement("div");
-    	this.bodyElement.className = "body";
-    	this.bodyElement.textContent = "Testing JS Text Content";
-
-    	this.element.appendChild(this.titleElement);
-    	this.element.appendChild(this.bodyElement);
-
-    	this.messageElement = document.createTextNode("Something");
-    	this.bodyElement.appendChild(this.messageElement);
-
-    	document.appendChild(this.element);
-
-    	// The following probably needs to be in background.html or
-    	// background.js
-    	var addButton = document.createElement("button");
-    	addButton.className = "pane-title-button goeclipse";
-    	addButton.id = "go-eclipse-button-id";
-    	// addButton.title = WebInspector.UIString("View in Eclipse");
-    	addButton.title = "Foo";
-    	// addButton.addEventListener("click", _goEclipse.bind(this),
-    	// false);
-    	this.titleElement.appendChild(addButton);
-    }
-    
-//	var views = chrome.extension.getViews();
-//	alert(views[0]);
-
     </script>
   </head>
   <body>
