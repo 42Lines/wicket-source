@@ -5,7 +5,7 @@
 	height: 50px;
 	text-align: center;
 	display: block;
-	position: absolute;
+	position: fixed;
 	top: 60px;
 	right: 20px;
 }
@@ -25,4 +25,8 @@
 	color: blue;
 	font-family: "Courier New", monospace;
 	padding: 10px;
+}
+
+#wicket-source-chrome-script {
+	display: none;
 }

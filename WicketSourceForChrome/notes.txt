@@ -12,5 +12,4 @@ Done
 2* wicketsource attribute picked up from inspected element, and displayed in sidebar as package and class.
 3* wicket:id attribute picked up and displayed.
 4* handling of elements which have no wicketsource attribute
-5* introduction of clickable link with default port number and server
-
+5* introduction of clickable link with default port number and server. using jsonp but as an img tag not script.

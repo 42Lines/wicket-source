@@ -25,13 +25,14 @@ $(document).ready(function() {
 
 function ajaxFetch(url) {
 	// xmlHttpRequest doesn't work due to cross-site security protections, so using jsonp instead.
+	// but since we don't care about the result, and actively don't need to inject it,
+	// use an image tag instead of a script tag to trigger the request.
 	var script = document.getElementById("wicket-source-chrome-script");
 	if (script) {
 		document.body.removeChild(script);
 	}
-	script = document.createElement("script");
+	script = document.createElement("img");
 	script.setAttribute("id", "wicket-source-chrome-script");
-	script.setAttribute("type", "text/javascript");
 	script.setAttribute("src", url);
 	document.body.appendChild(script);
 }
