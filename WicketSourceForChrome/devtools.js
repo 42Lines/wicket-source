@@ -57,6 +57,15 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 				wp.wicketId = null;
 			}
 			wp.eclipseUrl = "http://" + "localhost" + ":" + 9123 + "/open?jsonp=y&src=" + encodeURIComponent($0.attributes.wicketsource.value);
+
+			// Find the hidden data div we're using. The content script should have already created it.
+			var wicketsourceDiv = document.getElementById(hiddenDivId);
+			
+			// But if our content scripts were disabled, say so.
+			if (!wicketsourceDiv) { 
+				wp.wmessage="Unfamiliar website; click-through disabled for security.";
+			}			
+			
 			return wp;
 		}
 		
@@ -64,6 +73,11 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 		{
 			// Find the hidden data div we're using. The content script should have already created it.
 			var wicketsourceDiv = document.getElementById(hiddenDivId);
+			
+			// If our content scripts are disabled, just bail.
+			if (!wicketsourceDiv) { 
+				return;
+			}
 			
 			// Empty out any children from previous uses.
 			blankDataDiv();
