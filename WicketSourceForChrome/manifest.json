@@ -3,6 +3,7 @@
   "version": "1.0",
   "description": "Adds a Developer Tools sidebar with wicket attributes for the selected DOM element.",
   "devtools_page": "devtools.html",
+  "options_page": "options.html",
   "background_page" : "background.html",
    "icons": { 
     "16": "go_icon.png",
@@ -18,6 +19,6 @@
     }
   ],  
   "permissions":  [
-    "experimental", "devtools_page", "contextMenus", "http://localhost/"
+    "experimental", "devtools_page", "contextMenus", "http://*/*"
   ]
 }

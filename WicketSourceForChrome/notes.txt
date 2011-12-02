@@ -1,8 +1,4 @@
 Milestones:
-6* options configuration to set the port number
-7* options configuration to set a password and checkbox to use it
-8* modification of click link to use the password
-9* icon and UI branding artifacts
 10* packaging script / automation
 11* cleanup, testing, and documentation
 12* lock down content security policy https://mikewest.org/2011/10/secure-chrome-extensions-content-security-policy
@@ -13,3 +9,7 @@ Done
 3* wicket:id attribute picked up and displayed.
 4* handling of elements which have no wicketsource attribute
 5* introduction of clickable link with default port number and server. using jsonp but as an img tag not script.
+6* options configuration to set the port number
+7* options configuration to set a password
+8* modification of click link to use the password
+9* icon and UI branding artifacts

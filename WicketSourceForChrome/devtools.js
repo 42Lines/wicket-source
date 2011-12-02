@@ -3,7 +3,7 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 	// The function below is executed in the context of the inspected
 	// page because it is called from sidebar.setExpression. Because it is
 	// in a different context, functions and variables used must be accessible from there.
-	function page_getProperties() {
+	function page_getProperties(server, port, password) {
 		var hiddenDivId = "wicket-source-chrome-div";
 		var hiddenNodeId = "wicket-source-chrome-data";
 		
@@ -56,7 +56,8 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 			} else {
 				wp.wicketId = null;
 			}
-			wp.eclipseUrl = "http://" + "localhost" + ":" + 9123 + "/open?jsonp=y&src=" + encodeURIComponent($0.attributes.wicketsource.value);
+			
+			wp.eclipseUrl = "http://" + server + ":" + port + "/open?src=" + encodeURIComponent($0.attributes.wicketsource.value) + "&p=" + password;
 
 			// Find the hidden data div we're using. The content script should have already created it.
 			var wicketsourceDiv = document.getElementById(hiddenDivId);
@@ -85,7 +86,7 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 			// Create the new data contents based on currently selected wicketsource node.
 			var nodeA = document.createElement("a");
 			nodeA.setAttribute("id", hiddenNodeId);
-			nodeA.setAttribute("href", "javascript:ajaxFetch('" + wp.eclipseUrl +"');");
+			nodeA.setAttribute("href", "javascript:ajaxFetch('" + wp.eclipseUrl+"');");
 			nodeA.setAttribute("data", wp.packageName + ":" + wp.sourceLine);
 			nodeA.setAttribute("target", "_wicketsource_chrome_eclipse");
 			nodeA.appendChild(document.createTextNode(wp.sourceLine));
@@ -123,10 +124,30 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 	}
 
 	
+	function getServer() {
+		if (localStorage["server"]) {
+			return localStorage["server"];
+		}
+		return "localhost";
+	}
+	function getPort() {
+		if (localStorage["port"]) {
+			return localStorage["port"];
+		}
+		return "9123";
+	}
+	function getPassword() {
+		if (localStorage["password"]) {
+			return localStorage["password"];
+		}
+		return "";
+	}	
+	
+	
 	// Listener event callback initiates "inspected-page context" data retrieval 
 	// (which understands currently selected node in the Inspect Element tab). 
 	function update() {
-		sidebar.setExpression("(" + page_getProperties.toString() + ")()", "Component Properties");
+		sidebar.setExpression("(" + page_getProperties.toString() + ")('" + getServer() + "','" + getPort() + "','" + getPassword() + "')", "Component Properties");
 	}
 	
 	// On the way in the first time, show an instructional message.

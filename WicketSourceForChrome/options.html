@@ -1,0 +1,127 @@
+<html>
+<head><title>WicketSource Options</title></head>
+<script type="text/javascript">
+
+// Saves options to localStorage.
+function save_options() {
+  localStorage["server"] = document.getElementById("server").value;
+  localStorage["port"] = document.getElementById("port").value;
+  localStorage["password"] = document.getElementById("password").value;
+  
+  // Update status to let user know options were saved.
+  var status = document.getElementById("status");
+  status.innerHTML = "&nbsp;Saved.&nbsp;";
+  setTimeout(function() {
+    status.innerHTML = "";
+  }, 750);
+}
+
+// Restores select box state to saved value from localStorage.
+function restore_options() {
+  if (! localStorage["server"]) {
+	  document.getElementById("server").value = "localhost";
+	  document.getElementById("port").value = "9123";
+	  document.getElementById("password").value = "";
+	  return;
+  }
+  
+  document.getElementById("server").value = localStorage["server"];
+  document.getElementById("port").value = localStorage["port"];
+  document.getElementById("password").value = localStorage["password"];
+  
+}
+
+</script>
+<style type="text/css">
+.logo {
+  vertical-align: middle;
+  float: right;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.optionsTitle { 
+  font-family: sans-serif;
+  font-size: large;
+  margin-top: 20px;
+}
+.optionsDiv {
+  width: 500px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  background-color: #F3F3F3;
+  border: #555555 solid 1px;
+}
+.optionsTable {
+  padding: 10px;
+  font-family: sans-serif;
+  font-size: small;
+}
+.warning {
+  font-family: sans-serif;
+  font-size: small;
+  color: #666666;
+}
+.optionLabel {
+  font-weight: bold;
+}
+#status {
+  background-color: #99FF99;
+  width: 90%;
+  font-family: sans-serif;
+  font-size: medium;
+}
+
+</style>
+<body onload="restore_options()">
+
+<p>&nbsp;</p>
+
+<center>
+<div class="optionsDiv">
+<table width="90%">
+<tr>
+<td>
+<h3 class="optionsTitle">Wicket-Source Options</h3>
+</td>
+<td valign="top">
+<img src="icon64.png" class="logo">
+</td>
+</tr>
+<tr><td colspan="2">
+<p>
+<span class="warning">
+Configuration options point to the SourceOpener eclipse plugin, which will open a Java source
+file upon receiving a click from your browser extension. You may optionally require a 
+password in SourceOpener, and provide that password here. By default, server runs on localhost:9123.</span>
+</p>
+</td></tr>
+
+</table>
+
+<table cellspacing="0" class="optionsTable" align="center">
+<tr><td colspan=2 class="optionLabel" style="padding-bottom: 10px;">SourceOpener Eclipse Settings</td></tr>
+<tr><td class="optionLabel">Server:</td><td><input type="text" id="server" name="server"></td></tr>
+<tr><td class="optionLabel">Port:</td><td><input type="text" id="port" name="port"></td></tr>
+<tr><td class="optionLabel" valign="top">Password:
+</td>
+<td><input type="text" id="password" name="password"><br>
+</td></tr>
+<tr><td colspan=2><span class="warning">Warning: password will be visible and<br>will be transmitted as plain text.</span></td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr><td colspan=2 align="center">
+<div><button onclick="save_options()">Save Preferences</button> </div>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr><td colspan=2><div id="status"></div></td></tr>
+</table>
+
+
+<P align="center" class="warning">See the <a href="https://github.com/42Lines/wicket-source/wiki" target="_new">Wicket-Source Wiki</a> for more information on this project.</P>
+
+
+</div>
+</center>
+
+
+</body>
+</html>
