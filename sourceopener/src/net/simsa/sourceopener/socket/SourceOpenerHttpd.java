@@ -44,6 +44,9 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 			}
 			OpenEvent event = new OpenEvent(uri, params);
 			httpService.onOpenEvent(event);
+			if ("y".equals(params.getProperty("jsonp"))) {
+				return new Response(HTTP_OK, MIME_JS, "function wicketSourceEclipseResult() { var eclipseStatus='OK'; }");
+			}
 			return new Response(HTTP_OK, MIME_HTML, "<html><body>OK</body></html>");
 		} catch (IllegalArgumentException ie) {
 			return new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "Bad Request: Invalid uri.");
