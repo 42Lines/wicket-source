@@ -1,10 +1,4 @@
-
-
 Milestones:
-1* Basic stub app works, displays correct titles.
-2* wicketsource attribute picked up from inspected element, and displayed in sidebar as package and class.
-3* wicket:id attribute picked up and displayed.
-4* handling of elements which have no wicketsource attribute
 5* introduction of clickable link with default port number
 6* options configruation to set the port number
 7* options configuration to set a password and checkbox to use it
@@ -12,3 +6,10 @@ Milestones:
 9* icon and UI branding artifacts
 10* packaging script / automation
 11* cleanup, testing, and documentation
+12* lock down content security policy https://mikewest.org/2011/10/secure-chrome-extensions-content-security-policy
+
+Done
+1* Basic stub app works, displays correct titles. (11/21)
+2* wicketsource attribute picked up from inspected element, and displayed in sidebar as package and class.
+3* wicket:id attribute picked up and displayed.
+4* handling of elements which have no wicketsource attribute
