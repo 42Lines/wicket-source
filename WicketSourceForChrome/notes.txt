@@ -1,6 +1,5 @@
 Milestones:
-5* introduction of clickable link with default port number
-6* options configruation to set the port number
+6* options configuration to set the port number
 7* options configuration to set a password and checkbox to use it
 8* modification of click link to use the password
 9* icon and UI branding artifacts
@@ -13,3 +12,5 @@ Done
 2* wicketsource attribute picked up from inspected element, and displayed in sidebar as package and class.
 3* wicket:id attribute picked up and displayed.
 4* handling of elements which have no wicketsource attribute
+5* introduction of clickable link with default port number and server
+

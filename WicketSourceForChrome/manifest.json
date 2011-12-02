@@ -10,7 +10,14 @@
    	"64": "icon64.png", 
    	"128": "icon128.png"  
   },
+  "content_scripts": [
+    {
+      "matches": ["file://*/*", "http://*/*", "https://*/*"],
+      "js": ["jquery-ui/js/jquery-1.6.2.min.js", "jquery-ui/js/jquery-ui-1.8.16.custom.min.js", "content.js"],
+      "css": ["content.css"]
+    }
+  ],  
   "permissions":  [
-    "experimental", "http://*/*", "devtools_page", "contextMenus"
+    "experimental", "devtools_page", "contextMenus", "http://localhost/"
   ]
 }

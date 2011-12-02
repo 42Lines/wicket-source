@@ -2,12 +2,10 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 
 	// The function below is executed in the context of the inspected
 	// page because it is called from sidebar.setExpression. Because it is
-	// in a different context, functions used must be accessible from there.
+	// in a different context, functions and variables used must be accessible from there.
 	function page_getProperties() {
-		var hiddenDivId = "wicketsource-chrome-div";
-		var boxStyle = "background-color: #EEEEEE; border: #666666 solid 1px; width: 300px; height: 50px; " +
-				"text-align: center; display: block; position: absolute; top: 30px; right: 20px; ";
-		var linkStyle = "text-decoration: none; color: blue; ";
+		var hiddenDivId = "wicket-source-chrome-div";
+		var hiddenNodeId = "wicket-source-chrome-data";
 		
 		function Message() {
 			this.message = "Select a node with a wicketsource attribute to see details.";
@@ -53,52 +51,54 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 			if (wp.packageName == null) {
 				wp.packageName = "";
 			}
-			wp.wicketId = $0.attributes['wicket:id'].value;
-			wp.eclipseUrl = "http://" + "localhost" + ":" + 9123 + "/open?src=" + encodeURIComponent($0.attributes.wicketsource.value);
+			if ($0.attributes['wicket:id']) {
+				wp.wicketId = $0.attributes['wicket:id'].value;
+			} else {
+				wp.wicketId = null;
+			}
+			wp.eclipseUrl = "http://" + "localhost" + ":" + 9123 + "/open?jsonp=y&src=" + encodeURIComponent($0.attributes.wicketsource.value);
 			return wp;
 		}
 		
 		function updateDataDiv(wp)
 		{
-			// Find or create the hidden data div we're using.
+			// Find the hidden data div we're using. The content script should have already created it.
 			var wicketsourceDiv = document.getElementById(hiddenDivId);
-			if (!wicketsourceDiv) {
-				wicketsourceDiv = document.createElement("div");
-				wicketsourceDiv.setAttribute("id", hiddenDivId);
-				wicketsourceDiv.setAttribute("style", boxStyle);
-				document.body.appendChild(wicketsourceDiv);
-			}
 			
 			// Empty out any children from previous uses.
-			if (wicketsourceDiv && wicketsourceDiv.childNodes.length > 0) {
-				for (var i = 0; i < wicketsourceDiv.childNodes.length; i++) { 
-					wicketsourceDiv.removeChild(wicketsourceDiv.childNodes.item(i));
-				}
-			}
+			blankDataDiv();
 
 			// Create the new data contents based on currently selected wicketsource node.
 			var nodeA = document.createElement("a");
-			nodeA.setAttribute("style", linkStyle);
-			nodeA.setAttribute("href", wp.eclipseUrl);
+			nodeA.setAttribute("id", hiddenNodeId);
+			nodeA.setAttribute("href", "javascript:ajaxFetch('" + wp.eclipseUrl +"');");
 			nodeA.setAttribute("data", wp.packageName + ":" + wp.sourceLine);
 			nodeA.setAttribute("target", "_wicketsource_chrome_eclipse");
-			nodeA.appendChild(document.createTextNode("Jump to " + wp.sourceLine + " in Eclipse"));
+			nodeA.appendChild(document.createTextNode(wp.sourceLine));
 			wicketsourceDiv.appendChild(nodeA);
-			
 		}
+
+		function goEclipse(url) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", url, true);
+			xmlhttp.send();
+		}
+		
 		// When not in use, delete the div entirely so it doesn't show.
-		function deleteDataDiv()
+		function blankDataDiv()
 		{
 			var wicketsourceDiv = document.getElementById(hiddenDivId);
-			if (wicketsourceDiv) {
-				document.body.removeChild(wicketsourceDiv);
+			if (wicketsourceDiv && wicketsourceDiv.childNodes.length > 0) {
+				var dataNode = document.getElementById(hiddenNodeId);
+				if (dataNode) {
+					wicketsourceDiv.removeChild(document.getElementById(hiddenNodeId));
+				}
 			}
 		}
 
-
 		// Gets the currently selected node, and if it's not a wicketsource node, shows a default message.
 		if (($0 == null) || ($0.attributes.wicketsource == null)) {
-			deleteDataDiv();
+			blankDataDiv();
 			return shallowCopy(new Message());
 		}
 
