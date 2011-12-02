@@ -24,6 +24,7 @@ $(document).ready(function() {
 });
 
 function ajaxFetch(url) {
+	// xmlHttpRequest doesn't work due to cross-site security protections, so using jsonp instead.
 	var script = document.getElementById("wicket-source-chrome-script");
 	if (script) {
 		document.body.removeChild(script);
@@ -34,28 +35,3 @@ function ajaxFetch(url) {
 	script.setAttribute("src", url);
 	document.body.appendChild(script);
 }
-function oldFetch(url) {
-	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.onreadystatechange = function() {
-        if(xmlhttp.readyState == 4)
-        {
-                if(xmlhttp.status == 200 || xmlhttp.status == 0)
-                {
-                        alert("Success ");
-                }
-                else
-                {
-                        alert("Failure");
-                }
-        }				
-	};
-	xmlhttp.open('GET', url, true);
-	xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-	xmlhttp.send();
-}
-
-// Just a trial.
-//ajaxFetch("http://localhost:9123/open?src=edu.academyart.lms.components.userhome%3AUserHomeProfilePanel.java%3A61");
-
-
-	
