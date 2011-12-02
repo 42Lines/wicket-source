@@ -1,7 +1,10 @@
 Remaining:
 * Package the build properly for release on a Eclipse update site. Check into version management / auto-updates.
 
-10/29/2011 - Added dialog to ask user which file to open in case of multiple hits.
+12/01/2011 - Support for jsonp for use with the Chrome extension (v1.1.0)
+ - New url parameter jsonp=y to trigger output as javascript instead of html "OK"
+
+10/29/2011 - Added dialog to ask user which file to open in case of multiple hits. (v1.0.0)
  - New multiple hits choice dialog
  - Drastically simplifed search match logic and error handling
  - General code cleanup
