@@ -1,5 +1,6 @@
 In Progress:
 10* Simplification; no content script, better ajax, and proper handling of http status codes from server.
+   - Also clean up closure namespacing in sidebar.js.
 
 Milestones:
 11* packaging script / automation
