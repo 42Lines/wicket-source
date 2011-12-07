@@ -4,20 +4,12 @@
   "description": "Adds a Developer Tools sidebar with wicket attributes for the selected DOM element.",
   "devtools_page": "devtools.html",
   "options_page": "options.html",
-  "background_page" : "background.html",
    "icons": { 
     "16": "go_icon.png",
    	"48": "icon48.png", 
    	"64": "icon64.png", 
    	"128": "icon128.png"  
   },
-  "content_scripts": [
-    {
-      "matches": ["http://localhost/*", "https://localhost/*"],
-      "js": ["jquery-ui/js/jquery-1.6.2.min.js", "jquery-ui/js/jquery-ui-1.8.16.custom.min.js", "content.js"],
-      "css": ["content.css"]
-    }
-  ],  
   "permissions":  [
     "experimental", "devtools_page", "contextMenus", "http://*/*"
   ]
