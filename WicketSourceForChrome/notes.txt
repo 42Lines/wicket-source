@@ -1,7 +1,8 @@
 Milestones:
-10* packaging script / automation
-11* cleanup, testing, and documentation
-12* lock down content security policy https://mikewest.org/2011/10/secure-chrome-extensions-content-security-policy
+10* Modification to give a list of sites to show the div on; and content script adjustment to match.
+11* packaging script / automation
+12* cleanup, testing, and documentation
+13* lock down content security policy https://mikewest.org/2011/10/secure-chrome-extensions-content-security-policy
 
 Done
 1* Basic stub app works, displays correct titles. (11/21)

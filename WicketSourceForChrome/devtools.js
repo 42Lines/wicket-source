@@ -112,7 +112,7 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 		}
 
 		// Gets the currently selected node, and if it's not a wicketsource node, shows a default message.
-		if (($0 == null) || ($0.attributes.wicketsource == null)) {
+		if (($0 == null) || ($0.attributes == null) || ($0.attributes.wicketsource == null)) {
 			blankDataDiv();
 			return shallowCopy(new Message());
 		}
