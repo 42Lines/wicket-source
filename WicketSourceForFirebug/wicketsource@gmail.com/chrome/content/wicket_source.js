@@ -231,7 +231,7 @@ TabData.prototype = {
 	 			} else if (this.status == 400) {
 	 				this.tabDataRef.eclipseResult = "Server response - " + this.responseText + "";
 	 			} else {
-	 				this.tabDataRef.eclipseResult = "Error connecting. Is your WicketSource Eclipse plugin configured and running?";
+	 				this.tabDataRef.eclipseResult = "Error connecting. Is your SourceOpener Eclipse plugin configured and running?";
 	 			}
 	 			this.tabDataRef.displayWicket();
 	 		}
