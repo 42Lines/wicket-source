@@ -11,6 +11,6 @@
    	"128": "icon128.png"  
   },
   "permissions":  [
-    "experimental", "devtools_page", "contextMenus", "http://*/*"
+    "experimental", "devtools_page", "http://*/*", "https://*/*"
   ]
 }

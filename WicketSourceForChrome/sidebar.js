@@ -1,8 +1,39 @@
-function wicketSourceForChromeXmlFetch(url) {
-	var xmlhttp = new XMLHttpRequest();
+var xmlhttp = new XMLHttpRequest();
+
+xmlhttp.onreadystatechange = function() {
+	if (this.readyState == 4) {
+			clearTimeout(this.requestTimer);
+			if (xmlhttp.lastRequestTimedOut) {
+				xmlhttp.updateText("Error connecting. Is your SourceOpener Eclipse plugin configured and running?");
+			} else {
+				xmlhttp.updateText("OK");
+			}
+	}
+};
+xmlhttp.lastRequestTimedOut = false;
+
+xmlhttp.updateText = function(text) {
+	if (document.getElementById("eclipseResult").hasChildNodes()) {
+		document.getElementById("eclipseResult").removeChild(
+				document.getElementById("eclipseResult").firstChild);
+	}
+	document.getElementById("eclipseResult").appendChild(
+			document.createTextNode(text));
+	document.close();
+};
+
+xmlhttp.fetch = function(url) {
+	
+	xmlhttp.updateText("...requesting...");
+	xmlhttp.lastRequestTimedOut = false;
+	xmlhttp.requestTimer = setTimeout(function() {
+		xmlhttp.lastRequestTimedOut = true;
+        xmlhttp.abort();
+	  }, 2000);
 	xmlhttp.open("GET", url, true);
 	xmlhttp.send();
-}
+};
+
 
 (function() {
 
@@ -59,7 +90,7 @@ function getUrlVars()
     return vars;
 }
 
-function drawDataRow(table, title, value)
+function drawDataRow(table, id, title, value)
 {
 	var tr1 = document.createElement("tr");
 	table.appendChild(tr1);
@@ -70,6 +101,7 @@ function drawDataRow(table, title, value)
 	var tdR = document.createElement("td");
 	tdR.appendChild(document.createTextNode(value));
 	tdR.setAttribute("class", "dataValue");
+	tdR.setAttribute("id", id);
 	tr1.appendChild(tdR);
 }
 
@@ -79,7 +111,7 @@ function drawLinkRow(table, title, value, wp)
 	
 	var nodeA = document.createElement("a");
 	nodeA.setAttribute("id", hiddenNodeId);
-	nodeA.setAttribute("href", "javascript:wicketSourceForChromeXmlFetch('" + wp.eclipseUrl+"');");
+	nodeA.setAttribute("href", "javascript:xmlhttp.fetch('" + wp.eclipseUrl+"');");
 	nodeA.setAttribute("data", wp.packageName + ":" + wp.sourceLine);
 	nodeA.appendChild(document.createTextNode(value));
 
@@ -115,9 +147,10 @@ function drawTable() {
 	
 	var table = document.createElement("table");
 	table.setAttribute("id", "wsTable");
-	drawDataRow(table, "wicket:id", wid);
-	drawDataRow(table, "package", wp.packageName);
+	drawDataRow(table, "wicketid", "wicket:id", wid);
+	drawDataRow(table, "package", "package", wp.packageName);
 	drawLinkRow(table, "source", wp.sourceLine, wp);
+	drawDataRow(table, "eclipseResult", "eclipseRequest", "");
 	
 	document.getElementById("wsDiv").appendChild(table);
 }
