@@ -1,3 +1,5 @@
+var WicketSourceForChrome = new function() {
+
 var xmlhttp = new XMLHttpRequest();
 
 xmlhttp.onreadystatechange = function() {
@@ -22,7 +24,7 @@ xmlhttp.updateText = function(text) {
 	document.close();
 };
 
-xmlhttp.fetch = function(url) {
+this.fetch = function(url) {
 	
 	xmlhttp.updateText("...requesting...");
 	xmlhttp.lastRequestTimedOut = false;
@@ -35,7 +37,7 @@ xmlhttp.fetch = function(url) {
 };
 
 
-(function() {
+
 
 // Data container.
 function WicketProperties() {
@@ -111,7 +113,7 @@ function drawLinkRow(table, title, value, wp)
 	
 	var nodeA = document.createElement("a");
 	nodeA.setAttribute("id", hiddenNodeId);
-	nodeA.setAttribute("href", "javascript:xmlhttp.fetch('" + wp.eclipseUrl+"');");
+	nodeA.setAttribute("href", "javascript:WicketSourceForChrome.fetch('" + wp.eclipseUrl+"');");
 	nodeA.setAttribute("data", wp.packageName + ":" + wp.sourceLine);
 	nodeA.appendChild(document.createTextNode(value));
 
@@ -158,4 +160,4 @@ function drawTable() {
 drawTable();
 
 
-})();
+};

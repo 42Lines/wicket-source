@@ -1,6 +1,4 @@
 In Progress:
-10* Simplification; no content script, better ajax, and proper handling of http status codes from server.
-   - Also clean up closure namespacing in sidebar.js.
 
 Milestones:
 11* packaging script / automation
@@ -17,3 +15,5 @@ Done
 7* options configuration to set a password
 8* modification of click link to use the password
 9* icon and UI branding artifacts
+10* Simplification; no content script, better ajax, and proper handling of http status codes from server.
+   - Also clean up closure namespacing in sidebar.js.
