@@ -1,0 +1,6 @@
+Issues Remaining:
+* After hours/days of running in Eclipse, the http server seems to vanish or crash. 
+  A restart is required to make it listen to requests again. Need to add logging and
+  figure out why this is crashing and fix it.
+
+
