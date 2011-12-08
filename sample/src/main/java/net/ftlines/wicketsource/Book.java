@@ -7,17 +7,17 @@ public class Book implements Serializable {
 	private Integer id;
 	private String title;
 	private String url;
-	private Integer numberPages;
+	private Integer downloads;
 	
 	public Book() {
-		numberPages = 0;
+		downloads = 0;
 	}
 	
-	public Book(Integer id, String title, String url, Integer numberPages) {
+	public Book(Integer id, String title, String url, Integer downloads) {
 		this.id = id;
 		this.title = title;
 		this.url = url;
-		this.numberPages = numberPages;
+		this.downloads = downloads;
 	}
 
 	public Integer getId() {
@@ -40,12 +40,12 @@ public class Book implements Serializable {
 		this.url = url;
 	}
 
-	public Integer getNumberPages() {
-		return numberPages;
+	public Integer getDownloads() {
+		return downloads;
 	}
 
-	public void setNumberPages(Integer numberPages) {
-		this.numberPages = numberPages;
+	public void setDownloads(Integer downloads) {
+		this.downloads = downloads;
 	}
 	
 }

@@ -37,7 +37,7 @@ public class HomePage extends WebPage {
 				item.add(bookTitleContainer);
 			}
 		});
-		columns.add(new PropertyColumn<Book>(Model.of("Pages"), "numberPages", "numberPages"));
+		columns.add(new PropertyColumn<Book>(Model.of("# Downloads"), "downloads", "downloads"));
 		
 		BookDataTable bookTable = new BookDataTable("bookTable", columns, new BookDataProvider(), 5);
 		add(bookTable);

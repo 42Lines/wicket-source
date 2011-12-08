@@ -36,8 +36,8 @@ public class BookComparator implements Comparator<Book> {
 		if ("url".equals(sort.getProperty())) {
 			return multiplier*(book0.getUrl().compareTo(book1.getUrl()));
 		}
-		if ("numberPages".equals(sort.getProperty())) {
-			return multiplier*(book0.getNumberPages().compareTo(book1.getNumberPages()));
+		if ("downloads".equals(sort.getProperty())) {
+			return multiplier*(book0.getDownloads().compareTo(book1.getDownloads()));
 		}
 		
 		return multiplier*(book0.getId().compareTo(book1.getId()));
