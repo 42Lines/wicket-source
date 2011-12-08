@@ -1,4 +1,7 @@
-package net.ftlines.wicketsource;
+package net.ftlines.wicketsource.sample;
+
+import net.ftlines.wicketsource.sample.HomePage;
+import net.ftlines.wicketsource.sample.WicketApplication;
 
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;

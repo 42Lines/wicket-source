@@ -1,4 +1,4 @@
-package net.ftlines.wicketsource;
+package net.ftlines.wicketsource.sample;
 
 import org.apache.wicket.util.time.Duration;
 import org.eclipse.jetty.http.ssl.SslContextFactory;

@@ -1,4 +1,4 @@
-package net.ftlines.wicketsource;
+package net.ftlines.wicketsource.sample;
 
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -7,7 +7,7 @@ import net.ftlines.wicketsource.WicketSource;
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
  * 
- * @see net.ftlines.wicketsource.Start#main(String[])
+ * @see net.ftlines.wicketsource.sample.sample.Start#main(String[])
  */
 public class WicketApplication extends WebApplication
 {    	

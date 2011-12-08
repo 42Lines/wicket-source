@@ -1,4 +1,4 @@
-Customizations:
+Customizations that are important to WicketSource working:
 
 1) WicketApplication.java got an additional line in init(). 
    Suggested that you wrap it in an "if (isDevEnvironment()) { }" for performance.
