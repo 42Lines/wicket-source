@@ -234,7 +234,9 @@ public class NanoHTTPD
 							new HTTPSession( myServerSocket.accept());
 					}
 					catch ( IOException ioe )
-					{}
+					{
+						System.err.println("NanoHTTP received an IO Exception on the http session - exiting. " + ioe.toString());
+					}
 				}
 			});
 		myThread.setDaemon( true );

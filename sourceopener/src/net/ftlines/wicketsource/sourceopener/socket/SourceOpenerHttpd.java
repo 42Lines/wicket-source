@@ -32,14 +32,12 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 		this.requirePassword = requirePassword;
 		this.password = password;
 		this.httpService = httpService;
-		
-		log.info("{SourceOpenerHttpd} Constructor called.");
 	}
 	
 	@Override
 	public Response serve(String uri, String method, Properties header, Properties params, Properties files)
 	{
-		log.info("{SourceOpenerHttpd} Received request for " + uri);
+		log.info("Received request for " + uri);
 
 		try {
 			if (this.requirePassword) {
@@ -61,7 +59,7 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 	@Override
 	public Response serveFile(String uri, Properties header, File homeDir, boolean allowDirectoryListing)
 	{
-		log.info("{SourceOpenerHttpd} Received request for file serve : " + uri);
+		log.info("Received request for file serve : " + uri);
 		return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: No file serving.");
 	}
 
@@ -76,9 +74,9 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 		HttpService httpService = new HttpService();
 		try {
 			httpService.start();
-			System.out.println("{SourceOpenerHttpd} Now serving requests. Hit Enter to stop, or terminate the JVM manually.\n");
+			System.out.println("Now serving requests. Hit Enter to stop, or terminate the JVM manually.\n");
 		} catch (IOException ioe) {
-			System.err.println("{SourceOpenerHttpd} Couldn't start server: " + ioe);
+			System.err.println("Couldn't start server: " + ioe);
 			System.exit(-1);
 		}
 

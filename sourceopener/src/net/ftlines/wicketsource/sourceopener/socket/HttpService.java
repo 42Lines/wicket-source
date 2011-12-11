@@ -99,10 +99,9 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	 */
 	public void start() throws IOException
 	{
-		log.info("{HttpService} Start");
 		int port = PreferenceValueService.getPort();
 		if (port == 0) {
-			log.info("{HttpService} No port configured!!");
+			log.info("No port configured!!");
 			throw new IOException("No port configured for service!");
 		}
 		log.info("Starting listener on port " + port + " with requirePassword = " + PreferenceValueService.isUsePassword());
@@ -114,7 +113,7 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	 */
 	public void stop()
 	{
-		log.info("{HttpService} Stopped.");		
+		log.info("Stopping manually.");		
 		if (currentHttpd != null) {
 			currentHttpd.stop();
 		}
@@ -125,7 +124,7 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	{
 		// only restart it if it was already running.
 		if (currentHttpd != null) { 
-			log.info("{HttpService} Reloading configuration... ");		
+			log.info("Reloading configuration... ");		
 			stop();
 			try {
 				start();
