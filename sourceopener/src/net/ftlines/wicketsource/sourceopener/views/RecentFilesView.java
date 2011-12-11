@@ -1,12 +1,12 @@
-package net.simsa.sourceopener.views;
+package net.ftlines.wicketsource.sourceopener.views;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import net.simsa.sourceopener.Activator;
-import net.simsa.sourceopener.IOpenEventListener;
-import net.simsa.sourceopener.OpenEvent;
-import net.simsa.sourceopener.PackageFileSearchRequester;
+import net.ftlines.wicketsource.sourceopener.Activator;
+import net.ftlines.wicketsource.sourceopener.IOpenEventListener;
+import net.ftlines.wicketsource.sourceopener.OpenEvent;
+import net.ftlines.wicketsource.sourceopener.PackageFileSearchRequester;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.Action;
@@ -75,7 +75,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "net.simsa.sourceopener.views.RecentFilesView";
+	public static final String ID = "net.ftlines.wicketsource.sourceopener.views.RecentFilesView";
 
 	private TableViewer eventTableViewer;
 	private Action startSocketServer;
@@ -251,7 +251,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 
 		// Create the help context id for the eventTableViewer's control
 		PlatformUI.getWorkbench().getHelpSystem()
-				.setHelp(eventTableViewer.getControl(), "net.simsa.sourceopener.viewer");
+				.setHelp(eventTableViewer.getControl(), "net.ftlines.wicketsource.sourceopener.viewer");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();

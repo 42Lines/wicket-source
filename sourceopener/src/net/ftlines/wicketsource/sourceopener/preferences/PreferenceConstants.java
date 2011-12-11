@@ -1,4 +1,4 @@
-package net.simsa.sourceopener.preferences;
+package net.ftlines.wicketsource.sourceopener.preferences;
 
 
 /**

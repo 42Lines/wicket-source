@@ -1,7 +1,7 @@
-package net.simsa.sourceopener;
+package net.ftlines.wicketsource.sourceopener;
 
-import net.simsa.sourceopener.preferences.PreferenceValueService;
-import net.simsa.sourceopener.socket.HttpService;
+import net.ftlines.wicketsource.sourceopener.preferences.PreferenceValueService;
+import net.ftlines.wicketsource.sourceopener.socket.HttpService;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.PlatformUI;
@@ -15,7 +15,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "net.simsa.sourceopener"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "net.ftlines.wicketsource.sourceopener"; //$NON-NLS-1$
 	// The shared instance
 	private static Activator plugin;
 	// Data model entry point for this plugin.

@@ -1,6 +1,6 @@
-package net.simsa.sourceopener.views;
+package net.ftlines.wicketsource.sourceopener.views;
 
-import net.simsa.sourceopener.OpenEvent;
+import net.ftlines.wicketsource.sourceopener.OpenEvent;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;

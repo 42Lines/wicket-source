@@ -1,4 +1,4 @@
-package net.simsa.sourceopener.views;
+package net.ftlines.wicketsource.sourceopener.views;
 
 /**
  * Indicates trouble opening the requested file in an editor and going to the specified line.

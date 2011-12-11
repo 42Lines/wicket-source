@@ -1,10 +1,10 @@
-package net.simsa.sourceopener;
+package net.ftlines.wicketsource.sourceopener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.simsa.sourceopener.views.OpenFileException;
+import net.ftlines.wicketsource.sourceopener.views.OpenFileException;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;

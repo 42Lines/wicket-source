@@ -1,4 +1,4 @@
-package net.simsa.sourceopener;
+package net.ftlines.wicketsource.sourceopener;
 
 import java.util.logging.Logger;
 

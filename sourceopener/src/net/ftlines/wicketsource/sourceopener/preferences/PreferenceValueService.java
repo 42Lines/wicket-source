@@ -1,8 +1,8 @@
-package net.simsa.sourceopener.preferences;
+package net.ftlines.wicketsource.sourceopener.preferences;
 
 import java.util.logging.Logger;
 
-import net.simsa.sourceopener.Activator;
+import net.ftlines.wicketsource.sourceopener.Activator;
 
 /**
  * Wraps the preferences settings for this plugin.
@@ -10,7 +10,6 @@ import net.simsa.sourceopener.Activator;
  *
  */
 public class PreferenceValueService {
-	static Logger log = Logger.getLogger("PreferenceValueService");
 
 	public static int getPort()
 	{
@@ -36,5 +35,5 @@ public class PreferenceValueService {
 	{
 		return Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_START_ON_STARTUP);
 	}
-	
+
 }
