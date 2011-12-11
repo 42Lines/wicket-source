@@ -1,4 +1,5 @@
 SourceOpener eclipse plugin:
+* Make launch on startup be eclispe startup, not plugin view startup.
 * Determine why it's periodically crashing or silently shutting down, and fix that.
 * Determine version tagging and how best to package for release.
 
