@@ -9,11 +9,12 @@
             id="net.ftlines.wicketsource.sourceopener">
       </category>
       <view
-            name="Recent File Locations"
-            icon="icons/sample.gif"
+            allowMultiple="false"
             category="net.ftlines.wicketsource.sourceopener"
             class="net.ftlines.wicketsource.sourceopener.views.RecentFilesView"
-            id="net.ftlines.wicketsource.sourceopener.views.RecentFilesView">
+            icon="icons/sample.gif"
+            id="net.ftlines.wicketsource.sourceopener.views.RecentFilesView"
+            name="Recent File Locations">
       </view>
    </extension>
    <extension
@@ -47,6 +48,9 @@
       <initializer
             class="net.ftlines.wicketsource.sourceopener.preferences.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
    </extension>
 
 </plugin>

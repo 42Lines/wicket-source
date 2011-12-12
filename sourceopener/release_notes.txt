@@ -1,7 +1,11 @@
 Remaining:
+* Solve mysterious crashes.
 * Package the build properly for release on a Eclipse update site. Check into version management / auto-updates.
 
-12/11/2011 - Improved logging to begin debugging mysterious crashes. Renamed package.
+12/11/2011 - Fixed logging, fixed start listener on startup.
+ - Moved open-file on open event out of the View and into plugin code, so it works without the view open.
+ - Made listener properly listen and fire on startup, even before the view is first created.
+ - Improved logging to begin debugging mysterious crashes. Renamed package.
 
 12/01/2011 - Support for jsonp for use with the Chrome extension (v1.1.0), though it turned out to be unnecessary.
  - New url parameter jsonp=y to trigger output as javascript instead of html "OK"

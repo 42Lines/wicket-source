@@ -37,7 +37,7 @@ public class PackageFileSearchRequester extends SearchRequestor implements IExce
 		progressMonitor = new FileSearchProgressMonitor();
 	}
 
-	public void searchAndWait(ViewPart viewPart) throws OpenFileException
+	public void searchAndWait() throws OpenFileException
 	{
 		exceptionWhileSearching = null;
 		search();

@@ -16,14 +16,12 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
- * Opens a file in the editor, and jumps to the right line of that file. This
- * class is expected to be run by the Display thread.
+ * Opens a file in the editor, and jumps to the right line of that file.
  * 
  * @author Jenny Brown
  * 
  */
 public final class UIEditorFileOpener implements Runnable {
-	private final RecentFilesView recentFilesView;
 	private IPath fileToOpen;
 	private int lineNumber;
 	private OpenEvent event;
@@ -35,15 +33,14 @@ public final class UIEditorFileOpener implements Runnable {
 	 * @param recentFilesView
 	 * @param event
 	 */
-	public UIEditorFileOpener(RecentFilesView recentFilesView, OpenEvent event) {
-		this.recentFilesView = recentFilesView;
+	public UIEditorFileOpener(OpenEvent event) {
 		this.fileToOpen = event.getFile();
 		this.lineNumber =  event.getLineNumber();
 		this.event = event;
 	}
 
 	/**
-	 * Opens the file editor and jumps to the specified line.
+	 * Opens the file editor and jumps to the specified line.  This is expected to be run by the Display thread.
 	 */
 	public void run()
 	{
@@ -94,7 +91,8 @@ public final class UIEditorFileOpener implements Runnable {
 	{
 		// First, open the specified file in an appropriate kind of editor.
 		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(ifile.getName());
-		IEditorPart editorPart = recentFilesView.getSite().getPage().openEditor(fileEditorInput, desc.getId());
+		IEditorPart editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(fileEditorInput, desc.getId());
+		
 
 		// This forced cast feels like a bit of a hack, but IEditorPart
 		// doesn't have the method I need for getDocument.
@@ -105,6 +103,5 @@ public final class UIEditorFileOpener implements Runnable {
 					"Not sure what to do with a non-text file editor."));
 		}
 	}
-
 
 }

@@ -6,9 +6,8 @@ import java.util.logging.Logger;
 import net.ftlines.wicketsource.sourceopener.Activator;
 import net.ftlines.wicketsource.sourceopener.IOpenEventListener;
 import net.ftlines.wicketsource.sourceopener.OpenEvent;
-import net.ftlines.wicketsource.sourceopener.PackageFileSearchRequester;
+import net.ftlines.wicketsource.sourceopener.preferences.PreferenceValueService;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -22,12 +21,10 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -36,9 +33,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -69,7 +66,7 @@ import org.eclipse.ui.part.ViewPart;
  * http://www.vogella.de/articles/EclipsePlugIn/article.html
  */
 
-public class RecentFilesView extends ViewPart implements IOpenEventListener {
+public class RecentFilesView extends ViewPart implements IOpenEventListener, IStartup {
 	Logger log = Logger.getLogger("RecentFilesView");
 
 	/**
@@ -84,13 +81,14 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	private Action clearEventsAction;
 
 	// ---- begin things that participate in dispose ----
-	final private Image openEventImage = PlatformUI.getWorkbench().getSharedImages()
-			.getImage(ISharedImages.IMG_OBJ_FILE);
+	
 	// ---- end things that participate in dispose ----
 
 	// ---- begin indirect references
 	// ---- these are references that can be used to create graphics, but since
 	// ---- I'm not the one calling for construction, I shouldn't dispose them.
+	final private Image openEventImage = PlatformUI.getWorkbench().getSharedImages()
+			.getImage(ISharedImages.IMG_OBJ_FILE);
 	final private ImageDescriptor IMAGE_CLEAR = Activator.getImageDescriptor("icons/clear.gif");
 	final private ImageDescriptor IMAGE_STOP_ENABLED = PlatformUI.getWorkbench().getSharedImages()
 			.getImageDescriptor(ISharedImages.IMG_ELCL_STOP);
@@ -105,7 +103,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	public void dispose()
 	{
 		super.dispose();
-		openEventImage.dispose();
+		Activator.getDefault().getHttpService().removeListener(this);
 	}
 
 	/**
@@ -115,78 +113,21 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 	}
 
 	/**
-	 * Open the specified file in an editor and go to the line number. Then
-	 * notify the eventTableViewer that the data in the model has changed and it
-	 * should update. This must occur in the UI thread hence the use of
-	 * syncExec.
-	 * 
-	 * If more than one file matches during search, a UI dialog will appear
-	 * asking the user to choose one of the matches. If they cancel, the file
-	 * will not open and the event will received an error message saying that
-	 * the user cancelled open. If they choose a file and press Ok, the file
-	 * should open in an editor.
-	 * 
-	 * Regardless of success/fail on search, always redisplay the view so that
+	 * Regardless of success/fail on search (previous step), always redisplay the view so that
 	 * the user can see any updated error messages in the event table.
 	 * 
 	 */
 	@Override
 	public void onOpenEvent(final OpenEvent event)
 	{
-		event.reset();
 		final RecentFilesView view = this;
 
 		Display.getDefault().syncExec(new Runnable() {
 			public void run()
 			{
-				view.identifyFileAndDisplay(event);
 				view.refreshOpenEventTable();
 			}
 		});
-	}
-
-	/**
-	 * This expects to be run from the Display thread.
-	 * 
-	 * @param event
-	 */
-	private void identifyFileAndDisplay(final OpenEvent event)
-	{
-		try {
-			// Look for the file requested by open event.
-			IPath[] matches = searchForFile(event);
-			if (matches.length == 0) {
-				event.setResultOfOpen(new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND));
-				return;
-			}
-			if (matches.length == 1) {
-				event.setFile(matches[0]);
-				new UIEditorFileOpener(this, event).run();
-				return;
-			}
-
-			// Multiple choices, so display a dialog and have the user pick one.
-			ElementListSelectionDialog dialog = new ElementListSelectionDialog(this.getViewSite().getShell(),
-					new LabelProvider());
-			dialog.setTitle("File Selection - SourceOpener");
-			dialog.setMessage("Multiple matches. Choose One (* = any string, ? = any char):");
-			dialog.setElements(matches);
-			dialog.setBlockOnOpen(true);
-			dialog.open();
-			Object[] choices = dialog.getResult();
-
-			if ((dialog.getReturnCode() == Window.CANCEL) || (choices.length < 1)) {
-				event.setResultOfOpen("Multiple matches - user cancelled selection");
-				event.setFile(null);
-				return;
-			}
-			event.setFile((IPath) choices[0]);
-			event.setResultOfOpenOk();
-			new UIEditorFileOpener(this, event).run();
-			
-		} catch (OpenFileException ofe) {
-			event.setResultOfOpen(ofe);
-		}
 	}
 
 	/**
@@ -198,13 +139,6 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		eventTableViewer.setInput(getViewSite());
 		// redraw the ui display
 		eventTableViewer.refresh(false);
-	}
-
-	private IPath[] searchForFile(OpenEvent event) throws OpenFileException
-	{
-		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(event.getPackageName(), event.getFileName().replace(".java", ""));
-		searchFacade.searchAndWait(this);
-		return searchFacade.allMatches();
 	}
 
 	/*
@@ -405,6 +339,7 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		createActionStopSocketServer();
 		createActionDoubleClickReopens();
 		createActionClearEvents();
+		earlyStartup();
 	}
 
 	private void createActionClearEvents()
@@ -427,7 +362,9 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 			public void run()
 			{
 				// Reopen the file when the line is double clicked.
-				onOpenEvent((OpenEvent) (((IStructuredSelection) eventTableViewer.getSelection()).getFirstElement()));
+				OpenEvent event = (OpenEvent) (((IStructuredSelection) eventTableViewer.getSelection()).getFirstElement());
+				Activator.getDefault().getHttpService().onOpenEvent(event);
+//				onOpenEvent(event);
 			}
 		};
 	}
@@ -468,6 +405,14 @@ public class RecentFilesView extends ViewPart implements IOpenEventListener {
 		startSocketServer.setImageDescriptor(IMAGE_START_ENABLED);
 		startSocketServer.setDisabledImageDescriptor(IMAGE_START_DISABLED);
 		startSocketServer.setEnabled(!Activator.getDefault().getHttpService().isRunning());
+	}
+	
+	public void earlyStartup()
+	{
+		if (PreferenceValueService.isStartListenerOnStartup()) {
+			startSocketServer.setEnabled(false);
+			stopSocketServer.setEnabled(true);
+		}
 	}
 
 	private void hookDoubleClickAction()

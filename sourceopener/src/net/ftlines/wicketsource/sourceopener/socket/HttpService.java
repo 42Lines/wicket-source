@@ -65,6 +65,10 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 		@Override
 		public void run()
 		{
+			if (listeners.isEmpty()) {
+				log.warning("No open event listeners registered - open event is ignored.");
+				event.setResultOfOpen("No listeners registered - open event ignored.");
+			}
 			for (IOpenEventListener listener : listeners) {
 				listener.onOpenEvent(event);
 			}
@@ -82,7 +86,7 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	@Override
 	public void onOpenEvent(OpenEvent event)
 	{
-		eventCache.add(event);
+		if (event.isNew()) eventCache.add(event);
 		new Thread(new OpenEventNotifier(event)).start();
 	}
 

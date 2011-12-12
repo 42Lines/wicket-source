@@ -22,6 +22,7 @@ public class OpenEvent {
 	private String fileName;
 	private int lineNumber;
 	private IPath file;
+	private boolean firstOpen = true;
 
 	public String toString()
 	{
@@ -39,6 +40,10 @@ public class OpenEvent {
 		fromSrcLine(src);
 	}
 
+	public boolean isNew() {
+		return firstOpen;
+	}
+	
 	private void fromSrcLine(String src)
 	{
 		String[] pieces = src.split(":");
@@ -125,11 +130,13 @@ public class OpenEvent {
 	public void setResultOfOpen(String resultOfOpen)
 	{
 		this.resultOfOpen = resultOfOpen;
+		firstOpen = false;
 	}
 	
 	public void setResultOfOpenOk() 
 	{
 		this.resultOfOpen = "OK";
+		firstOpen = false;
 	}
 	
 	public void reset()
