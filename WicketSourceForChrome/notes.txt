@@ -3,7 +3,6 @@ In Progress:
 Milestones:
 11* packaging script / automation
 12* cleanup, testing, and documentation
-13* lock down content security policy https://mikewest.org/2011/10/secure-chrome-extensions-content-security-policy
 
 Done
 1* Basic stub app works, displays correct titles. (11/21)

@@ -13,8 +13,8 @@ Firefox extension:
 * Simplify to always send the password if set. No need for a checkbox.
 
 Chrome extension:
-* Test for script injection risks.
-
+* Documentation
+* Determine packaging and hosting.
 
 Everything:
 * Version tagging in git and build.xml and poms.
