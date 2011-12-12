@@ -1,8 +1,8 @@
-package net.simsa.sourceopener.preferences;
+package net.ftlines.wicketsource.sourceopener.preferences;
 
 import java.util.logging.Logger;
 
-import net.simsa.sourceopener.Activator;
+import net.ftlines.wicketsource.sourceopener.Activator;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;

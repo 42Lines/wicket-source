@@ -1,11 +1,11 @@
-package net.simsa.sourceopener;
+package net.ftlines.wicketsource.sourceopener;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.simsa.sourceopener.preferences.PreferenceConstants;
+import net.ftlines.wicketsource.sourceopener.preferences.PreferenceConstants;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;

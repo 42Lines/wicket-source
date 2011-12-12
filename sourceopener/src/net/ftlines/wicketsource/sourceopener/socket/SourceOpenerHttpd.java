@@ -1,10 +1,11 @@
-package net.simsa.sourceopener.socket;
+package net.ftlines.wicketsource.sourceopener.socket;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
-import net.simsa.sourceopener.OpenEvent;
+import net.ftlines.wicketsource.sourceopener.OpenEvent;
 
 /**
  * Listens for requests to open a file in an eclipse editor, fires the open
@@ -16,10 +17,10 @@ import net.simsa.sourceopener.OpenEvent;
  * 
  */
 public class SourceOpenerHttpd extends NanoHTTPD {
-
-	HttpService httpService;
-	boolean requirePassword;
-	String password;
+	private Logger log = Logger.getLogger("SourceOpenerHttpd");
+	private HttpService httpService;
+	private boolean requirePassword;
+	private String password;
 
 	public SourceOpenerHttpd(int port, File wwwroot, HttpService httpService) throws IOException {
 		super(port, wwwroot);
@@ -32,10 +33,12 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 		this.password = password;
 		this.httpService = httpService;
 	}
-
+	
 	@Override
 	public Response serve(String uri, String method, Properties header, Properties params, Properties files)
 	{
+		log.info("Received request for " + uri);
+
 		try {
 			if (this.requirePassword) {
 				if (! this.password.equals(params.getProperty("p"))) {
@@ -45,7 +48,7 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 			OpenEvent event = new OpenEvent(uri, params);
 			httpService.onOpenEvent(event);
 			if ("y".equals(params.getProperty("jsonp"))) {
-				return new Response(HTTP_OK, MIME_JS, "function wicketSourceEclipseResult() { var eclipseStatus='OK'; }");
+				return new Response(HTTP_OK, MIME_JS, "function SourceOpenerEclipseResult() { this.eclipseStatus='OK'; }");
 			}
 			return new Response(HTTP_OK, MIME_HTML, "<html><body>OK</body></html>");
 		} catch (IllegalArgumentException ie) {
@@ -56,6 +59,7 @@ public class SourceOpenerHttpd extends NanoHTTPD {
 	@Override
 	public Response serveFile(String uri, Properties header, File homeDir, boolean allowDirectoryListing)
 	{
+		log.info("Received request for file serve : " + uri);
 		return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: No file serving.");
 	}
 

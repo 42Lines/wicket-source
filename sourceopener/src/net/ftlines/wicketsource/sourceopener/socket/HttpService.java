@@ -1,15 +1,15 @@
-package net.simsa.sourceopener.socket;
+package net.ftlines.wicketsource.sourceopener.socket;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.simsa.sourceopener.IOpenEventListener;
-import net.simsa.sourceopener.OpenEvent;
-import net.simsa.sourceopener.RecentEventsCache;
-import net.simsa.sourceopener.preferences.PreferenceConstants;
-import net.simsa.sourceopener.preferences.PreferenceValueService;
+import net.ftlines.wicketsource.sourceopener.IOpenEventListener;
+import net.ftlines.wicketsource.sourceopener.OpenEvent;
+import net.ftlines.wicketsource.sourceopener.RecentEventsCache;
+import net.ftlines.wicketsource.sourceopener.preferences.PreferenceConstants;
+import net.ftlines.wicketsource.sourceopener.preferences.PreferenceValueService;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -24,15 +24,15 @@ import org.eclipse.jface.util.PropertyChangeEvent;
  * 
  */
 public class HttpService implements IOpenEventListener, IPropertyChangeListener {
-	Logger log = Logger.getLogger("HttpService");
-	
+	private Logger log = null;
 	private List<IOpenEventListener> listeners;
-	SourceOpenerHttpd currentHttpd;
-	RecentEventsCache eventCache;
+	private SourceOpenerHttpd currentHttpd;
+	private RecentEventsCache eventCache;
 
 	public HttpService() {
 		listeners = new ArrayList<IOpenEventListener>();
 		eventCache = new RecentEventsCache();
+		log = Logger.getLogger("HttpService");
 	}
 
 	@Override
@@ -65,6 +65,10 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 		@Override
 		public void run()
 		{
+			if (listeners.isEmpty()) {
+				log.warning("No open event listeners registered - open event is ignored.");
+				event.setResultOfOpen("No listeners registered - open event ignored.");
+			}
 			for (IOpenEventListener listener : listeners) {
 				listener.onOpenEvent(event);
 			}
@@ -82,7 +86,7 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	@Override
 	public void onOpenEvent(OpenEvent event)
 	{
-		eventCache.add(event);
+		if (event.isNew()) eventCache.add(event);
 		new Thread(new OpenEventNotifier(event)).start();
 	}
 
@@ -100,7 +104,8 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	public void start() throws IOException
 	{
 		int port = PreferenceValueService.getPort();
-		if (port == 0) { 
+		if (port == 0) {
+			log.info("No port configured!!");
 			throw new IOException("No port configured for service!");
 		}
 		log.info("Starting listener on port " + port + " with requirePassword = " + PreferenceValueService.isUsePassword());
@@ -112,6 +117,7 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	 */
 	public void stop()
 	{
+		log.info("Stopping manually.");		
 		if (currentHttpd != null) {
 			currentHttpd.stop();
 		}
@@ -122,6 +128,7 @@ public class HttpService implements IOpenEventListener, IPropertyChangeListener 
 	{
 		// only restart it if it was already running.
 		if (currentHttpd != null) { 
+			log.info("Reloading configuration... ");		
 			stop();
 			try {
 				start();

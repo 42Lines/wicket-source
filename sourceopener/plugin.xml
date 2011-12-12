@@ -6,14 +6,15 @@
          point="org.eclipse.ui.views">
       <category
             name="Source Opener"
-            id="net.simsa.sourceopener">
+            id="net.ftlines.wicketsource.sourceopener">
       </category>
       <view
-            name="Recent File Locations"
+            allowMultiple="false"
+            category="net.ftlines.wicketsource.sourceopener"
+            class="net.ftlines.wicketsource.sourceopener.views.RecentFilesView"
             icon="icons/sample.gif"
-            category="net.simsa.sourceopener"
-            class="net.simsa.sourceopener.views.RecentFilesView"
-            id="net.simsa.sourceopener.views.RecentFilesView">
+            id="net.ftlines.wicketsource.sourceopener.views.RecentFilesView"
+            name="Recent File Locations">
       </view>
    </extension>
    <extension
@@ -24,7 +25,7 @@
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
                relationship="right"
-               id="net.simsa.sourceopener.views.RecentFilesView">
+               id="net.ftlines.wicketsource.sourceopener.views.RecentFilesView">
          </view>
       </perspectiveExtension>
    </extension>
@@ -37,16 +38,19 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="net.simsa.sourceopener.preferences.SourceOpenerPreferencePage"
-            id="net.simsa.sourceopener.preferences.SourceOpenerPreferencePage"
+            class="net.ftlines.wicketsource.sourceopener.preferences.SourceOpenerPreferencePage"
+            id="net.ftlines.wicketsource.sourceopener.preferences.SourceOpenerPreferencePage"
             name="SourceOpener Preferences">
       </page>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="net.simsa.sourceopener.preferences.PreferenceInitializer">
+            class="net.ftlines.wicketsource.sourceopener.preferences.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
    </extension>
 
 </plugin>

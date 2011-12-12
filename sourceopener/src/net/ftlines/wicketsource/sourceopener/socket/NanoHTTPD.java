@@ -1,4 +1,4 @@
-package net.simsa.sourceopener.socket;
+package net.ftlines.wicketsource.sourceopener.socket;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -234,7 +234,9 @@ public class NanoHTTPD
 							new HTTPSession( myServerSocket.accept());
 					}
 					catch ( IOException ioe )
-					{}
+					{
+						System.err.println("NanoHTTP received an IO Exception on the http session - exiting. " + ioe.toString());
+					}
 				}
 			});
 		myThread.setDaemon( true );

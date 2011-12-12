@@ -1,10 +1,10 @@
-package net.simsa.sourceopener;
+package net.ftlines.wicketsource.sourceopener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.simsa.sourceopener.views.OpenFileException;
+import net.ftlines.wicketsource.sourceopener.views.OpenFileException;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -37,7 +37,7 @@ public class PackageFileSearchRequester extends SearchRequestor implements IExce
 		progressMonitor = new FileSearchProgressMonitor();
 	}
 
-	public void searchAndWait(ViewPart viewPart) throws OpenFileException
+	public void searchAndWait() throws OpenFileException
 	{
 		exceptionWhileSearching = null;
 		search();

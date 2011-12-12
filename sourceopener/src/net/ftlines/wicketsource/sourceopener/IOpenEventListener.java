@@ -1,4 +1,4 @@
-package net.simsa.sourceopener;
+package net.ftlines.wicketsource.sourceopener;
 
 /**
  * Listeners implement to provide behavior for open-file events.

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: sourceopener
-Bundle-SymbolicName: net.simsa.sourceopener; singleton:=true
+Bundle-SymbolicName: net.ftlines.wicketsource.sourceopener;singleton:=true
 Bundle-Version: 1.1.0.qualifier
-Bundle-Activator: net.simsa.sourceopener.Activator
+Bundle-Activator: net.ftlines.wicketsource.sourceopener.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
