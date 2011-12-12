@@ -98,9 +98,19 @@ TabData.prototype = {
 		 */
 		makeUrl : function()
 		{
+			// Basic attempt to remove script injection exploits.
+			var wicketsourceString = this.selectedWicketSource;
+			wicketsourceString = wicketsourceString.replace(/'/g, "");
+			wicketsourceString = wicketsourceString.replace(/\(/g, "");
+			wicketsourceString = wicketsourceString.replace(/\)/g, "");
+			wicketsourceString = wicketsourceString.replace(/\;/g, "");
+			wicketsourceString = wicketsourceString.replace(/\&/g, "");
+			wicketsourceString = wicketsourceString.replace(/\|/g, "");
+			wicketsourceString = wicketsourceString.replace(/ /g, "");
+			
 			var url = "http://" + prefWatcher.prefManager.getCharPref("extensions.firebug.wicketsource.server") 
 			+ ":" + prefWatcher.prefManager.getIntPref("extensions.firebug.wicketsource.port") 
-			+ "/open?src=" + encodeURIComponent(this.selectedWicketSource)
+			+ "/open?src=" + encodeURIComponent(wicketsourceString)
 			+ "&p=" + encodeURIComponent(prefWatcher.prefManager.getCharPref("extensions.firebug.wicketsource.password"));
 			if (FBTrace.DBG_PANELS) FBTrace.sysout("wicketsource made url ", url);
 			return url;

@@ -56,6 +56,7 @@ function parseNode(wicketsourceString, wicketIdString, server, port, password) {
 	if (wicketsourceString == undefined) {
 		return wp;
 	}
+	// Basic attempt to remove script injection exploits.
 	wicketsourceString = wicketsourceString.replace(/'/g, "");
 	wicketsourceString = wicketsourceString.replace(/\(/g, "");
 	wicketsourceString = wicketsourceString.replace(/\)/g, "");
