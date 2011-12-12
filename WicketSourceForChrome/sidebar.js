@@ -56,6 +56,14 @@ function parseNode(wicketsourceString, wicketIdString, server, port, password) {
 	if (wicketsourceString == undefined) {
 		return wp;
 	}
+	wicketsourceString = wicketsourceString.replace(/'/g, "");
+	wicketsourceString = wicketsourceString.replace(/\(/g, "");
+	wicketsourceString = wicketsourceString.replace(/\)/g, "");
+	wicketsourceString = wicketsourceString.replace(/\;/g, "");
+	wicketsourceString = wicketsourceString.replace(/\&/g, "");
+	wicketsourceString = wicketsourceString.replace(/\|/g, "");
+	wicketsourceString = wicketsourceString.replace(/ /g, "");
+	
 	var pieces = wicketsourceString.split(":");
 	if (pieces.length == 3) {
 		wp.packageName = pieces[0];
@@ -113,7 +121,9 @@ function drawLinkRow(table, title, value, wp)
 	
 	var nodeA = document.createElement("a");
 	nodeA.setAttribute("id", hiddenNodeId);
-	nodeA.setAttribute("href", "javascript:WicketSourceForChrome.fetch('" + wp.eclipseUrl+"');");
+	var fetchUrl = "javascript:WicketSourceForChrome.fetch('" + wp.eclipseUrl+"');";
+	alert("url = " + fetchUrl);
+	nodeA.setAttribute("href", fetchUrl);
 	nodeA.setAttribute("data", wp.packageName + ":" + wp.sourceLine);
 	nodeA.appendChild(document.createTextNode(value));
 
