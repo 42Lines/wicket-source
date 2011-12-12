@@ -123,7 +123,6 @@ function drawLinkRow(table, title, value, wp)
 	var nodeA = document.createElement("a");
 	nodeA.setAttribute("id", hiddenNodeId);
 	var fetchUrl = "javascript:WicketSourceForChrome.fetch('" + wp.eclipseUrl+"');";
-	alert("url = " + fetchUrl);
 	nodeA.setAttribute("href", fetchUrl);
 	nodeA.setAttribute("data", wp.packageName + ":" + wp.sourceLine);
 	nodeA.appendChild(document.createTextNode(value));
