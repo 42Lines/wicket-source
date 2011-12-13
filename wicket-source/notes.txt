@@ -1,6 +1,5 @@
 
 To-Do:
-* Chrome plugin.
 * Check out wicketstuff contribution requirements and discuss.
 
 

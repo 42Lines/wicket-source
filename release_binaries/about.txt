@@ -1,0 +1,2 @@
+This holds binary release artifacts from each actual release version, for convenient retrieval.
+
