@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.ftlines.wicketsource</groupId>
-	<artifactId>wicketsource</artifactId>
+	<artifactId>wicket-source</artifactId>
 	<version>1.5.1.04-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
