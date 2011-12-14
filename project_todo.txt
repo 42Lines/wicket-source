@@ -2,19 +2,33 @@ SourceOpener eclipse plugin:
 * Determine why it's periodically crashing or silently shutting down, and fix that.
 * Determine version tagging and how best to package for release.
 
+
+
 WicketSource wicket module:
 * Determine where wicketsource will be hosted on a public maven repo, and update the path.
+* Check out wicketstuff contribution requirements and discuss.
+
+Deploying internally:
+mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03.jar -DpomFile=pom.xml -Dpackaging=jar
+mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03-sources.jar -DpomFile=pom.xml -Dpackaging=jar
+
+
 
 Sample project wicket demo:
 * Determine where wicketsource will be hosted on a public maven repo, and update the path.
 * Determine version tagging and update that.
 
+
+
 Firefox extension:
 * Simplify to always send the password if set. No need for a checkbox.
+
+
 
 Chrome extension:
 * Documentation
 * Determine packaging and hosting.
+
 
 Everything:
 * Version tagging in git and build.xml and poms.

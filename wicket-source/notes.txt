@@ -1,8 +1,0 @@
-
-To-Do:
-* Check out wicketstuff contribution requirements and discuss.
-
-
-Deploying:
-mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03.jar -DpomFile=pom.xml -Dpackaging=jar
-mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03-sources.jar -DpomFile=pom.xml -Dpackaging=jar
