@@ -7,6 +7,7 @@ SourceOpener eclipse plugin:
 WicketSource wicket module:
 * Determine where wicketsource will be hosted on a public maven repo, and update the path.
 * Check out wicketstuff contribution requirements and discuss.
+* Fix bug where wicketsource="" tag does not show for any components inside a Modal Window.
 
 Deploying internally:
 mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03.jar -DpomFile=pom.xml -Dpackaging=jar

@@ -1,10 +1,11 @@
 Remaining work to do:
 * For release: Provide how-to-use readme with a web page where the extension can be downloaded/installed.
 * Update Options page to show the right web addresses instead of www.example.com
+* Compatibility checking with Firefox 8 and various Firebug versions 
 
 Later enhancements:
 * Usability improvement; right-click menu on an element, "Inspect in Eclipse" that takes you directly there.
-* Backport the Options screen to support Firefox 5 & 6
+
 
 12/11/2011 - Improved content filtering to reduce the likelihood of script injection.
 
