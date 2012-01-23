@@ -1,13 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>net.ftlines.wicketsource</groupId>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source</artifactId>
-	<version>1.5.1.04</version>
+	<version>1.5.0.04</version>
 	<packaging>jar</packaging>
-	<description>Wicket-source displays wicket component instantiation location in an html attribute, speeding modification of existing wicket pages.</description>
-	<name>wicketsource</name>
+	<description>Wicket-source displays component instantiation location in an html attribute, speeding modification of existing wicket pages.</description>
+	<name>Wicket Source</name>
 	<url>https://github.com/42Lines/wicket-source/wiki</url>
 	<licenses>
 		<license>
@@ -26,7 +30,6 @@
 		<developer>
 			<id>jenny</id>
 			<name>Jenny Brown</name>
-			<email>wicketsource@gmail.com</email>
 			<roles>
 				<role>developer</role>
 			</roles>
