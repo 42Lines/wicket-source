@@ -5,25 +5,18 @@ SourceOpener eclipse plugin:
 
 
 WicketSource wicket module:
-* Determine where wicketsource will be hosted on a public maven repo, and update the path.
-* Check out wicketstuff contribution requirements and discuss.
+* Prepare for initial maven central release.
 * Fix bug where wicketsource="" tag does not show for any components inside a Modal Window.
-
-Deploying internally:
-mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03.jar -DpomFile=pom.xml -Dpackaging=jar
-mvn deploy -DaltDeploymentRepository=releases::default::https://repo.aws.42lines.net/content/repositories/releases -Dfile=target/wicketsource-1.5.1_03-sources.jar -DpomFile=pom.xml -Dpackaging=jar
-
+* Check out wicketstuff contribution requirements.
 
 
 Sample project wicket demo:
-* Determine where wicketsource will be hosted on a public maven repo, and update the path.
+* Determine where wicketsource will be hosted on a public maven repo, and update the path in sample to use it.
 * Determine version tagging and update that.
-
 
 
 Firefox extension:
 * Simplify to always send the password if set. No need for a checkbox.
-
 
 
 Chrome extension:
@@ -32,8 +25,6 @@ Chrome extension:
 
 
 Everything:
-* Version tagging in git and build.xml and poms.
-* Packaging for release.
 * Updated wiki docs, and include info on how to contact the maintainer.
 * Upload to release site.
 * Announcements
