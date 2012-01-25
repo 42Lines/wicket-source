@@ -10,7 +10,7 @@
 	<artifactId>wicket-source</artifactId>
 	<version>1.5.0.04-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<description>Wicket-source displays component instantiation location in an html attribute, speeding modification of existing wicket pages.</description>
+	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages.</description>
 	<name>Wicket Source</name>
 	<url>https://github.com/42Lines/wicket-source/wiki</url>
 	<licenses>
