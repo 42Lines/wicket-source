@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -8,7 +7,7 @@
 	</parent>
 	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source</artifactId>
-	<version>1.5.0.04-SNAPSHOT</version>
+	<version>1.5.0.04</version>
 	<packaging>jar</packaging>
 	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages.</description>
 	<name>Wicket Source</name>
