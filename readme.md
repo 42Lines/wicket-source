@@ -18,6 +18,8 @@ See the [Wiki page](https://github.com/42Lines/wicket-source/wiki) for deeper de
 
 3. Install SourceOpener by putting its .jar into the eclipse drop-ins folder and restarting Eclipse. Then "Show View" / "Source Opener, Recent File Locations" to get to the tab.
 
+The Chrome extension currently depends on Chrome experimental APIs and thus is not available as a general release yet.
+
 
 ## Notes
 
