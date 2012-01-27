@@ -10,7 +10,6 @@
 	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source-demo</artifactId>
 	<packaging>war</packaging>
-	<version>1.5.0_05-SNAPSHOT</version>
 	<name>Wicket Source Demo</name>
 	<description>Wicket Quick-Start project demonstrating use of Wicket-Source</description>
 	<properties>

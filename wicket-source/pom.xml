@@ -8,7 +8,6 @@
 	</parent>
 	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source</artifactId>
-	<version>1.5.0_05-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages.</description>
 	<name>Wicket Source</name>
