@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.ftlines.wicket-source</groupId>
-		<artifactId>wicket-source-all</artifactId>
+		<artifactId>wicket-source-with-plugins</artifactId>
 		<version>1.5.0.05-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
