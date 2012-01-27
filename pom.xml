@@ -7,7 +7,7 @@
 	</parent>
 	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source-with-plugins</artifactId>
-	<version>1.5.0_05</version>
+	<version>1.5.0_06-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages. The -with-plugins version includes sources for the Eclipse SourceOpener plugin, and the Firefox plugin and Chrome plugin.  The only module required for maven dependency in your app is wicket-source itself.</description>
 	<name>Wicket Source With Plugins</name>
