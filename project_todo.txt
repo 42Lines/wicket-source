@@ -20,12 +20,13 @@ Firefox extension:
 
 
 Chrome extension:
+* Waiting for experimental APIs to become standard
 * Documentation
 * Determine packaging and hosting.
 
 
 Everything:
-* Updated wiki docs, and include info on how to contact the maintainer.
-* Upload to release site.
+* Updated wiki docs
+* Upload to release site and beta-test.
 * Announcements
 
