@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.ftlines.wicket-source</groupId>
 		<artifactId>wicket-source-with-plugins</artifactId>
-		<version>1.5.0_05-SNAPSHOT</version>
+		<version>1.5.0_05</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>net.ftlines.wicket-source</groupId>
