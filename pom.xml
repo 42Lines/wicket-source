@@ -9,7 +9,7 @@
 	<artifactId>wicket-source-with-plugins</artifactId>
 	<version>1.5.0.05-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages.</description>
+	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages. The -with-plugins version includes sources for the Eclipse SourceOpener plugin, and the Firefox plugin and Chrome plugin.  The only module required for maven dependency in your app is wicket-source itself.</description>
 	<name>Wicket Source With Plugins</name>
 	<url>https://github.com/42Lines/wicket-source/wiki</url>
 	<licenses>
@@ -42,6 +42,7 @@
 
 	<modules>
 		<module>wicket-source</module>
+		<module>wicket-source-demo</module>
 	</modules>
 
 </project>
