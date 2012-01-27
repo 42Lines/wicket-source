@@ -1,9 +1,9 @@
-package net.ftlines.wicketsource.sample;
+package net.ftlines.wicketsource.demo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ftlines.wicketsource.sample.BookDataTable.BookDataProvider;
+import net.ftlines.wicketsource.demo.BookDataTable.BookDataProvider;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;

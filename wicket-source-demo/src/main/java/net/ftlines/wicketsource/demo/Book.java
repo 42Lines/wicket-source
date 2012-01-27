@@ -1,4 +1,4 @@
-package net.ftlines.wicketsource.sample;
+package net.ftlines.wicketsource.demo;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package net.ftlines.wicketsource.sample;
+package net.ftlines.wicketsource.demo;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
