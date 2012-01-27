@@ -7,7 +7,7 @@
 	</parent>
 	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source-all</artifactId>
-	<version>1.5.0.04</version>
+	<version>1.5.0.05-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages.</description>
 	<name>Wicket Source All</name>
