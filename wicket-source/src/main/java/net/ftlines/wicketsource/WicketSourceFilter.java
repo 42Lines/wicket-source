@@ -24,8 +24,8 @@ public class WicketSourceFilter {
 
 	/**
 	 * Human readable class name for the type of component this is (Label, BookmarkablePageLink, whatever).
-	 * @param component
-	 * @return
+	 * @param component to get name of
+	 * @return String for the class name possibly including parent$childClass
 	 */
 	public static String getClassName(Component component)
 	{
@@ -46,7 +46,7 @@ public class WicketSourceFilter {
 	 * which are filtered out ahead of time by the AttributeModifyingInstantionListener.
 	 * @param location The throwable from creation time
 	 * @param component The component we're examining
-	 * @return
+	 * @return StackTraceElement of the most likely source
 	 */
 	public static StackTraceElement findCreationSource(Throwable location, Component component)
 	{
@@ -57,9 +57,9 @@ public class WicketSourceFilter {
 	 * Takes a list of "interesting" stack trace elements and figures out which
 	 * one is the most likely source for creation of the component.
 	 * 
-	 * @param elements
-	 * @param component
-	 * @return
+	 * @param elements elements to search through
+	 * @param component component to look for
+	 * @return StackTraceElement of the most likely source
 	 */
 	private static StackTraceElement findCreationSource(List<StackTraceElement> elements, Component component)
 	{
@@ -184,6 +184,7 @@ public class WicketSourceFilter {
 	 * This is a modified version of org.apache.wicket.util.string.Strings
 	 * shouldSkip(String, String[]) method but set up just to filter a stack
 	 * trace, not print it.
+	 * @return true if the stack trace line should be skipped; false if it should be considered a potentially useful instantiation location
 	 */
 	private static boolean shouldSkip(String text, String[] filters)
 	{

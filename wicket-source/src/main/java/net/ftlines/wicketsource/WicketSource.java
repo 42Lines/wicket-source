@@ -10,6 +10,10 @@ import org.apache.wicket.Application;
  */
 public class WicketSource {
 
+	/**
+	 * Preferred entry point for configuring your WicketApplication automatically.
+	 * @param application Your wicket application
+	 */
 	public static void configure(Application application)
 	{
 		application.getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener());

@@ -28,7 +28,7 @@ public class InstantiationLocation implements Serializable {
 
 	/**
 	 * When a component is instantiated, record its source location as part of its metadata.
-	 * @param component
+	 * @param component being instantiated
 	 * @throws UnsupportedComponentException
 	 */
 	public InstantiationLocation(Component component) 
@@ -42,14 +42,17 @@ public class InstantiationLocation implements Serializable {
 
 	/**
 	 * What kind of wicket component is this (Label, BookmarkableLink, etc) - convenience lookup.
-	 * @param component
-	 * @return
+	 * @param component to identify
+	 * @return string with the class name of the component
 	 */
 	public String getComponentType(Component component)
 	{
 		return WicketSourceFilter.getClassName(component);
 	}
 
+	/**
+	 * @return Gets a string from a stack trace element indicating the package that the class came from or empty for default package
+	 */
 	private String getPackageLocation()
 	{
 		if (traceElement.getClassName().indexOf('.') == -1) { // default package
@@ -59,6 +62,9 @@ public class InstantiationLocation implements Serializable {
 		}
 	}
 
+	/**
+	 * @return Gets a string from a stack trace element indicating the class that the component came from
+	 */
 	private String getClassLocation()
 	{
 		if (traceElement.getClassName().indexOf('.') == -1) { // default package
@@ -68,11 +74,17 @@ public class InstantiationLocation implements Serializable {
 		}
 	}
 
+	/**
+	 * @return Gets the filename from a stack trace element
+	 */
 	private String getFilename()
 	{
 		return traceElement.getFileName();
 	}
 
+	/**
+	 * @return Gets the line number of the source location from a stack trace element
+	 */
 	private Integer getLineNumber()
 	{
 		return traceElement.getLineNumber();
@@ -83,10 +95,10 @@ public class InstantiationLocation implements Serializable {
 	 * source of this component. Result is of the form
 	 * net.simsa.packagename:ClassName.java:35 (package:file:line).
 	 * 
-	 * @param component
-	 * @return
+	 * @param component to search for
+	 * @return String indicating package : filename.java : lineNumber
 	 */
-	public String generateSourceLocationAttribute(Component component)
+	public String generateSourceLocationAttribute()
 	{
 		return getPackageLocation() + ":" + getFilename() + ":"	+ getLineNumber();
 	}
@@ -95,7 +107,7 @@ public class InstantiationLocation implements Serializable {
 	public String toString()
 	{
 		return "InstantiationLocation: packageLocation=" + getPackageLocation() + ", classLocation="
-				+ getClassLocation() + ", lineNumber=" + getLineNumber() + "]";
+				+ getClassLocation() + ", lineNumber=" + getLineNumber();
 	}
 
 }

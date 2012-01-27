@@ -31,10 +31,16 @@ import org.apache.wicket.Page;
 public class AttributeModifyingComponentVisitor implements Serializable, IAttributeModifyingComponentVisitor, IComponentOnBeforeRenderListener {
 	private final AttributeModifier wicketSourceAttribute;
 
+	/**
+	 * Creates a visitor
+	 */
 	public AttributeModifyingComponentVisitor() {
 		wicketSourceAttribute = new AttributeModifier("wicketSource", new SourceModel());
 	}
 
+	/**
+	 * Causes this visitor to visit all the children of the Page, attaching an html attribute to each one
+	 */
 	public void addClassNameVisitor(Page page)
 	{
 		page.visitChildren(new IVisitor<Component, Void>()
@@ -46,6 +52,9 @@ public class AttributeModifyingComponentVisitor implements Serializable, IAttrib
 		});
 	}
 
+	/**
+	 * For Page components (only) causes a call to addClassNameVisitor(page) visit all of its children
+	 */
 	public void onBeforeRender(Component component)
 	{
 		if (!(component instanceof Page)) {
