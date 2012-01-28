@@ -13,18 +13,6 @@ import org.apache.wicket.application.IComponentInstantiationListener;
  * This uses a similar approach to line-precise-reporting-on-new-component and is likely to be 
  * equally slow, so turn it on only in debug/development mode, not production.
  * 
- * Usage, in your WicketApplication:
- * <pre>
- * if (getDebugSettings().isLinePreciseReportingOnNewComponentEnabled()) {
- *      // wicket 1.4
- *      addComponentInstantiationListener(new AttributeModifyingInstantiationListener()); 
- * 		// or wicket 1.5
- * 		getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener()); 
- * }
- * </pre>
- *  
- * See {@link AttributeModifyingComponentVisitor} for usage syntax in onBeforeRender().
- * 
  * @author Jenny Brown
  *
  */
