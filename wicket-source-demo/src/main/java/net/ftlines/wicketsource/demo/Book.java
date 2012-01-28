@@ -2,17 +2,23 @@ package net.ftlines.wicketsource.demo;
 
 import java.io.Serializable;
 
+/**
+ * Represents an ebook
+ * 
+ * @author Jenny Brown
+ * 
+ */
 public class Book implements Serializable {
-	
+
 	private Integer id;
 	private String title;
 	private String url;
 	private Integer downloads;
-	
+
 	public Book() {
 		downloads = 0;
 	}
-	
+
 	public Book(Integer id, String title, String url, Integer downloads) {
 		this.id = id;
 		this.title = title;
@@ -47,5 +53,5 @@ public class Book implements Serializable {
 	public void setDownloads(Integer downloads) {
 		this.downloads = downloads;
 	}
-	
+
 }

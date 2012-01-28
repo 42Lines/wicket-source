@@ -13,6 +13,12 @@ import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvid
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+/**
+ * A list of books on the web page
+ * 
+ * @author Jenny Brown
+ * 
+ */
 public class BookDataTable extends DefaultDataTable<Book> {
 
 	public BookDataTable(String id, List<IColumn<Book>> columns,
@@ -21,12 +27,12 @@ public class BookDataTable extends DefaultDataTable<Book> {
 	}
 
 	static class BookDataProvider extends SortableDataProvider<Book> {
-		
+
 		public BookDataProvider() {
 		}
 
 		public Iterator<? extends Book> iterator(int first, int count) {
-			return getBooks(getSort()).subList(first, first+count).iterator();
+			return getBooks(getSort()).subList(first, first + count).iterator();
 		}
 
 		public int size() {
@@ -40,6 +46,7 @@ public class BookDataTable extends DefaultDataTable<Book> {
 		/**
 		 * Mock database lookup for data. Normal this data would come from a
 		 * call out to an injected Hibernate data lookup class.
+		 * 
 		 * @return List of books
 		 */
 		private List<Book> getBooks(SortParam sort) {
@@ -54,9 +61,9 @@ public class BookDataTable extends DefaultDataTable<Book> {
 					156));
 			books.add(new Book(4, "A Christmas Carol",
 					"http://www.gutenberg.org/files/46/46-h/46-h.htm", 1805));
-			
+
 			Collections.sort(books, new BookComparator(sort));
-			
+
 			return books;
 		}
 

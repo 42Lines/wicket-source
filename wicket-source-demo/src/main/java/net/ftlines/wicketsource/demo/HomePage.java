@@ -18,6 +18,11 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+/**
+ * The main home page of this application
+ * @author Jenny Brown
+ *
+ */
 public class HomePage extends WebPage {
 	private static final long serialVersionUID = 1L;
 
@@ -26,22 +31,25 @@ public class HomePage extends WebPage {
 				.getVersion()));
 		add(new Label("bigTitle", "Application Works"));
 		add(new MyPanel("mypanel"));
-		
+
 		List<IColumn<Book>> columns = new ArrayList<IColumn<Book>>();
 		columns.add(new PropertyColumn<Book>(Model.of("ID"), "id", "id"));
 		columns.add(new PropertyColumn<Book>(Model.of("Book"), "title", "title") {
 			@Override
 			public void populateItem(Item<ICellPopulator<Book>> item,
 					String componentId, IModel<Book> rowModel) {
-				LinkedTitlePanel bookTitleContainer = new LinkedTitlePanel(componentId, rowModel);
+				LinkedTitlePanel bookTitleContainer = new LinkedTitlePanel(
+						componentId, rowModel);
 				item.add(bookTitleContainer);
 			}
 		});
-		columns.add(new PropertyColumn<Book>(Model.of("# Downloads"), "downloads", "downloads"));
-		
-		BookDataTable bookTable = new BookDataTable("bookTable", columns, new BookDataProvider(), 5);
+		columns.add(new PropertyColumn<Book>(Model.of("# Downloads"),
+				"downloads", "downloads"));
+
+		BookDataTable bookTable = new BookDataTable("bookTable", columns,
+				new BookDataProvider(), 5);
 		add(bookTable);
-		
+
 		add(new FooterPanel("footerPanel"));
 	}
 
@@ -51,16 +59,18 @@ public class HomePage extends WebPage {
 			add(new Label("title", "Inspect Me"));
 		}
 	}
-	
+
 	static class LinkedTitlePanel extends Panel {
 
 		public LinkedTitlePanel(String id, IModel<?> rowModel) {
 			super(id, rowModel);
-			
-			ExternalLink link = new ExternalLink("link", new PropertyModel<String>(rowModel, "url"), new PropertyModel<Book>(rowModel, "title"));
+
+			ExternalLink link = new ExternalLink("link",
+					new PropertyModel<String>(rowModel, "url"),
+					new PropertyModel<Book>(rowModel, "title"));
 			add(link);
 		}
-		
+
 	}
 
 }
