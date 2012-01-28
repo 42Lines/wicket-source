@@ -18,13 +18,6 @@ import org.apache.wicket.Page;
  * tags images, labels, and links. Some of that is noise but some may be useful
  * in locating a component in the source.
  * 
- * Usage, in the application class: 
- * <pre>
- * if (yourDebugCondition) {
- * 	 getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor());
- * }
- * </pre>
- * 
  * @author Jenny Brown
  *
  */
