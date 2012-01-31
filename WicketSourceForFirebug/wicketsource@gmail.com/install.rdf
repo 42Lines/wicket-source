@@ -5,14 +5,14 @@
   <RDF:Description RDF:about="rdf:#$41y0G2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="7"
-                   em:maxVersion="7.*" />
+                   em:maxVersion="9.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="wicketsource@gmail.com"
                    em:name="Wicket Source"
                    em:version="1.0"
-                   em:creator="Jenny Brown; http://www.example.org"
+                   em:creator="Jenny Brown; https://github.com/42Lines/wicket-source/wiki"
                    em:description="Click-through to wicket source in Eclipse"
-                   em:homepageURL="http://www.example.com"
+                   em:homepageURL="https://github.com/42Lines/wicket-source/wiki"
                    em:iconURL="chrome://wicket_source/content/icon.png">
     <em:targetApplication RDF:resource="rdf:#$41y0G2"/>
     <em:optionsURL>chrome://wicket_source/content/options.xul</em:optionsURL>
