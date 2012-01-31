@@ -6,7 +6,6 @@
 		<version>1.5.0_07-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source</artifactId>
 	<packaging>jar</packaging>
 	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages.</description>
