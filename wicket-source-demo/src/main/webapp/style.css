@@ -1,5 +1,5 @@
 body, p, li, a { font-family: georgia, times, serif;font-size:13pt;}
-h1, h2, h3 { font-family: 'Yanone Kaffeesatz', arial, serif; }
+h1, h2, h3 { font-family: arial, serif; }
 body { margin:0;padding:0;}
 #hd {
 	width : 100%;
@@ -75,4 +75,10 @@ h3 {
 }
 #bookTable td {
 	padding: 5px;
+}
+.w_close {
+ background-image: url("x.png") !important;
+ background-position: 0 0 !important;
+ height: 21px !important; 
+ width: 21px !important;
 }

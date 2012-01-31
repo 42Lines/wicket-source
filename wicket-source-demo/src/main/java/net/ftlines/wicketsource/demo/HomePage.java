@@ -5,6 +5,10 @@ import java.util.List;
 
 import net.ftlines.wicketsource.demo.BookDataTable.BookDataProvider;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
@@ -25,6 +29,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
  */
 public class HomePage extends WebPage {
 	private static final long serialVersionUID = 1L;
+	ModalWindow modal;
 
 	public HomePage(final PageParameters parameters) {
 		add(new Label("version", getApplication().getFrameworkSettings()
@@ -49,8 +54,35 @@ public class HomePage extends WebPage {
 		BookDataTable bookTable = new BookDataTable("bookTable", columns,
 				new BookDataProvider(), 5);
 		add(bookTable);
-
+		add(modal = new ModalWindow("modalWindow"));
+		add(new ModalLink("showModal", modal) {
+			public Component createContent()  {
+				return new MyPanel(modal.getContentId());
+			}
+		});
 		add(new FooterPanel("footerPanel"));
+	}
+	
+	static abstract class ModalLink extends AjaxLink {
+		private ModalWindow modalWindow;
+		
+		public ModalLink(String id, ModalWindow modalWindow) {
+			super(id);
+			this.modalWindow = modalWindow;
+		}
+		
+		public abstract Component createContent();
+
+		@Override
+		public void onClick(AjaxRequestTarget target) {
+			modalWindow.setCssClassName("modalCss");
+			modalWindow.setContent(createContent());
+			modalWindow.setTitle("A Title Goes Here");
+			modalWindow.setInitialHeight(300);
+			modalWindow.setInitialWidth(400);
+			modalWindow.show(target);
+		}
+		
 	}
 
 	static class MyPanel extends Panel {
