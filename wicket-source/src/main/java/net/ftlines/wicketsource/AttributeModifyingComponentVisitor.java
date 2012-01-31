@@ -5,9 +5,6 @@ import java.io.Serializable;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.application.IComponentOnBeforeRenderListener;
-import org.apache.wicket.util.visit.IVisit;
-import org.apache.wicket.util.visit.IVisitor;	
-import org.apache.wicket.Page;
 
 /**
  * Sticks the wicket component name into an html attribute on the tag, which 
@@ -21,7 +18,7 @@ import org.apache.wicket.Page;
  * @author Jenny Brown
  *
  */
-public class AttributeModifyingComponentVisitor implements Serializable, IAttributeModifyingComponentVisitor, IComponentOnBeforeRenderListener {
+public class AttributeModifyingComponentVisitor implements Serializable, IComponentOnBeforeRenderListener {
 	private final AttributeModifier wicketSourceAttribute;
 
 	/**
@@ -32,29 +29,11 @@ public class AttributeModifyingComponentVisitor implements Serializable, IAttrib
 	}
 
 	/**
-	 * Causes this visitor to visit all the children of the Page, attaching an html attribute to each one
-	 */
-	public void addClassNameVisitor(Page page)
-	{
-		page.visitChildren(new IVisitor<Component, Void>()
-		{
-			public void component(Component component, IVisit<Void> visit)
-			{
-				component.add(wicketSourceAttribute);
-			}
-		});
-	}
-
-	/**
-	 * For Page components (only) causes a call to addClassNameVisitor(page) visit all of its children
+	 * Attaches the attribute modifier to each component being rendered.
 	 */
 	public void onBeforeRender(Component component)
 	{
-		if (!(component instanceof Page)) {
-			return;
-		}
-
-		addClassNameVisitor((Page)component);
+		component.add(wicketSourceAttribute);
 	}
 	
 	
