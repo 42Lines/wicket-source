@@ -3,17 +3,16 @@
 	<parent>
 		<groupId>net.ftlines.wicket-source</groupId>
 		<artifactId>wicket-source-parent</artifactId>
-		<version>1.5.0.7-SNAPSHOT</version>
+		<version>1.4.0.7-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source-demo</artifactId>
 	<packaging>war</packaging>
 	<name>Wicket Source Demo</name>
 	<description>Wicket Quick-Start project demonstrating use of Wicket-Source</description>
 	<properties>
-		<wicket.version>1.5.0</wicket.version>
-		<jetty.version>7.5.0.v20110901</jetty.version>
+		<wicket.version>1.4.0</wicket.version>
+		<jetty.version>6.1.25</jetty.version>
 	</properties>
 	<dependencies>
 		<!-- Project we're demonstrating -->
@@ -26,7 +25,7 @@
 		<!-- WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-core</artifactId>
+			<artifactId>wicket</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
 		<dependency>
@@ -39,12 +38,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.2</version>
+			<version>1.4.2</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
+			<version>1.2.14</version>
 		</dependency>
 
 		<!-- JUNIT DEPENDENCY FOR TESTING -->
@@ -56,12 +55,25 @@
 		</dependency>
 
 		<!-- JETTY DEPENDENCIES FOR TESTING -->
-		<dependency>
-			<groupId>org.eclipse.jetty.aggregate</groupId>
-			<artifactId>jetty-all-server</artifactId>
-			<version>${jetty.version}</version>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty</artifactId>
+                <version>${jetty.version}</version>
+                <scope>provided</scope>
+        </dependency>
+        <dependency>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-util</artifactId>
+                <version>${jetty.version}</version>
+                <scope>provided</scope>
+        </dependency>
+        <dependency>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-management</artifactId>
+                <version>${jetty.version}</version>
+                <scope>provided</scope>
+        </dependency>
+
 
 	</dependencies>
 	<build>

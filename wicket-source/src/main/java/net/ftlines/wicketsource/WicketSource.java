@@ -16,8 +16,11 @@ public class WicketSource {
 	 */
 	public static void configure(Application application)
 	{
-		application.getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener());
-		application.getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor());
+        application.addComponentInstantiationListener(new AttributeModifyingInstantiationListener());
+        application.addPostComponentOnBeforeRenderListener(new AttributeModifyingComponentVisitor());
+// Below is 1.5 syntax for diff convenience.
+//		application.getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener());
+//		application.getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor());
 	}
 	
 }

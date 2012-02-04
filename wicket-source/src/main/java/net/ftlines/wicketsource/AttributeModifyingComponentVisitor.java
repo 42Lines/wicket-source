@@ -25,7 +25,7 @@ public class AttributeModifyingComponentVisitor implements Serializable, ICompon
 	 * Creates a visitor
 	 */
 	public AttributeModifyingComponentVisitor() {
-		wicketSourceAttribute = new AttributeModifier("wicketSource", new SourceModel());
+		wicketSourceAttribute = new AttributeModifier("wicketSource", true, new SourceModel());
 	}
 
 	/**

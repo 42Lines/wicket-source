@@ -6,6 +6,7 @@ import java.util.List;
 import net.ftlines.wicketsource.demo.BookDataTable.BookDataProvider;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
@@ -20,7 +21,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * The main home page of this application
@@ -99,7 +99,7 @@ public class HomePage extends WebPage {
 
 			ExternalLink link = new ExternalLink("link",
 					new PropertyModel<String>(rowModel, "url"),
-					new PropertyModel<Book>(rowModel, "title"));
+					new PropertyModel<String>(rowModel, "title"));
 			add(link);
 		}
 

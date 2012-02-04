@@ -16,7 +16,8 @@ import org.apache.wicket.util.string.Strings;
 public class WicketSourceFilter {
 
 	/** The notification method where instantiation listeners are called. */
-	private static final String NOTIFY_COMPONENT_INSTANTIATION_LISTENERS = "org.apache.wicket.application.ComponentInstantiationListenerCollection.onInstantiation";
+	private static final String NOTIFY_COMPONENT_INSTANTIATION_LISTENERS = "org.apache.wicket.Application.notifyComponentInstantiationListeners";
+//	private static final String NOTIFY_COMPONENT_INSTANTIATION_LISTENERS = "org.apache.wicket.application.ComponentInstantiationListenerCollection.onInstantiation";
 	/** When we hit this as the component origin, we know we won't get anything useful out of it.  */
 	private static final String WICKET_PAGE_ON_RENDER = "org.apache.wicket.Page.onRender";
 	/** When we hit this as the component origin, we know we won't get anything useful out of it.  */
