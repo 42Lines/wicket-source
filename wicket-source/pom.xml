@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.ftlines.wicket-source</groupId>
 		<artifactId>wicket-source-parent</artifactId>
-		<version>1.4.0.8-SNAPSHOT</version>
+		<version>1.4.18.7-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>wicket-source</artifactId>
@@ -20,7 +20,7 @@
 	</licenses>
 
 	<properties>
-		<wicket.version>1.4.0</wicket.version>
+		<wicket.version>1.4.18</wicket.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
