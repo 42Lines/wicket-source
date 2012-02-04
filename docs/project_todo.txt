@@ -1,32 +1,16 @@
+WicketSource wicket module: Done including backport.
+
+Sample project wicket demo: Done including backport.
+
 SourceOpener eclipse plugin:
 * Determine why it's periodically crashing or silently shutting down, and fix that.
 * Determine version tagging and how best to package for release.
 
-
-
-WicketSource wicket module:
-* Prepare for initial maven central release.
-* Fix bug where wicketsource="" tag does not show for any components inside a Modal Window.
-* Check out wicketstuff contribution requirements.
-
-
-Sample project wicket demo:
-* Determine where wicketsource will be hosted on a public maven repo, and update the path in sample to use it.
-* Determine version tagging and update that.
-
-
 Firefox extension:
 * Simplify to always send the password if set. No need for a checkbox.
-
 
 Chrome extension:
 * Waiting for experimental APIs to become standard
 * Documentation
 * Determine packaging and hosting.
-
-
-Everything:
-* Updated wiki docs
-* Upload to release site and beta-test.
-* Announcements
 
