@@ -11,6 +11,6 @@
    	"128": "icon128.png"  
   },
   "permissions":  [
-    "experimental", "devtools_page", "http://*/*", "https://*/*"
+    "devtools_page", "http://*/*", "https://*/*"
   ]
 }

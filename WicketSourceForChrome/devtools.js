@@ -1,4 +1,4 @@
-chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", function(sidebar) {
+chrome.devtools.panels.elements.createSidebarPane("WicketSource", function(sidebar) {
 
 	this.wicketsourceString = null;
 	this.wicketIdString = null;
@@ -29,8 +29,8 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 	// Listener event callback initiates "inspected-page context" data retrieval 
 	// (which understands currently selected node in the Inspect Element tab). 
 	function update() {
-		chrome.experimental.devtools.inspectedWindow.eval("$0.attributes['wicket:id'].value", wicketIdEval);
-		chrome.experimental.devtools.inspectedWindow.eval("$0.attributes.wicketsource.value", wicketsourceEval);
+		chrome.devtools.inspectedWindow.eval("$0.attributes['wicket:id'].value", wicketIdEval);
+		chrome.devtools.inspectedWindow.eval("$0.attributes.wicketsource.value", wicketsourceEval);
 	}
 	function wicketIdEval(result, isException)
 	{
@@ -69,6 +69,6 @@ chrome.experimental.devtools.panels.elements.createSidebarPane("WicketSource", f
 	update();
 	
 	// All further activity comes through the listener events.
-	chrome.experimental.devtools.panels.elements.onSelectionChanged.addListener(update);
+	chrome.devtools.panels.elements.onSelectionChanged.addListener(update);
 });
 
