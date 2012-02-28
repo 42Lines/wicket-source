@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="rdf:#$41y0G2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="7"
-                   em:maxVersion="9.*" />
+                   em:maxVersion="10.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="wicketsource@gmail.com"
                    em:name="Wicket Source"
