@@ -6,7 +6,6 @@
 		<version>1.5.0.8-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<groupId>net.ftlines.wicket-source</groupId>
 	<artifactId>wicket-source-demo</artifactId>
 	<packaging>war</packaging>
 	<name>Wicket Source Demo</name>

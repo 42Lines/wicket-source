@@ -10,7 +10,7 @@ Customizations that are important to WicketSource working:
 		<dependency>
 			<groupId>net.ftlines.wicketsource</groupId>
 			<artifactId>wicketsource</artifactId>
-			<version>1.5.1_03</version>
+			<version>1.5.0.8</version>
 		</dependency>
 		
 3) pom.xml also got an additional repository until such time as this is hosted publicly.
