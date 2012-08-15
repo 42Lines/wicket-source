@@ -7,7 +7,7 @@ import net.ftlines.wicketsource.sourceopener.socket.HttpService;
 import net.ftlines.wicketsource.sourceopener.views.OpenFileException;
 import net.ftlines.wicketsource.sourceopener.views.UIEditorFileOpener;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
@@ -149,7 +149,7 @@ public class Activator extends AbstractUIPlugin implements IStartup, IOpenEventL
 	
 	
 
-	private static IPath[] searchForFile(OpenEvent event) throws OpenFileException
+	private static SearchMatch[] searchForFile(OpenEvent event) throws OpenFileException
 	{
 		PackageFileSearchRequester searchFacade = new PackageFileSearchRequester(event.getPackageName(), event.getFileName().replace(".java", ""));
 		searchFacade.searchAndWait();
@@ -165,7 +165,7 @@ public class Activator extends AbstractUIPlugin implements IStartup, IOpenEventL
 	{
 		try {
 			// Look for the file requested by open event.
-			IPath[] matches = Activator.searchForFile(event);
+			SearchMatch[] matches = Activator.searchForFile(event);
 			if (matches.length == 0) {
 				event.setResultOfOpen(new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND));
 				return;
@@ -191,7 +191,7 @@ public class Activator extends AbstractUIPlugin implements IStartup, IOpenEventL
 				event.setFile(null);
 				return;
 			}
-			event.setFile((IPath) choices[0]);
+			event.setFile((SearchMatch) choices[0]);
 			event.setResultOfOpenOk();
 			new UIEditorFileOpener(event).run();
 			

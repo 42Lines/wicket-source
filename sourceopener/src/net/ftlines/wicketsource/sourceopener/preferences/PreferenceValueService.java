@@ -1,7 +1,5 @@
 package net.ftlines.wicketsource.sourceopener.preferences;
 
-import java.util.logging.Logger;
-
 import net.ftlines.wicketsource.sourceopener.Activator;
 
 /**

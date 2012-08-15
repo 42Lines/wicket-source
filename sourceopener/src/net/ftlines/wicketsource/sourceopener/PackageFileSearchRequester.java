@@ -6,14 +6,11 @@ import java.util.logging.Logger;
 
 import net.ftlines.wicketsource.sourceopener.views.OpenFileException;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jdt.core.search.SearchRequestor;
-import org.eclipse.ui.part.ViewPart;
 
 public class PackageFileSearchRequester extends SearchRequestor implements IExceptionCallbackHandler {
 
@@ -85,17 +82,17 @@ public class PackageFileSearchRequester extends SearchRequestor implements IExce
 		list.add(match);
 	}
 
-	public IPath[] allMatches()
+	public SearchMatch[] allMatches()
 	throws OpenFileException
 	{
 		if (list.isEmpty()) { 
 			throw new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND);
 		}
-		IPath[] matches = new IPath[list.size()];
+		SearchMatch[] matches = new SearchMatch[list.size()];
 		for (int i = 0; i < list.size(); i++) {
 			SearchMatch match = list.get(i);
-			IResource resource = match.getResource();
-			matches[i] = resource.getLocation();		
+			log.info("Matched SourceOpener file with project-relative path of project=" + match.getResource().getProject() + " and path=" + match.getResource().getProjectRelativePath());
+			matches[i] = match;
 		}
 		return matches;
 	}

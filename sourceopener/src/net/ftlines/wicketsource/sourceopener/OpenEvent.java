@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import net.ftlines.wicketsource.sourceopener.views.OpenFileException;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.search.SearchMatch;
 
 /**
  * Represents a request to open a file and jump to a specific location in the
@@ -21,7 +21,7 @@ public class OpenEvent {
 	private String packageName;
 	private String fileName;
 	private int lineNumber;
-	private IPath file;
+	private SearchMatch file;
 	private boolean firstOpen = true;
 
 	public String toString()
@@ -107,12 +107,12 @@ public class OpenEvent {
 		return resultOfOpen;
 	}
 
-	public IPath getFile()
+	public SearchMatch getFile()
 	{
 		return file;
 	}
 
-	public void setFile(IPath file)
+	public void setFile(SearchMatch file)
 	{
 		this.file = file;
 	}

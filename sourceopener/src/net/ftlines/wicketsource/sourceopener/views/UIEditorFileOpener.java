@@ -3,8 +3,7 @@ package net.ftlines.wicketsource.sourceopener.views;
 import net.ftlines.wicketsource.sourceopener.OpenEvent;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -22,7 +21,7 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
  * 
  */
 public final class UIEditorFileOpener implements Runnable {
-	private IPath fileToOpen;
+	private SearchMatch fileToOpen;
 	private int lineNumber;
 	private OpenEvent event;
 
@@ -57,7 +56,7 @@ public final class UIEditorFileOpener implements Runnable {
 			throw new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND);
 		}
 		try {
-			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(fileToOpen);
+			IFile ifile = fileToOpen.getResource().getProject().getFile(fileToOpen.getResource().getProjectRelativePath());
 			if (ifile == null) {
 				throw new OpenFileException(OpenFileException.Reason.FILE_NOT_FOUND);
 			}
