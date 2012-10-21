@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import net.ftlines.wicketsource.demo.BookComparator.BookSort;
+
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
@@ -19,23 +21,25 @@ import org.apache.wicket.model.Model;
  * @author Jenny Brown
  * 
  */
-public class BookDataTable extends DefaultDataTable<Book> {
+public class BookDataTable extends DefaultDataTable<Book,BookComparator.BookSort> {
 
-	public BookDataTable(String id, List<IColumn<Book>> columns,
-			ISortableDataProvider<Book> dataProvider, int rowsPerPage) {
+	public BookDataTable(String id, List<IColumn<Book,BookComparator.BookSort>> columns,
+			ISortableDataProvider<Book,BookComparator.BookSort> dataProvider, int rowsPerPage) {
 		super(id, columns, dataProvider, rowsPerPage);
 	}
 
-	static class BookDataProvider extends SortableDataProvider<Book> {
+	static class BookDataProvider extends SortableDataProvider<Book,BookComparator.BookSort> {
 
 		public BookDataProvider() {
 		}
 
-		public Iterator<? extends Book> iterator(int first, int count) {
-			return getBooks(getSort()).subList(first, first + count).iterator();
-		}
+		@Override
+		public Iterator<? extends Book> iterator(long first, long count)
+		{
+			return getBooks(getSort()).subList((int)first, (int)first + (int)count).iterator();
+		}		
 
-		public int size() {
+		public long size() {
 			return getBooks(getSort()).size();
 		}
 
@@ -43,13 +47,14 @@ public class BookDataTable extends DefaultDataTable<Book> {
 			return Model.of(book);
 		}
 
+
 		/**
 		 * Mock database lookup for data. Normal this data would come from a
 		 * call out to an injected Hibernate data lookup class.
 		 * 
 		 * @return List of books
 		 */
-		private List<Book> getBooks(SortParam sort) {
+		private List<Book> getBooks(SortParam<BookSort> sort) {
 			List<Book> books = new ArrayList<Book>();
 			books.add(new Book(1, "Alice's Adventures in Wonderland",
 					"http://www.gutenberg.org/files/11/11-h/11-h.htm", 506));

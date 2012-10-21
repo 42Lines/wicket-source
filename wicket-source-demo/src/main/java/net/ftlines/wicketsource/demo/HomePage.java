@@ -30,16 +30,16 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class HomePage extends WebPage {
 	private static final long serialVersionUID = 1L;
 	ModalWindow modal;
-
+	
 	public HomePage(final PageParameters parameters) {
 		add(new Label("version", getApplication().getFrameworkSettings()
 				.getVersion()));
 		add(new Label("bigTitle", "Application Works"));
 		add(new MyPanel("mypanel"));
 
-		List<IColumn<Book>> columns = new ArrayList<IColumn<Book>>();
-		columns.add(new PropertyColumn<Book>(Model.of("ID"), "id", "id"));
-		columns.add(new PropertyColumn<Book>(Model.of("Book"), "title", "title") {
+		List<IColumn<Book,BookComparator.BookSort>> columns = new ArrayList<IColumn<Book,BookComparator.BookSort>>();
+		columns.add(new PropertyColumn<Book,BookComparator.BookSort>(Model.of("ID"), BookComparator.BookSort.ID, "id"));
+		columns.add(new PropertyColumn<Book,BookComparator.BookSort>(Model.of("Book"), BookComparator.BookSort.TITLE, "title") {
 			@Override
 			public void populateItem(Item<ICellPopulator<Book>> item,
 					String componentId, IModel<Book> rowModel) {
@@ -48,8 +48,8 @@ public class HomePage extends WebPage {
 				item.add(bookTitleContainer);
 			}
 		});
-		columns.add(new PropertyColumn<Book>(Model.of("# Downloads"),
-				"downloads", "downloads"));
+		columns.add(new PropertyColumn<Book, BookComparator.BookSort>(Model.of("# Downloads"),
+				BookComparator.BookSort.DOWNLOADS, "downloads"));
 
 		BookDataTable bookTable = new BookDataTable("bookTable", columns,
 				new BookDataProvider(), 5);
@@ -63,7 +63,7 @@ public class HomePage extends WebPage {
 		add(new FooterPanel("footerPanel"));
 	}
 	
-	static abstract class ModalLink extends AjaxLink {
+	static abstract class ModalLink extends AjaxLink<Void> {
 		private ModalWindow modalWindow;
 		
 		public ModalLink(String id, ModalWindow modalWindow) {

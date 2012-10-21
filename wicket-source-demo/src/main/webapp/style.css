@@ -54,14 +54,17 @@ body { margin-top : 0; padding-top : 0;}
 a, a:visited, a:hover, a:active {
 	color : #6493D2;
 }
+h1 {
+	font-size: 24pt;
+}
 h2 {
 	padding : 0; margin:0;
-	font-size:36pt;
+	font-size:20pt;
 	color:#FF5500;
 }
 h3 {
 	padding : 0; margin:0;
-	font-size:24pt;
+	font-size:18pt;
 	color:#092E67;
 }
 

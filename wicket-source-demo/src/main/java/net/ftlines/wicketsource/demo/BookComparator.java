@@ -12,9 +12,13 @@ import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
  */
 public class BookComparator implements Comparator<Book> {
 
-	SortParam sort;
+	SortParam<BookSort> sort;
 
-	public BookComparator(SortParam sort) {
+	public static enum BookSort {
+		ID, TITLE, URL, DOWNLOADS
+	}
+
+	public BookComparator(SortParam<BookSort> sort) {
 		this.sort = sort;
 	}
 
@@ -38,16 +42,16 @@ public class BookComparator implements Comparator<Book> {
 			multiplier = -1;
 		}
 
-		if ("id".equals(sort.getProperty())) {
+		if (BookSort.ID.equals(sort.getProperty())) {
 			return multiplier * (book0.getId().compareTo(book1.getId()));
 		}
-		if ("title".equals(sort.getProperty())) {
+		if (BookSort.TITLE.equals(sort.getProperty())) {
 			return multiplier * (book0.getTitle().compareTo(book1.getTitle()));
 		}
-		if ("url".equals(sort.getProperty())) {
+		if (BookSort.URL.equals(sort.getProperty())) {
 			return multiplier * (book0.getUrl().compareTo(book1.getUrl()));
 		}
-		if ("downloads".equals(sort.getProperty())) {
+		if (BookSort.DOWNLOADS.equals(sort.getProperty())) {
 			return multiplier
 					* (book0.getDownloads().compareTo(book1.getDownloads()));
 		}

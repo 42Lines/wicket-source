@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.ftlines.wicket-source</groupId>
 		<artifactId>wicket-source-parent</artifactId>
-		<version>1.5.0.8-SNAPSHOT</version>
+		<version>6.0.8-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>wicket-source-demo</artifactId>
@@ -11,7 +11,7 @@
 	<name>Wicket Source Demo</name>
 	<description>Wicket Quick-Start project demonstrating use of Wicket-Source</description>
 	<properties>
-		<wicket.version>1.5.0</wicket.version>
+		<wicket.version>6.0.0</wicket.version>
 		<jetty.version>7.5.0.v20110901</jetty.version>
 	</properties>
 	<dependencies>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.2</version>
+			<version>1.6.4</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -130,8 +130,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 					<optimize>true</optimize>
 					<debug>true</debug>
 				</configuration>
