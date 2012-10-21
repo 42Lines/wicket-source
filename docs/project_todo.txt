@@ -1,16 +1,17 @@
 WicketSource wicket module: Done including backport.
-
 Sample project wicket demo: Done including backport.
+Chrome extension: Released.
+Upgrade to Wicket 6: Done.
 
 SourceOpener eclipse plugin:
+* Figure out the weirdness with multiple file matches since fixing issue #4 and fix the bug.
 * Determine why it's periodically crashing or silently shutting down, and fix that.
-* Determine version tagging and how best to package for release.
+* Determine version tagging and how best to package for release via Eclipse plugins hosting service.
 
 Firefox extension:
 * Simplify to always send the password if set. No need for a checkbox.
 
 Chrome extension:
-* Waiting for experimental APIs to become standard
 * Documentation
 * Determine packaging and hosting.
 
