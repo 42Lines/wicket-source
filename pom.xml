@@ -22,8 +22,8 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/42Lines/wicket-source.git</connection>
-		<url>https://github.com/42Lines/wicket-source.git</url>
 		<developerConnection>scm:git:git@github.com:42Lines/wicket-source.git</developerConnection>
+		<url>http://github.com/42Lines/wicket-source</url>
 	</scm>
 
 	<developers>
