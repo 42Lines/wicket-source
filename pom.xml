@@ -19,7 +19,7 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
+	
 	<scm>
 		<connection>scm:git:git://github.com/42Lines/wicket-source.git</connection>
 		<developerConnection>scm:git:git@github.com:42Lines/wicket-source.git</developerConnection>
