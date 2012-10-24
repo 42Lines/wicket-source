@@ -1,7 +1,8 @@
 {
+  "manifest_version": 1,
   "name": "WicketSource",
-  "version": "1.0",
-  "description": "Adds a Developer Tools sidebar with wicket attributes for the selected DOM element.",
+  "version": "1.1.2",
+  "description": "Adds a Developer Tools sidebar with Wicket source code location for the selected DOM element.",
   "devtools_page": "devtools.html",
   "options_page": "options.html",
    "icons": { 
@@ -11,6 +12,6 @@
    	"128": "icon128.png"  
   },
   "permissions":  [
-    "devtools_page", "http://*/*", "https://*/*"
+    "http://*/*", "https://*/*", "http://localhost/*"
   ]
 }

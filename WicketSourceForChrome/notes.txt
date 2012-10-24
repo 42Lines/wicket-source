@@ -1,8 +1,15 @@
-In Progress:
+The WicketSource plugin scans wicket application pages (typically those being worked on
+by the developer running the browser), looks for wicketsource="com.mycompany.whatever.MyWicketPanel:35"
+type labels, displays a brief html panel in the devtools pane, and its link produces an http request 
+back to an IDE listener that opens the named source code to that line of the file.  
 
-Milestones:
-11* packaging script / automation
-12* cleanup, testing, and documentation
+It's a convenience tool for Wicket developers, during development.
+
+Future:
+* Upgrade to manifest v2, fix inline javascript and possibly make the IDE listen on https; set manifest permissions to match.
+
+In Progress:
+* Submit to Chrome Web Store.
 
 Done
 1* Basic stub app works, displays correct titles. (11/21)
