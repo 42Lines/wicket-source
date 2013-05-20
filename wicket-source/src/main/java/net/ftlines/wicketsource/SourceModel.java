@@ -8,15 +8,17 @@ import org.apache.wicket.model.ComponentModel;
  * @author Jenny Brown
  *
  */
-public class SourceModel extends ComponentModel<String> 
+public class SourceModel extends ComponentModel
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * @return package:file.java:lineNumber from InstantiationLocation.generateSourceLocationAttribute as a String
 	 */
 	@Override
 	protected String getObject(Component component)
 	{
-		InstantiationLocation loc = component.getMetaData(AttributeModifyingInstantiationListener.CONSTRUCTED_AT_KEY);
+		InstantiationLocation loc = (InstantiationLocation) component.getMetaData(AttributeModifyingInstantiationListener.CONSTRUCTED_AT_KEY);
 		return loc == null ? null : loc.generateSourceLocationAttribute();
 	}
 }

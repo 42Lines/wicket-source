@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.ftlines.wicket-source</groupId>
 		<artifactId>wicket-source-parent</artifactId>
-		<version>1.4.18.8-SNAPSHOT</version>
+		<version>1.3.7.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>wicket-source-demo</artifactId>
@@ -11,7 +11,7 @@
 	<name>Wicket Source Demo</name>
 	<description>Wicket Quick-Start project demonstrating use of Wicket-Source</description>
 	<properties>
-		<wicket.version>1.4.18</wicket.version>
+		<wicket.version>1.3.7</wicket.version>
 		<jetty.version>6.1.25</jetty.version>
 	</properties>
 	<dependencies>
