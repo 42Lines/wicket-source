@@ -1,0 +1,9 @@
+Notes to myself about the build process
+
+
+- Auth using plink (putty agent) and may have to manually select the key to open to get it to work
+  This solves: "fatal: the remote end hung up unexpectedly" during push/pull. Uses a ppk file.
+
+- Test in Chrome by loading an unpacked extension.  Point it directly to the eclipse workspace's folder.
+
+

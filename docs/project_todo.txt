@@ -12,6 +12,5 @@ Firefox extension:
 * Simplify to always send the password if set. No need for a checkbox.
 
 Chrome extension:
-* Documentation
-* Determine packaging and hosting.
+* Updated to Manifest v2.
 

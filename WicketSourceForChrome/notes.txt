@@ -23,3 +23,4 @@ Done
 9* icon and UI branding artifacts
 10* Simplification; no content script, better ajax, and proper handling of http status codes from server.
    - Also clean up closure namespacing in sidebar.js.
+11* Updated to manifest v2; now using an event listener instead of inline javascript for the link.
