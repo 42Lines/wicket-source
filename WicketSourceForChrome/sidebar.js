@@ -25,7 +25,6 @@ xmlhttp.updateText = function(text) {
 };
 
 this.fetch = function(url) {
-	
 	xmlhttp.updateText("...requesting...");
 	xmlhttp.lastRequestTimedOut = false;
 	xmlhttp.requestTimer = setTimeout(function() {
@@ -122,9 +121,11 @@ function drawLinkRow(table, title, value, wp)
 	
 	var nodeA = document.createElement("a");
 	nodeA.setAttribute("id", hiddenNodeId);
-	var fetchUrl = "javascript:WicketSourceForChrome.fetch('" + wp.eclipseUrl+"');";
-	nodeA.setAttribute("href", fetchUrl);
+	
+	nodeA.setAttribute("href", "javascript:void();");
 	nodeA.setAttribute("data", wp.packageName + ":" + wp.sourceLine);
+	nodeA.addEventListener("click", function() { WicketSourceForChrome.fetch(wp.eclipseUrl) });
+	
 	nodeA.appendChild(document.createTextNode(value));
 
 	var tr1 = document.createElement("tr");

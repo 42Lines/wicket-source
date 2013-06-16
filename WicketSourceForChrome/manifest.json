@@ -1,5 +1,5 @@
 {
-  "manifest_version": 1,
+  "manifest_version": 2,
   "name": "WicketSource",
   "version": "1.1.2",
   "description": "Adds a Developer Tools sidebar with Wicket source code location for the selected DOM element.",
