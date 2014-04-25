@@ -1,11 +1,11 @@
 package net.ftlines.wicketsource.demo;
 
 import org.apache.wicket.util.time.Duration;
-import org.eclipse.jetty.http.ssl.SslContextFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.server.ssl.SslSocketConnector;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Start {
@@ -35,7 +35,7 @@ public class Start {
             SslContextFactory factory = new SslContextFactory();
             factory.setKeyStoreResource(keystore);
             factory.setKeyStorePassword("wicket");
-            factory.setTrustStore(keystore);
+            factory.setTrustStoreResource(keystore);
             factory.setKeyManagerPassword("wicket");
             SslSocketConnector sslConnector = new SslSocketConnector(factory);
             sslConnector.setMaxIdleTime(timeout);
