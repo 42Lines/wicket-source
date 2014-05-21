@@ -32,7 +32,7 @@ public class HomePage extends WebPage {
 	ModalWindow modal;
 	
 	public HomePage() {
-		this(null);
+		this(new PageParameters());
 	}
 	
 	public HomePage(final PageParameters parameters) {
