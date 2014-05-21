@@ -31,10 +31,6 @@ public class HomePage extends WebPage {
 	private static final long serialVersionUID = 1L;
 	ModalWindow modal;
 	
-	public HomePage() {
-		this(new PageParameters());
-	}
-	
 	public HomePage(final PageParameters parameters) {
 		add(new Label("version", getApplication().getFrameworkSettings()
 				.getVersion()));
