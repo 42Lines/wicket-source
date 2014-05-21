@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.ftlines.wicket-source</groupId>
 		<artifactId>wicket-source-parent</artifactId>
-		<version>6.0.0.9-SNAPSHOT</version>
+		<version>7.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>wicket-source-demo</artifactId>
@@ -11,8 +11,7 @@
 	<name>Wicket Source Demo</name>
 	<description>Wicket Quick-Start project demonstrating use of Wicket-Source</description>
 	<properties>
-		<wicket.version>6.0.0</wicket.version>
-		<jetty.version>7.5.0.v20110901</jetty.version>
+		<jetty.version>8.1.15.v20140411</jetty.version>
 	</properties>
 	<dependencies>
 		<!-- Project we're demonstrating -->
@@ -38,19 +37,19 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.4</version>
+			<version>1.7.6</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
+			<version>1.2.17</version>
 		</dependency>
 
 		<!-- JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -128,10 +127,10 @@
 				<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<optimize>true</optimize>
 					<debug>true</debug>
 				</configuration>
@@ -154,6 +153,8 @@
 							<keyPassword>wicket</keyPassword>
 						</connector>
 					</connectors>
+					<stopKey>stop</stopKey>
+					<stopPort>47890</stopPort>
 				</configuration>
 			</plugin>
 			<plugin>
