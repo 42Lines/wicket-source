@@ -6,26 +6,7 @@ chrome.devtools.panels.elements.createSidebarPane("WicketSource", function(sideb
 	function Message() {
 		this.message = "Select a node with a wicketsource attribute to see details.";
 	}
-	
-	function getServer() {
-		if (localStorage["server"]) {
-			return localStorage["server"];
-		}
-		return "localhost";
-	}
-	function getPort() {
-		if (localStorage["port"]) {
-			return localStorage["port"];
-		}
-		return "9123";
-	}
-	function getPassword() {
-		if (localStorage["password"]) {
-			return localStorage["password"];
-		}
-		return "";
-	}	
-	
+
 	// Listener event callback initiates "inspected-page context" data retrieval 
 	// (which understands currently selected node in the Inspect Element tab). 
 	function update() {
@@ -34,35 +15,39 @@ chrome.devtools.panels.elements.createSidebarPane("WicketSource", function(sideb
 	}
 	function wicketIdEval(result, isException)
 	{
-		if (!isException) { 
-			this.wicketIdString = result;
-		} else {
+		if (isException) {
 			this.wicketIdString = null;
+		} else {
+			this.wicketIdString = result;
 		}
 	}
 	function wicketsourceEval(result, isException)
 	{
-		if (!isException) { 
-			this.wicketsourceString = result;
+		if (isException) {
+		  this.wicketsourceString = null;
 		} else {
-			this.wicketsourceString = null;
+		  this.wicketsourceString = result;
 		}
 		displaySidebar();
 	}
 	function displaySidebar() 
 	{
 		if (this.wicketsourceString == null) {
-			var msg = new Message();
+		  var msg = new Message();
 			sidebar.setObject(msg);
 			return;
 		}
-		sidebar.setPage("sidebar.html?ws=" + encodeURIComponent(this.wicketsourceString) 
-				+ "&wid=" + encodeURIComponent(this.wicketIdString)
-				+ "&server=" + encodeURIComponent(getServer())
-				+ "&port=" + encodeURIComponent(getPort())
-				+ "&p=" + encodeURIComponent(getPassword())
-		);
-	}
+    chrome.runtime.sendMessage(
+      {
+        method: "getWicketsourceSidebarUrl",
+        wicketsourceString: this.wicketsourceString,
+        wicketIdString: this.wicketIdString
+      },
+      function(url) {
+        sidebar.setPage(url);
+      }
+    );
+  }
 	
 	
 	// On the way in the first time, show an instructional message.
