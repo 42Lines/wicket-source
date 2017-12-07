@@ -11,13 +11,16 @@ import org.apache.wicket.Application;
 public class WicketSource {
 
 	/**
-	 * Preferred entry point for configuring your WicketApplication automatically.
+	 * Preferred entry point for configuring your WicketApplication automatically. 
+	 * WicketSource configuration is only supposed to run in DEVELOPMENT configuration.
 	 * @param application Your wicket application
 	 */
 	public static void configure(Application application)
 	{
-		application.getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener());
-		application.getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor());
+		if (application.usesDevelopmentConfig()) {
+			application.getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener());
+			application.getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor());
+		}
 	}
 	
 }
