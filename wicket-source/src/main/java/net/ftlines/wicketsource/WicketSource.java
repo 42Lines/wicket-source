@@ -17,7 +17,7 @@ public class WicketSource {
 	 */
 	public static void configure(Application application)
 	{
-		if (usesDevelopmentConfig()) {
+		if (application.usesDevelopmentConfig()) {
 			application.getComponentInstantiationListeners().add(new AttributeModifyingInstantiationListener());
 			application.getComponentPostOnBeforeRenderListeners().add(new AttributeModifyingComponentVisitor());
 		}
